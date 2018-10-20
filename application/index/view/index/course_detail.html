@@ -1,0 +1,150 @@
+{include file="common/headcss"}
+{include file="common/head"}
+<div class="list-color"></div>
+<div style="height: 80px;"></div>
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-col-md8 layui-col-md-offset2 ">
+			<div class="path">
+				<span class="layui-breadcrumb" lay-separator="\">
+				  <a href="">点播</a>
+				  <a href="">一级分类</a>
+				  <a href="">一级子类</a>
+				  <a>如何用CSS进行网页布局</a>
+				</span>
+			</div>
+			<div class="title float_l">
+				如何用CSS进行网页布局
+				
+			</div>
+			<div class="static-item float_l">
+				<i class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-
+				<i class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-
+			</div>
+			<div class="float_l width100 " style="margin-bottom: 20px;">
+				<div class="info float_l" >
+					<img class="image " src="https://img.mukewang.com/5269cc190001854d14561456-80-80.jpg">
+					<span class="name ">大白菜</span><br>
+					<span class="work ">web前端工程师</span>
+				</div>
+				<div class="static-item float_l">
+					-难度：一般-
+				</div>
+				
+				<div class="static-item float_l">
+					-观看次数：192552-
+				</div>
+				<div class="static-item float_l">
+					-评价人数：1950-
+				</div>
+				<div class="static-item float_l">
+					-综合评分：9.6-
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<div class="width100" style="background-color: #fff;box-shadow: 0 4px 8px 0 rgba(28,31,33,.1);height: 68px;z-index: 99">
+	<div class="layui-fluid">
+		<div class="layui-row">
+			<div class="layui-col-md8 layui-col-md-offset2 float_l" >
+				<ul class="menu">
+					<li class="ison">课程简介</li>
+					<li>课程资源</li>
+					<li>课堂讨论</li>
+					<li>课程评价</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="height: 7px;width: 100%;"></div>
+<div class="width100 backg_qiangray">
+	<div class="layui-row">
+		<div class="content layui-col-md-offset2 layui-col-md5">
+			<div class="course-description">
+				<span class="course-title">第1章 内容简介</span><br>
+				{php}for($i=0;$i<100;$i++){{/php}这课程很好啊
+				{php}}{/php}
+			</div>
+		</div>
+		<div class="course-learn layui-col-md2">
+			<dt class="course-known">课程须知</dt>
+			<dd class="course-known">1.你需要掌握html+css样式基础知识
+			2.有一定的前端实际开发经验</dd>
+			<dt class="course-known">你能学到的</dt>
+			<dd class="course-known">1.基础知识
+			2.实际经验</dd>
+			<a class="startlearn" href="{:url('Index/index/video')}">开始学习</a>
+			<!-- <dt class="course-known">课程须知</dt>
+			<dd  class="course-known">1.你需要掌握html+css样式基础知识
+			2.有一定的前端实际开发经验</dd>
+			<dt  class="course-known">课程须知</dt>
+			<dd class="course-known">1.你需要掌握html+css样式基础知识
+			2.有一定的前端实际开发经验</dd>
+			<dt class="course-known">课程须知</dt>
+			<dd class="course-known">1.你需要掌握html+css样式基础知识
+			2.有一定的前端实际开发经验</dd> -->
+			
+		</div>
+	</div>
+</div>
+
+<!-- 页脚 -->
+<div class="width100 float_l padding_t30 height193">
+  <div class="width_1200 margin_auto">
+     
+        <div class="width100 float_l text_c yejiao color_gray" >
+            <a>关于我们</a>
+            <a>企业合作</a>
+            <a>联系我们</a>
+            <a>意见反馈</a>
+            <a>友情链接</a>
+      </div>
+        <div class="width100 float_l text_c border_t margin_t20 padding_t20 color_gray fon_siz12">
+          <span>© 2016   京ICP备13042132号</span>
+        </div>
+    </div>
+</div>
+
+</body>
+<style type="text/css">
+  
+
+  .list-color{
+    background-image: url("__STATIC__/img/test.png");
+    height: 200px;
+    /*opacity: 0.8;*/
+    /*filter:blur(180px);*/
+    top:150px;
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: 280px;
+    /*filter:blur(50px);*/
+    z-index: -1;
+    background-size:cover; 
+}
+
+</style>
+<script>
+//注意：导航 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+  
+  //…
+});
+$('#userinfomess').hover(function(){
+	    $('#userinfoset').attr('class','userinfo');
+	  },
+	  function(){})
+	$('#userinfoset').hover(function(){
+
+	},function(){
+	    $('#userinfoset').attr('class','userinfo userinfo-hoverls');
+	  }
+	)
+</script>
+</html>

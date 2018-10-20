@@ -1,0 +1,116 @@
+<!DOCTYPE html >
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>登录</title>
+
+<link title="orange" href="__STATIC__/css/login.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="__STATIC__/lib/h-ui/css/H-ui.min.css"/>
+<link rel="stylesheet" href="__STATIC__/lib/h-ui.admin/css/H-ui.admin.css"/>
+<link href="__STATIC__/lib/bootstrap/css/bootstrap.min.css" title="" rel="stylesheet" />
+ <link rel="stylesheet" href="__STATIC__/lib/icheck/skins/flat/blue.css"/>
+
+</head>
+
+<body>
+  
+  <div style="height:1px;"></div>
+  <div class="login">
+     <header>
+	    <h1>LTA信息发布系统</h1>
+	 </header>
+	 <div class="sr">
+	    <form class="form form-horizontal" action="" id="form_login" method="post">
+		    <div class="name">
+				<label>
+				<i class="sublist-icon glyphicon glyphicon-user"></i>
+				</label>
+				<input type="text" id="username" name="username" value="{$username}" placeholder="请输入登录名" class="name_inp">
+			</div>
+			 <div class="name">
+				<label>
+				<i class="sublist-icon glyphicon glyphicon-lock"></i>
+				</label>
+				<input type="password" id="password" name="password"   placeholder="请输入登录密码" class="name_inp">
+			</div>
+			<div class="name" style="width: 135px; float: left;"  >
+				<label>
+				<i class="sublist-icon glyphicon glyphicon-lock"></i>
+				</label>
+				<input type="text" name="captcha" id="captcha" placeholder="请输入验证码" class="name_inp">
+			</div>
+				<img style="float: left;width: 130px;margin: 1px 0 0 5px;cursor:pointer" src="{:captcha_src()}" id="captcha_img" alt="看不清，请换一张" title="看不清，请换一张">
+				<div style="clear: both;"></div>
+			<div class=""  style="margin-left: 10px;padding-bottom: 10px;">
+
+                    <input style="opacity: 1.2;" type="checkbox" name="online" id="online" value="success" >
+
+                    <span style="margin-left: 5px;">
+                        <select class="select-box radius size-L select" style="width: 25%;" name="time">
+                            <option value="1" {if condition="$time eq '1'" }selected{/if}>7天</option>
+                            <option value="2" {if condition="$time eq '2'" }selected{/if}>15天</option>
+                            <option value="3" {if condition="$time eq '3'" }selected{/if}>30天</option>
+                        </select>
+                        </span>
+                    <span style="margin-left:5px;font-size: 1.2em;">免登录</span>
+			</div>
+			<input type="button" id="login" class="dl" value="登&nbsp;&nbsp;&nbsp;&nbsp;录">
+
+		</form>
+	 </div>
+  </div>
+
+</body>
+<script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/layer/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/icheck/icheck.min.js"></script>
+<script>
+    $(function () {
+        $('#online').iCheck({
+            checkboxClass: 'icheckbox_flat-blue'
+        });
+    });
+
+    /**
+     * @不使用ajax提交，保证安全问题
+     * @因为涉及太多权限和目录
+     */
+    $('#login').click(doSubmit = function () {
+        var username = $('#username').val(),
+            password = $('#password').val(),
+            captcha = $('#captcha').val();
+
+        if (username == '') {
+            layer.msg('请输入用户名！', {icon: 5, shade: [0.3, '#393D49'], time: 1500});
+        } else if (password == '') {
+            layer.msg('请输入密码！', {icon: 5, shade: [0.3, '#393D49'], time: 1500});
+        } else if (captcha == '') {
+            layer.msg('请输入验证码！', {icon: 5, shade: [0.3, '#393D49'], time: 1500});
+        } else {
+            $('#form_login').submit();
+        }
+    });
+
+    $('#captcha_img').click(function () {
+        $('#captcha_img').attr('src', "{:captcha_src()}");
+    });
+
+
+    //回车键提交表单
+document.onkeydown=function(event){ 
+    	  e = event ? event :(window.event ? window.event : null); 
+    	  if(e.keyCode==13){
+    		  doSubmit(); 
+    	  } 
+      } 
+
+    window.onload = function () {
+        if ("{$tip}" != '') {
+            layer.msg("{$tip}", {icon: 5, shade: [0.3, '#393D49'], time: 1500});
+        }
+    };
+
+</script>
+</html>
