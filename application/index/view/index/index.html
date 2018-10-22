@@ -9,7 +9,8 @@
 <script type="text/javascript" src="__STATIC__/js/jquery.SuperSlide.2.1.1.js"></script>
 <link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="__STATIC__/css/course.css">
-
+<script type="text/javascript" src="__STATIC__/js/cookie.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
 </head>
 
 <body class="backg_huibai">
@@ -42,26 +43,7 @@
                             <i style="font-size: 22px;margin:10px 20px 10px 20px" class="layui-icon">&#xe716;</i>
                         </a>
             </div>
-            <div class="float_l margin_l30 margin_r40">
-                <a href="{:url('Index/person/mycollect')}" id='userinfomess'>
-                    <img src="__STATIC__/img/tx.jpg" style="width: 40px;height: 40px; border-radius: 100%;">
-                </a>
-                <div class="userinfo userinfo-hoverls" id="userinfoset">
-                    <div >
-                        <a href="{:url('Index/person/mycollect')}">
-                            <img src="__STATIC__/img/tx.jpg" style="width: 72px;height: 72px;; border-radius: 100%;">
-                        </a>
-                        <span class="userinfo-name">大白菜111</span>
-                    </div>
-                    <div class="float_l">
-                        <a class="userlist" href="{:url('Index/person/myvideo')}">我的视频</a>
-                        <a class="userlist" href="{:url('Index/person/mycollect')}">我的收藏</a>
-                        <a class="userlist" href="{:url('Index/person/note')}">我的笔记</a>
-                    </div>
-                    <hr>
-                    <div class="exit"><a>安全退出</a></div>
-                </div>
-            </div>
+            {include file="common/userlogin"}
         </div>
 	</div>
 </div>
@@ -649,7 +631,6 @@
 }
 
 </style>
-<script src="__STATIC__/layui/layui.js"></script>
 <script>
 layui.use('carousel', function(){
   var carousel = layui.carousel;

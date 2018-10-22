@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\login\index.html";i:1540014703;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\login\index.html";i:1540173607;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,6 +107,7 @@
 				    	setCookie('token',event['data']['token'],event['data']['token_time']);
 				    	setCookie('token_time',event['data']['token_time'],event['data']['token_time']);
 				    	setCookie('auth_level',event['data']['auth_level'],event['data']['token_time']);
+				    	setCookie('username',event['data']['username'],event['data']['token_time']);
 				    	// delCookie('token');删除cookie
 				    	// alert(getCookie('token'))
 				    	layer.msg("登录成功");

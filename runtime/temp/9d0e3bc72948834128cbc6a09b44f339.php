@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1539853442;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540017324;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1539853442;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540177796;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -20,7 +20,7 @@
 </head>
 <body class="backg_huibai">
 <!-- 顶部 -->
-<div class="width100 float_l height150" style="position: fixed; top:0;left:0;z-index:50;">
+<div class="width100 float_l height150" id="heade" style="position: fixed; top:0;left:0;z-index:50;">
   <div class="width100 float_l height80 line_hei80" style="background-color: #fff; opacity:1;box-shadow: 0px 0px 3px #ccc inset;">
 
         <div class="float_l">
@@ -45,34 +45,33 @@
             </div>
            <div class="float_l margin_l35" id='adminset' style="display: none;">
                 <span>
+                    <a href="<?php echo url('Index/admin/index'); ?>">
                     <i style="font-size: 22px;margin:10px 20px 10px 20px" class="layui-icon">&#xe716;</i>
+                </a>
                 </span>
             </div>
-            <div class="float_l margin_l35 margin_r40" id="loginoff">
-                <span class="loginfont" onclick="login();">登录</span>
-            </div>
-            <div class="float_l margin_l30 margin_r40" style="display: none;" id="loginon">
-                <a href="<?php echo url('Index/person/mycollect'); ?>" id='userinfomess'>
-                    <img src="/resource/public/static/img/tx.jpg" style="width: 40px;height: 40px; border-radius: 100%;">
-                </a>
-                <div class="userinfo userinfo-hoverls" id="userinfoset">
-                    <div >
-                        <a href="<?php echo url('Index/person/mycollect'); ?>">
-                            <img src="/resource/public/static/img/tx.jpg" style="width: 72px;height: 72px;; border-radius: 100%;">
-                        </a>
-                        <span class="userinfo-name">大白菜111</span>
-                    </div>
-                    <div class="float_l">
-                        <a class="userlist" href="<?php echo url('Index/person/myvideo'); ?>">我的视频</a>
-                        <a class="userlist" href="<?php echo url('Index/person/mycollect'); ?>">我的收藏</a>
-                        <a class="userlist" href="<?php echo url('Index/person/note'); ?>">我的笔记</a>
-                    </div>
-                    <hr>
-                    <div class="exit"><a>安全退出</a></div>
-                </div>
-            </div>
+<div class="float_l margin_l35 margin_r40" id="loginoff" style="display: none;">
+    <span class="loginfont" onclick="login();">登录</span>
+</div>
+<div class="float_l margin_l30 margin_r40" style="display: none;" id="loginon">
+    <a href="<?php echo url('Index/person/mycollect'); ?>" id='userinfomess'>
+        <img src="/resource/public/static/img/tx.jpg" style="width: 40px;height: 40px; border-radius: 100%;">
+    </a>
+    <div class="userinfo userinfo-hoverls" id="userinfoset">
+        <div >
+            <a href="<?php echo url('Index/person/mycollect'); ?>">
+                <img src="/resource/public/static/img/tx.jpg" style="width: 72px;height: 72px;; border-radius: 100%;">
+            </a>
+            <span class="userinfo-name" id="user_name">大白菜111</span>
         </div>
-  </div>
+        <div class="float_l">
+            <a class="userlist" href="<?php echo url('Index/person/myvideo'); ?>">我的视频</a>
+            <a class="userlist" href="<?php echo url('Index/person/mycollect'); ?>">我的收藏</a>
+            <a class="userlist" href="<?php echo url('Index/person/note'); ?>">我的笔记</a>
+        </div>
+        <hr>
+        <div class="exit"><a>安全退出</a></div>
+    </div>
 </div>
 <script>
 var loginframe='<?php echo url("Index/Login/index"); ?>';
@@ -116,12 +115,26 @@ layui.use('layer', function(){});
         });
   }
     var token=getCookie('token');
-    if(token!=''){
+    var username=getCookie('username');
+    var auth_level=getCookie('auth_level');
+    if(token!=''||username!=''){
         // cookie存在
+        $('#user_name').html(username);
         $('#loginoff').attr('style','display:none');
         $('#loginon').attr('style','block');
+        if(auth_level>2){
+            $('#adminset').attr('style','display:none');
+        }else{
+            $('#adminset').attr('style','display:block');
+        }
+    }else{
+        $('#loginoff').attr('style','display:block');
     }
 </script>
+        </div>
+  </div>
+</div>
+
 <div class="list-color"></div>
 <div style="height: 80px;"></div>
 <div class="layui-fluid">

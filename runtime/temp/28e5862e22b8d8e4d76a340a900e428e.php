@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1539926368;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1540171340;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="/resource/public/static/css/muke.css">
 <link rel="stylesheet" type="text/css" href="/resource/public/static/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="/resource/public/static/css/course.css">
+<script type="text/javascript" src="/resource/public/static/js/cookie.js"></script>
 <style type="text/css">
 	@media (max-width: 1500px) {    .layui-col-md12 { width: 1500px; }.width100{width: 1500px;}}
 </style>
@@ -49,7 +50,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo url('Index/person/mycollect'); ?>" id='userinfomess'>
+						<!-- <a href="<?php echo url('Index/person/mycollect'); ?>" id='userinfomess'>
 							<img src="/resource/public/static/img/tx.jpg" style="width: 40px;height: 40px;; border-radius: 100%;">
 						</a>
 						<div class="userinfo userinfo-hoverls" id="userinfoset">
@@ -66,7 +67,88 @@
 							</div>
 							<hr>
 							<div class="exit"><a>安全退出</a></div>
-						</div>
+						</div> -->
+						<div class="float_l margin_l35 margin_r40" id="loginoff" style="display: none;">
+    <span class="loginfont" onclick="login();">登录</span>
+</div>
+<div class="float_l margin_l30 margin_r40" style="display: none;" id="loginon">
+    <a href="<?php echo url('Index/person/mycollect'); ?>" id='userinfomess'>
+        <img src="/resource/public/static/img/tx.jpg" style="width: 40px;height: 40px; border-radius: 100%;">
+    </a>
+    <div class="userinfo userinfo-hoverls" id="userinfoset">
+        <div >
+            <a href="<?php echo url('Index/person/mycollect'); ?>">
+                <img src="/resource/public/static/img/tx.jpg" style="width: 72px;height: 72px;; border-radius: 100%;">
+            </a>
+            <span class="userinfo-name" id="user_name">大白菜111</span>
+        </div>
+        <div class="float_l">
+            <a class="userlist" href="<?php echo url('Index/person/myvideo'); ?>">我的视频</a>
+            <a class="userlist" href="<?php echo url('Index/person/mycollect'); ?>">我的收藏</a>
+            <a class="userlist" href="<?php echo url('Index/person/note'); ?>">我的笔记</a>
+        </div>
+        <hr>
+        <div class="exit"><a>安全退出</a></div>
+    </div>
+</div>
+<script>
+var loginframe='<?php echo url("Index/Login/index"); ?>';
+layui.use('layer', function(){}); 
+//奇葩的问题。
+  function login(){
+    var w = window.width, h, url = loginframe;
+        w='360px';
+        h='370px';
+
+        var iframe = layer.open({
+            type: 2,
+            title: '登录-',
+            skin: '',
+            area: [w, h],
+            content: [url,'no'],
+            success: function(layero){
+                if(window.ios){
+                    $(layero).addClass("scroll-wrapper");//苹果 iframe 滚动条失效解决方式
+                }
+            },
+            maxmin: false,
+            full: function() { //点击最大化后的回调函数
+                // // console.log(‘这个是点击最大化后的回调函数出发‘);
+                $('.layui-layer-iframe').css('overflow','');
+            },
+            min: function() { //点击最小化后的回调函数
+                // console.log(‘这个是点击最小化后的回调函数出发‘);
+                $('.layui-layer-iframe').css('overflow','');
+            },
+            restore: function() { //点击还原后的回调函数
+                // console.log(‘这个是点击还原后的回调函数出发‘);
+                $('.layui-layer-iframe').css('overflow','');
+            },
+            // end: function(){ 
+            //   //右上角关闭回调，无论是关闭的回调还是登录的回调都会刷新页面
+              
+            //   //return false 开启该代码可禁止点击该按钮关闭
+            //   location.href = "";
+            // },
+        });
+  }
+    var token=getCookie('token');
+    var username=getCookie('username');
+    var auth_level=getCookie('auth_level');
+    if(token!=''||username!=''){
+        // cookie存在
+        $('#user_name').html(username);
+        $('#loginoff').attr('style','display:none');
+        $('#loginon').attr('style','block');
+        if(auth_level>2){
+            $('#adminset').attr('style','display:none');
+        }else{
+            $('#adminset').attr('style','display:block');
+        }
+    }else{
+        $('#loginoff').attr('style','display:block');
+    }
+</script>
 					</li>
 				</ul>
 			</div>

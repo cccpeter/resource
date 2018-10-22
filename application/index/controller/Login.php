@@ -18,7 +18,7 @@ class Login extends Controller
     /**
      * login登录接口
      * @param [string] $[data] [<description>]
-     * @param [string] $[action] [<description>]
+     * @param [string] $[action] [<actiong=login为系统内网页登录>]
      * @return [string] $data+$status [<description>]
      */
     public function login(){

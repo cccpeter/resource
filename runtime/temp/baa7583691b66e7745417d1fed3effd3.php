@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myassess.html";i:1539853608;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540177796;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\admin\index.html";i:1540197089;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540177796;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -135,125 +135,90 @@ layui.use('layer', function(){});
   </div>
 </div>
 
-<div class="list-color width100" style="background-image: url(/resource/public/static/img/test.png);top:150px;position: absolute;top: 50px;height: 180px;z-index: -1;background-size:cover; ">
-</div>
+<style type="text/css">
+	@media (max-width: 1500px) {
+	    .layui-col-md12 { 
+	    	width: 1500px;
+	    }
+	    .width100{
+	    	width: 1500px;
+	    }
+	}
+</style>
 <div style="height: 80px;"></div>
-<!-- 个人资料 -->
-<div class="width100 float_l" style="height: 180px;">
-	<div class="user-bg">
-		<div class="user-pic">
-			<img class="headerimg" src="http://img2.mukewang.com/545865da00012e6402200220-140-140.jpg">
-		</div>
-		<div class="user-info-right">
-			大白菜管理员
-		</div>
-		<div class="item-follows">
-			<ul>
-				<li>
-					<em>24H</em>
-					<span>在线时长</span>
-				</li>
-				<li>
-					<em>410</em>
-					<span>收藏</span>
-				</li>
-				<li>
-					<em>100</em>
-					<span>观看次数</span>
-				</li>
-				
-
-			</ul>
-		</div>
-	</div>
-</div>
 <div class="width100 float_l">
-	<div class="wrap">
-		<div class="slider float_l">
-			<ul>
+	<div class="settings-cont float_l">
+		<div class="admin-left float_l">
+			<div class="avator-wapper">
+				<div class="avator-mode">
+					<img class="avator-img" src="https://img.mukewang.com/5333a17a0001592502000200-200-200.jpg" data-portrait="5333a17a0001592502000200" width="92" height="92">
+				</div>
+				<div class="des-mode">
+					<p>admin</p>
+				</div>
+			</div>
+			<div class="list-wapper">
+				<h2>系统设置</h2>
+				<hr>
+			</div>
+			<ul class="admin-menu">
 				<li>
-					<a href="<?php echo url('Index/person/mycollect'); ?>" class="active">
-		            	<i class="layui-icon">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
-		            </a>
+					<a class="menu-ison">用户管理&nbsp;&nbsp;&nbsp;&nbsp;-></a>
 				</li>
 				<li>
-					<a href="<?php echo url('Index/person/userinfo'); ?>" class="active">
-		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe60e;</i><span style="margin-left: 15px;">历史观看</span><b class="icon-drop_right"></b>
-		            </a>
-		        </li>
-		        <li>
-					<a href="<?php echo url('Index/person/myvideo'); ?>" class="active">
-		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe6ed;</i><span style="margin-left: 15px;">我的视频</span><b class="icon-drop_right"></b>
-		            </a>
+					<a class="menu-list">设备管理</a>
 				</li>
 				<li>
-					<a href="<?php echo url('Index/person/publicvideo'); ?>" class="active">
-		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe681;</i><span style="margin-left: 15px;">公共视频</span><b class="icon-drop_right"></b>
-		            </a>
+					<a class="menu-list">点播管理</a>
 				</li>
 				<li>
-					<a href="<?php echo url('Index/person/note'); ?>" class="active">
-		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe642;</i><span style="margin-left: 15px;">我的笔记</span><b class="icon-drop_right"></b>
-		            </a>
+					<a class="menu-list">直播管理</a>
 				</li>
 				<li>
-					<a href="<?php echo url('Index/person/myassess'); ?>" class="actived">
-		            	<i class="layui-icon" style="font-size: 20px;color: #fff;line-height: 48px;">&#xe66e;</i><span style="margin-left: 15px;">我的评价</span><b class="icon-drop_right"></b>
-		            </a>
+					<a class="menu-list">公开课管理</a>
 				</li>
 				<li>
-					<a href="<?php echo url('Index/person/myrequest'); ?>" class="active">
-		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe609;</i><span style="margin-left: 15px;">我的讨论</span><b class="icon-drop_right"></b>
-		            </a>
+					<a class="menu-list">类别管理</a>
+				</li>
+				<li>
+					<a class="menu-list">公共视频管理</a>
 				</li>
 			</ul>
 		</div>
-		<form class="layui-form">
-		<div class="my-space-course float_l">
-			<div class="course-tab float_l" >
-				<!-- <a>历史观看</a> -->
-				<div class="layui-input-block float_r" style="margin-top: 10px;">
-			      <select name="coursetype" lay-verify="required" lay-filter="search_type">
-			        <option value="3">全部视频</option>
-			        <option value="0">点播视频</option>
-			        <option value="1">直播视频</option>
-			        <option value="2">公开课视频</option>
-			      </select>
-			    </div>
-			</div>
-			
-			<div class="course-list">
-				<?php for($i=0;$i<15;$i++){ ?>
-				<div class="clearfix float_l">
-					<img class="float_l" src="https://img3.sycdn.imooc.com/5b9a01a40001fe1805400300-240-135.jpg">
-					<div class="clearfix-title float_l">
-						<h3 class="float_l">Spring Boot 2.0深度实践之系列总览</h3>
-						<span class="course-content">视频分类：点播视频</span><br>
-						<span class="course-content">一级类目 / 二级类目 / 三级类目</span>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">大白菜</span>
-						<br>
-						<br>
-						<a class="titletab">我的笔记 (2)</a>
-						<a class="titletab">讨论 (3)</a>
-						<a class="titletab3">评价 (3)</a>
-						<a class="study float_r" href="">学习啊</a>
-					</div>
-					
-				</div>
-				<hr>
-				<?php } ?>
-			</div>
-		</div>	
-	</form>	
+		<div class="admin-right float_l">
+			<h4>用户列表</h4>
+			<table id="demo" lay-filter="test"></table>
+			</table>
+		</div>
 	</div>
 	
 </div>
-<!-- <div class="width100" style="height: 1000px;background-color: #000;"></div> -->
-<!-- 页脚 -->
-
 </body>
-
 <script>
+	//数据表格
+layui.use('table', function(){
+  var table = layui.table;
+  
+  //第一个实例
+  // table.render({
+  //   elem: '#demo'
+  //   ,height: 500
+  //   ,defaultToolbar:['filter']
+  //   ,url: '<?php echo url("Index/admin/getuser"); ?>' //数据接口
+  //   ,page: true //开启分页
+  //   ,cols: [[ //表头
+  //     {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+  //     ,{field: 'username', title: '用户名', width:80}
+  //     ,{field: 'auth_level', title: '权限等级', width:120, sort: true}
+  //     ,{field: 'en', title: '状态', width:80} 
+      
+  //   ]]
+  // });
+  
+});
+</script>
+<script>
+	$('#heade').attr('style','position:static');
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
   var element = layui.element;
