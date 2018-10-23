@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\notice\notice.html";i:1539853589;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540173474;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\notice\notice.html";i:1539853589;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540177796;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -20,7 +20,7 @@
 </head>
 <body class="backg_huibai">
 <!-- 顶部 -->
-<div class="width100 float_l height150" style="position: fixed; top:0;left:0;z-index:50;">
+<div class="width100 float_l height150" id="heade" style="position: fixed; top:0;left:0;z-index:50;">
   <div class="width100 float_l height80 line_hei80" style="background-color: #fff; opacity:1;box-shadow: 0px 0px 3px #ccc inset;">
 
         <div class="float_l">
@@ -45,7 +45,9 @@
             </div>
            <div class="float_l margin_l35" id='adminset' style="display: none;">
                 <span>
+                    <a href="<?php echo url('Index/admin/index'); ?>">
                     <i style="font-size: 22px;margin:10px 20px 10px 20px" class="layui-icon">&#xe716;</i>
+                </a>
                 </span>
             </div>
 <div class="float_l margin_l35 margin_r40" id="loginoff" style="display: none;">

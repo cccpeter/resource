@@ -10,46 +10,54 @@ class Base extends Controller
 {
 	/**
 	 * [__construct ]
-	 * 判断访问能不能浏览
-	 * 应该先判断该访问有没有权限
-	 * 
-	 * 如果访问没有权限则重定向
-	 * 如果有权限则判断
+	 * 判断用户状态权限的前置函数
+	 * @param string $token
 	 */
-	public function __construct()
-    {
-
-        parent::__construct();
-        $posttoken=input('post.token');
-        $gettoken=input('get.token');//获取请求中的token
-        $token=cookie('token');//读取cookie中的token
-        if($posttoken!=''){
-        	$user=$this->getusertoken($posttoken);
-        }else if($gettoken!=''){
-        	$user=$this->getusertoken($gettoken);
-        }else{
-        	return send('缺少必要参数','0');
-        }
-        if($user){
-        	// 获得模块的控制器和方法
-        	$ctl = request()->controller();
-        	$act = request()->action();
-        	$nav_isshow = Db::table('re_nav')->field('nav_id')->where(['nav_controller'=>$ctl,'nav_isshow'=>0])->find();
-        	if($nav_isshow)$this->redirect('Index/Index/index');
-        	$auth=Db::table('re_nav')->field('nav_auth')->where(['nav_controller'=>$ctl])->find();
-        	if($auth!=''){//控制器存在。当不存在的控制器操作默认不拦截
-	        	if($auth['nav_auth']>=$user['auth_level']){//权限足够可以访问
-
-	        	}else{//权限不足不可访问
-	        		$this->redirect('Index/Index/index');
-	        	}
-	        }
-        }else{
-        	// exit('缺少');
-        	return send('缺少必要参数','0');
+    public function __construct(){
+    	$ctl = request()->controller();// 获得模块的控制器和方法
+        $navctl=$this->getnav($ctl);
+        if($navctl!=''){//控制器存在权限
+        	if($navctl['nav_isshow']!='1'){
+        		$this->redirect('Index/index/index');
+        	}
+        	// 获取token
+        	$user=$this->getusertoken();
+        	if($user){
+        		if($navctl['nav_auth']<$user['auth_level']){//权限不够
+        			$this->redirect('Index/index/index');
+        		}
+        	}else{//token在缓存中失效，需要重新登录
+        		$this->redirect('Index/index/index');
+        	}
+        	// dump($user);die;
         }
     }
-    private function getusertoken($token){
+    private function getnav($ctl){//获取控制器缓存，需要处理缓存过期，返回页面权限和是否展示
+    	$nav=cache($ctl);
+    	if($nav){
+    		return $nav;
+    	}else{
+    		$nav=Db::table('re_nav')->where(['nav_controller'=>$ctl])->field('nav_isshow,nav_auth')->find();
+    		if($nav){
+    			cache($ctl,$nav,'7200');
+    		}
+    	}
+    	return $nav;
+    }
+    private function getusertoken(){//获取用户token缓存，无需处理缓存过期
+    	$token='';
+    	$posttoken=input('post.token');//通过post中的token
+    	if($posttoken!=''){
+    		$token=$posttoken;
+    	}
+        $gettoken=input('get.token');//获取get中的token
+        if($gettoken!=''){
+    		$token=$gettoken;
+    	}
+        $cookietoken=cookie('token');//通过cookie中的token
+        if($cookietoken!=''){
+    		$token=$cookietoken;
+    	}
     	$user=cache($token);
     	return $user;
     }
