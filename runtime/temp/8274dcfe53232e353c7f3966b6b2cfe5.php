@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540367250;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540374317;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -355,6 +355,7 @@ layui.use('layer', function(){});
         	<div class=" width100 float_l height172 kaishimeiyou img_backg10 text-center line_hei172 margin_b20"  style="border-radius: 12px;">
             	<span class="fon_siz20 color_white b_weight700">搞定Java加解密</span>
             </div>
+            <?php if(is_array($recommend) || $recommend instanceof \think\Collection || $recommend instanceof \think\Paginator): if( count($recommend)==0 ) : echo "" ;else: foreach($recommend as $key=>$vo): ?>
             <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
             	<div class="width100 float_l img_100 z_inx_1">
                 	<img src="/resource/public/static/img/uiz7.jpg">
@@ -368,6 +369,7 @@ layui.use('layer', function(){});
                     <span class="float_r color_gray"><span>499</span>人在学</span>
             	</div>
             </div>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
             <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
             	<div class="width100 float_l img_100 z_inx_1">
                 	<img src="/resource/public/static/img/uiz7.jpg">
@@ -394,6 +396,7 @@ layui.use('layer', function(){});
                     <span class="float_r color_gray"><span>499</span>人在学</span>
             	</div>
             </div>
+           
         </div>
 
         <div class="width_224 height364 float_l backg_white border_shadow"  style="border-radius: 12px;">

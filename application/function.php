@@ -359,10 +359,10 @@ function mpsortless($arr,$key){
     for($k=1;$k<$len;$k++)
     {
         for($j=0;$j<$len-$k;$j++){
-            if($arr[$j]>$arr[$j+1]){
-                $temp =$arr[$j+1];
-                $arr[$j+1] =$arr[$j] ;
-                $arr[$j] = $temp;
+            if($arr[$j][$key]<$arr[$j+1][$key]){
+                $temp =$arr[$j+1][$key];
+                $arr[$j+1][$key] =$arr[$j][$key];
+                $arr[$j][$key] = $temp;
             }
         }
     }

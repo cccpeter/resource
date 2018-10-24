@@ -7,7 +7,7 @@ use think\Db;
 use think\Request;
 use app\index\controller\Base;
 use think\Cache;
-class Index extends Controller
+class Index extends Base
 {
 
     public function index()
@@ -27,52 +27,26 @@ class Index extends Controller
                 ->limit(4)
                 ->select();
         }
-        cache('videotypecache',NULL);
         // 最新上传的前五条
-        $newvideo=Db::table('re_videotab')
-            ->where(['videotab_status'=>'6'])
-            ->alias('a')
-            ->join('re_user u','a.user_id = u.id')
-            ->field('username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views')
-            ->order('videotab_releasetime desc')
-            ->limit(5)
-            ->select();
-        // dump($newvideo);
-        // 近期热播
-        $hotvideo=Db::table('re_videotab')
-            ->where(['videotab_status'=>'6'])
-            ->alias('a')
-            ->join('re_user u','a.user_id = u.id')
-            ->field('username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views')
-            ->order('videotab_views desc')
-            ->limit(5)
-            ->select();
-        //高分视频
-        $topvideo=Db::table('re_videotab')
-            ->where(['videotab_status'=>'6'])
-            ->alias('a')
-            ->join('re_user u','a.user_id = u.id')
-            ->field('username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views,videotype_id,videotype_parentid')
-            ->order('videotab_assessscore desc')
-            ->limit(4)
-            ->select();
-        foreach ($videotype as $type){
-            foreach ($topvideo as &$value){
-                if($type['videotype_id']==$value['videotype_parentid']){
-                    $value['parent_name']=$type['videotype_name'];
-                    foreach ($type['videotype_son'] as $sontype) {
-                        if($sontype['videotype_id']==$value['videotype_id']){
-                            $value['son_name']=$sontype['videotype_name'];
-                        }
-                    }
-                }
-            }
-        }
+        $where=['videotab_status'=>'6'];
+        $newvideo=$this->getvideo($where,'5','videotab_releasetime');
+        $newvideo=$this->gettypeson($videotype,$newvideo);
+        // 近期热播前五条
+        $hotvideo=$this->getvideo($where,'5','videotab_views');
+        $hotvideo=$this->gettypeson($videotype,$hotvideo);
+        //高分视频前四条
+        $topvideo=$this->getvideo($where,'4','videotab_assessscore');
+        $topvideo=$this->gettypeson($videotype,$topvideo);
+        // 推荐视频前四条
+        $where=['videotab_status'=>'6','videotab_recommend'=>'1'];
+        $recommend=$this->getvideo($where,'5','videotab_releasetime');
+        $recommend=$this->gettypeson($videotype,$recommend);
         // dump($topvideo);
         $this->assign('videotype',$videotype);
         $this->assign('newvideo',$newvideo);
         $this->assign('hotvideo',$hotvideo);
         $this->assign('topvideo',$topvideo);
+        $this->assign('recommend',$recommend);
         return view("tab");
     }
     // 点播类型的缓存获取
@@ -95,13 +69,13 @@ class Index extends Controller
     // 获取子类别的名称
     /**
      * 获取归属类别的名称
-     * @param  所有类别的名称
-     * @param  目标转化数组
+     * $videotype videotype所有类别的名称
+     * $video  目标转化数组
      * @return 转化数组
      */
     private function gettypeson($videotype,$video){
         foreach ($videotype as $type){
-            foreach ($topvideo as &$value){
+            foreach ($video as &$value){
                 if($type['videotype_id']==$value['videotype_parentid']){
                     $value['parent_name']=$type['videotype_name'];
                     foreach ($type['videotype_son'] as $sontype) {
@@ -112,7 +86,24 @@ class Index extends Controller
                 }
             }
         }
+        return $video;
     }
+    /**
+     * 获取video的列表
+     * @param [type] $[name] [<description>]
+     * @return [type] [description]
+     */
+    private function getvideo($where,$limit,$order_field){
+        $video=Db::table('re_videotab')
+            ->where($where)
+            ->alias('a')
+            ->join('re_user u','a.user_id = u.id')
+            ->field('username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views,videotype_id,videotype_parentid')
+            ->order($order_field.' desc')
+            ->limit($limit)
+            ->select();
+        return $video;
+    }   
     public function course_detail(){
         return view("course_detail");
     }

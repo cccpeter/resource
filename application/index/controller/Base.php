@@ -13,7 +13,9 @@ class Base extends Controller
 	 * 判断用户状态权限的前置函数
 	 * @param string $token
 	 */
+    
     public function __construct(){
+        parent::__construct();//继承父类的构造器
     	$ctl = request()->controller();// 获得模块的控制器和方法
         $navctl=$this->getnav($ctl);
         if($navctl!=''){//控制器存在权限
