@@ -228,7 +228,7 @@ em{
 .line_hei364{ line-height:364px;}
 /*菜单中的视频块*/
 .recomment-box{
-	position:absolute;
+	/*position:absolute;*/
 	bottom:0px;
 	margin-left: 2px;
 	background:#F8FAFC;
@@ -396,10 +396,13 @@ em{
 }
 .course_block{
 	/*background-color: red;*/
-	height: 256px;
-	width: 225px;
+	height: 266px;
+	width: 235px;
 	float: left;
 	margin: 0px 0px 12px 18px;
+	cursor: pointer;
+	/*webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);*/
 }
 .course_img{
 	width: 225px;
@@ -412,6 +415,7 @@ em{
     color: #07111B;
     line-height: 24px;
     margin-top: 20px;
+    height: 48px;
     text-align: left;
 }
 .course-card-bottom{

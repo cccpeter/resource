@@ -350,4 +350,25 @@ function send($data,$status){
     
 }
 
-
+/**
+ * 小规模数组排序
+ * 冒泡排序从大到小
+ */
+function mpsortless($arr,$key){
+    $len=sizeof($arr);
+    for($k=1;$k<$len;$k++)
+    {
+        for($j=0;$j<$len-$k;$j++){
+            if($arr[$j]>$arr[$j+1]){
+                $temp =$arr[$j+1];
+                $arr[$j+1] =$arr[$j] ;
+                $arr[$j] = $temp;
+            }
+        }
+    }
+    return $arr;
+}
+/**
+ * 小规模数组排序
+ * 冒泡排序从小到大
+ */

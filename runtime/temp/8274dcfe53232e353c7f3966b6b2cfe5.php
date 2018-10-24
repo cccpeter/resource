@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540017251;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540177796;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540367250;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -7,30 +7,26 @@
 <script type="text/javascript" src="/resource/public/static/js/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="/resource/public/static/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="/resource/public/static/css/muke.css">
-<link rel="stylesheet" type="text/css" href="/resource/public/static/css/user.css">
-<link rel="stylesheet" type="text/css" href="/resource/public/static/layui/css/layui.css">
-<!-- <link href="/resource/public/static/lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" /> -->
 <script type="text/javascript" src="/resource/public/static/js/jquery.SuperSlide.2.1.1.js"></script>
+<link rel="stylesheet" type="text/css" href="/resource/public/static/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="/resource/public/static/css/course.css">
-<script src="/resource/public/static/layui/layui.js"></script>
 <script type="text/javascript" src="/resource/public/static/js/cookie.js"></script>
-<!-- <style type="text/css">
-  @media (max-width: 1500px) {    .layui-fluid { width: 1500px; }.width100{width: 1500px;}}
-</style> -->
+<script src="/resource/public/static/layui/layui.js"></script>
 </head>
-<body class="backg_huibai">
-<!-- 顶部 -->
-<div class="width100 float_l height150" id="heade" style="position: fixed; top:0;left:0;z-index:50;">
-  <div class="width100 float_l height80 line_hei80" style="background-color: #fff; opacity:1;box-shadow: 0px 0px 3px #ccc inset;">
 
+<body class="backg_huibai">
+
+<!-- 顶部 -->
+<div class="width100 float_l height490 ">
+	<div class="width100 float_l height80 line_hei80" style="box-shadow: 0px 0px 3px #ccc inset;background-color: #fff;position: fixed;z-index:999;">
         <div class="float_l">
             <div class="float_l margin_l20">
                 <img src="/resource/public/static/img/logo.png">
             </div>
             <div class="float_l">
                 <ul class="ul_li fon_siz16">
-                    <li><a href="<?php echo url('Index/index/tab'); ?>">首页</a></li>
-                    <li><a href="<?php echo url('Index/index/index'); ?>">点播</a></li>
+                    <li><a href="<?php echo url('Index/index/index'); ?>">首页</a></li>
+                    <li><a href="<?php echo url('Index/index/tab'); ?>">点播</a></li>
                     <li><a href="<?php echo url('Index/live/live'); ?>">直播</a></li>
                     <li><a href="<?php echo url('Index/openclass/openclass'); ?>">公开课</a></li>
                     <li><a href="<?php echo url('Index/notice/notice'); ?>">公告</a></li>
@@ -43,7 +39,7 @@
                 <input class="posi_relative" type="text" name="" id="" placeholder="请输入想搜索的内容...">
                 <img class="img_sousuo bianshou" src="/resource/public/static/img/uiz4.png">
             </div>
-           <div class="float_l margin_l35" id='adminset' style="display: none;">
+             <div class="float_l margin_l35" id='adminset' style="display: none;">
                 <span>
                     <a href="<?php echo url('Index/admin/index'); ?>">
                     <i style="font-size: 22px;margin:10px 20px 10px 20px" class="layui-icon">&#xe716;</i>
@@ -132,296 +128,421 @@ layui.use('layer', function(){});
     }
 </script>
         </div>
-  </div>
+	</div>
 </div>
+<!-- <div class="list-color"></div> -->
+<!-- 轮播图 -->
 
 <div class="list-color"></div>
 <div style="height: 80px;"></div>
-  <div class="layui-row">
-    <div class="layui-col-md-offset2">
-      <div class="layui-carousel float_l height500" id="test1" lay-filter="demo" style="border-radius: 1%;box-shadow:0 5px 5px rgba(0, 0, 0, 0.3);position: relative;">
-        <div carousel-item style="border-radius: 1%;">
-          <div><img src="/resource/public/static/img/1.jpg" style="height: 450px;width: 100%;"></div>
-          <div><img src="/resource/public/static/img/0.jpg" style="height: 450px;width: 100%;"></div>
-          <div><img src="/resource/public/static/img/1.jpg" style="height: 450px;width: 100%;"></div>
-          <div><img src="/resource/public/static/img/0.jpg" style="height: 450px;width: 100%;"></div>
-          <div><img src="/resource/public/static/img/1.jpg" style="height: 450px;width: 100%;"></div>
-          <div><img src="/resource/public/static/img/0.jpg" style="height: 450px;width: 100%;"></div>
+<div class="width100 float_l margin_t-405 margin_b40">
+	<div class="width_1200 margin_auto">
+    	<div class="width100 float_l height460 posi_relative" style="box-shadow:0 7px 7px rgba(0, 0, 0, 0.3); border-radius: 8px;">
+        	<div class="width80 float_r">
+                <div class="layui-carousel float_l" id="test1" lay-filter="demo" style="border-radius: 1%;box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 5px;">
+                    <div carousel-item style="border-radius: 0% 1% 1% 0%;">
+                      <div><img src="/resource/public/static/img/1.jpg" style="height: 460px;width: 100%;"></div>
+                       <div><img src="/resource/public/static/img/0.jpg" style="height: 460px;width: 100%;"></div>
+                        <div><img src="/resource/public/static/img/1.jpg" style="height: 460px;width: 100%;"></div>
+                         <div><img src="/resource/public/static/img/0.jpg" style="height: 460px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="width20 float_l height460 posi_absolute backg_jqian padding_t5 bianshou" style="border-radius: 8px 0px 0px 8px;background-color:#2b333b;">
+                <div class="width100 float_l tab_qiehuan">
+                <!-- 类别开始 -->
+                <?php if(is_array($videotype) || $videotype instanceof \think\Collection || $videotype instanceof \think\Paginator): if( count($videotype)==0 ) : echo "" ;else: foreach($videotype as $key=>$vo): ?>
+                <div class="width100 float_l tab_qiehuan ">
+                	<div class="width100 float_l text_c height64 line_hei64 color_white bianhuabeijing backg_jqian padding_lr20" style="background-color: #2b333b">
+                        <div class="width100 float_l text_l height64 line_hei64 color_white border_b_baise fon_siz14">
+                            <span style="padding-left: 15px;color: rgba(255,255,255,.6);"><?php echo $vo['videotype_name']; ?></span>
+                            <span class="float_r" style="color: rgba(255,255,255,.5);font-size: 14px;">></span>
+                        </div>
+                    </div>
+                    <div class="width_700 float_l lunbofenlei dis_none"  style="z-index: 10;">
+                    	<div class="width100 float_l padding40">
+                        	<div class="width100 float_l margin_b40">
+                            	<span class="width100 color_shenred fon_siz14 float_l margin_b20">分类目录</span>
+                                <ul class="width100 ul_lis float_l">
+                                  <?php if(is_array($vo['videotype_son']) || $vo['videotype_son'] instanceof \think\Collection || $vo['videotype_son'] instanceof \think\Paginator): if( count($vo['videotype_son'])==0 ) : echo "" ;else: foreach($vo['videotype_son'] as $key=>$it): ?>
+                                	<li><a href="<?php echo url('index/index/course_list',['videotype_id'=>$it['videotype_id']]); ?>"><?php echo $it['videotype_name']; ?></a></li>
+                                  <li>/</li>
+                                  <?php endforeach; endif; else: echo "" ;endif; ?>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 视频栏目 俩个并列视频 -->
+                        <span class="width100 color_shenred fon_siz14 margin_b20" style="margin-left:40px; ">最新视频</span>
+                        <div class="recomment-box" style="background-color: #fff;width: 100%">
+                          <?php if(is_array($vo['video']) || $vo['video'] instanceof \think\Collection || $vo['video'] instanceof \think\Paginator): if( count($vo['video'])==0 ) : echo "" ;else: foreach($vo['video'] as $key=>$vi): ?>
+                           <div class="card" >
+                            <a href="<?php echo url('Index/index/course_detail',['videotab_id'=>$vi['videotab_id']]); ?>" target="_blank" title="<?php echo $vi['videotab_title']; ?>" class="clearfix">
+                            <img src="/resource/<?php echo $vi['videotab_image']; ?>" class="l">
+                            <div class="course-card">
+                                <h3 class="course-card-name"><?php echo cutstr($vi['videotab_title'],0,20,'...') ?></h3>       
+                                    <div class="course-card-price">
+                                      <i class="layui-icon">&#xe770;</i>
+                                    </div>
+                                    <div class="course-card-dot">·</div>
+                                    <div class="course-card-info "><?php echo $vi['username']; ?> </div>
+                                    <div class="course-card-price">
+                                      <i class="layui-icon"> &#xe62a;</i>
+                                    </div>
+                                    <div class="course-card-dot ">·</div>
+                                    <div class="course-card-info ">
+                                    <i class="icon-set_sns"></i>
+                                    <?php if(($vi['videotab_level'] == 1)): ?>
+                                      简单
+                                    <?php elseif($vi['videotab_level'] == 2): ?>
+                                      一般
+                                    <?php else: ?> 
+                                      复杂
+                                    <?php endif; ?>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <?php endforeach; endif; else: echo "" ;endif; ?>
+                          
+                        </div>
+                    </div>
+                </div>   
+              <?php endforeach; endif; else: echo "" ;endif; ?>
+                <!-- 类别结束 -->
+            </div>
+            
         </div>
-      </div>
     </div>
 </div>
-<!-- 条目中可以是任意内容，如：<img src=""> -->
-<div class="layui-row layui-col-md12" >
-    <h3 class="text_c " style="margin-bottom: 20px;margin-top: 10px;">
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe67a;</i>
-    <em>精</em>／
-    <em>选</em>／
-    <em>直</em>／
-    <em>播</em>／
-    <em>课</em>
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe67a;</i>
-    
-  </h3>
-  <!-- <div class="layui-col-md-offset2"> --><div class="layui-col-md2">&nbsp;</div>
-      <div class="live-schedule-screen layui-col-md4">
-        <img id="course_images_change" class="screen-img layui-col-md12" style="border-radius:2% 0% 0% 2%;" alt="课程封面" title="课程封面" onerror="this.src=&#39;//9.url.cn/edu/edu_modules/edu-ui/img/nohash/img-err2.png&#39;;this.onerror=null;" src="https://10.url.cn/qqcourse_logo_ng/ajNVdqHZLLCdNBr520kvPNGcNy5abHtFGrib57XbXBzJC0erlj61zlYF99iat74wyU4ZlibC630eTY/510">
-        <div class="screen-bd" data-taid="2609291416679155">
-          </div>
-      </div>
+<script>
+	$('.tab_qiehuan').hover(function(){
+         $(this).children(".bianhuabeijing").css("background-color","#8a8f93").next().css("display","block")
+	},function(){
+    	 $(this).children(".bianhuabeijing").css("background-color","#2b333b").next().css("display","none")
+	});
+</script>
 
-      <div class="live-schedule-list layui-col-md4" style="overflow-y: auto;">
-      <!-- 拉table做下拉 -->
-      <table class="layui-table" row="text"  lay-skin="line" style="background-color: #dedede;margin-top: 0px;margin-bottom: 0px;border: 0px;">
-        <tr class="info_tr" data-img="/resource/public/static/img/59b8a486000107fb05400300.jpg" data-title="title">
-          <td style="height: 48px;">
-            <div class=list-block-n> </div>
-            <div class="axis"></div>
-            <div class="item-time-point-n"></div>
-            <div class="item-time-y" >直播中</div>
-            <div class="item-info item-name-y">【齐论】新品如何短时间流量及订单飞涨</div>
-        </td>
-        </tr>
-       
-        <tr class="info_tr" data-img="https://10.url.cn/qqcourse_logo_ng/ajNVdqHZLLCdNBr520kvPNGcNy5abHtFGrib57XbXBzJC0erlj61zlYF99iat74wyU4ZlibC630eTY/510" data-title="title">
-          <td style="height: 48px;">
-           <div class=list-block-n> </div>
-            <div class="axis"></div>
-            <div class="item-time-point-n"></div>
-            <div class="item-time-y" >直播中</div>
-            <div class="item-info item-name-y" style="color: #23b8ff">【齐论】新品如何短时间流量及订单飞涨</div>
-        </td>
-        </tr>
-        <tr class="info_tr" data-img="/resource/public/static/img/59b8a486000107fb05400300.jpg" data-title="title">
-          <td style="height: 48px;">
-            <div class=list-block-n> </div>
-            <div class="axis"></div>
-            <div class="item-time-point-n"></div>
-            <div class="item-time-y" >直播中</div>
-            <div class="item-info item-name-y" style="color: #23b8ff">【齐论】新品如何短时间流量及订单飞涨</div>
-        </td>
-        </tr>
-        <tr class="info_tr">
-          <td style="height: 48px;">
-          <div class=list-block-n> </div>
-            <div class="axis"></div>
-            <div class="item-time-point-n"></div>
-            <div class="item-time" >19:30</div>
-            <div class="item-info item-name" >【齐论】新品如何短时间流量及订单飞涨</div>
-        </td>
-        </tr>
-        <tr class="info_tr">
-          <td style="height: 48px;">
-          <div class=list-block-n> </div>
-            <div class="axis"></div>
-            <div class="item-time-point-n"></div>
-            <div class="item-time" >19:30</div>
-            <div class="item-info item-name" >【齐论】新品如何短时间流量及订单飞涨</div>
-        </td>
-        </tr>
-      </table>
-      <div class="nano-pane"><div class="nano-slider" style="height: 239px; transform: translate(0px, 109px);"></div></div>
-    </div>
-  <!-- </div> -->
-  <div class="layui-row layui-col-md12 " style="height: 30px;"> </div>
-</div>
-<div class="layui-row layui-col-md12 backg_qiangray" style="box-shadow: 0px 0px 1px #ccc inset;" >
-<!--   <h2 class="text_c" style="margin-bottom: 20px;margin-top: 10px;">精选直播课</h2> -->
-  <h3 class="text_c " style="margin-bottom: 20px;margin-top: 10px;">
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i>
-    <em>热</em>／
-    <em>门</em>／
-    <em>视</em>／
-    <em>频</em>
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i>
-    
-  </h3>
-    <div class="layui-col-md2">&nbsp;</div>
-    <!-- 课程块 -->
-    <div class="height500 layui-col-md8 float_l">
-      <?php for($i=0;$i<10;$i++){ ?>
-      <div class="course_block" >
-        <div>
-          <img class="course_img" src="/resource/public/static/img/59b8a486000107fb05400300.jpg">
-        </div>
-        <div class="course-card-content"><!--课程内容-->
-          <h3 class="text_c course_h3">全网最热Python3入门+进阶 更快上手实际开发</h3>
-        </div>
-      <div class="course-card-bottom">
-        <div class="course-card-info">
-          <span class="course-text">实战</span>
-          <span class="course-text">初级</span>
-          <span class="course-text">
-            <i class="layui-icon">&#xe770;</i>5850</span>
-          <span class="course-star-box">
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-          </span>
-        </div>
-        <div style="font-size: 12px;color: #4D555D;padding: 2%">￥366.00
-        </div>
-      </div>
-    </div>
-    <?php } ?>
-      
+<script type="text/javascript">
+	jQuery(".focusBox").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:500});
+</script>
 
-    </div>
-     <div class="layui-row layui-col-md12 backg_qiangray" style="height: 30px;"> </div>
-</div>
-<div class="layui-row layui-col-md12 " style="box-shadow: 0px 0px 1px #ccc inset;" >
-<!--   <h2 class="text_c" style="margin-bottom: 20px;margin-top: 10px;">精选直播课</h2> -->
-  <h3 class="text_c " style="margin-bottom: 20px;margin-top: 10px;">
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i>
-    <em>最</em>／
-    <em>新</em>／
-    <em>上</em>／
-    <em>传</em>
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i>
+<!-- 实战推荐 -->
+<div class="width100 float_l margin_b40">
+	<div class="width_1200 margin_auto">
     
-  </h3>
-    <div class="layui-col-md2">&nbsp;</div>
-    <!-- 课程块 -->
-    <div class="height500 layui-col-md8 float_l">
-      <?php for($i=0;$i<5;$i++){ ?>
-      <div class="course_block" >
-        <div >
-          <img class="course_img" src="/resource/public/static/img/59b8a486000107fb05400300.jpg">
+    	<div class="width100 float_l margin_b20 margin_t15">
+        	<div class="text_c">
+            	<h3 style="font-size: 23px;color: #07111B;margin:0px auto;"><i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i> 最／新／上／传 <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i></h3>
+            </div>
+            <!-- <div class="float_r bianshou" style="margin-right: 10px;">
+            	<span>更多></span>
+            </div> -->
         </div>
-        <div class="course-card-content"><!--课程内容-->
-          <h3 class="text_c course_h3">全网最热Python3入门+进阶 更快上手实际开发</h3>
-        </div>
-      <div class="course-card-bottom">
-        <div class="course-card-info">
-          <span class="course-text">实战</span>
-          <span class="course-text">初级</span>
-          <span class="course-text">
-            <i class="layui-icon">&#xe770;</i>5850</span>
-          <span class="course-star-box">
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-          </span>
-        </div>
-        <div style="font-size: 12px;color: #4D555D;padding: 2%">￥366.00
-        </div>
-      </div>
-    </div>
-    <?php } ?>
-      
-
-    </div>
-     <div class="layui-row layui-col-md12 " style="height: 30px;"> </div>
-</div>
-<div class="layui-row layui-col-md12 backg_qiangray" style="box-shadow: 0px 0px 1px #ccc inset;" >
-<!--   <h2 class="text_c" style="margin-bottom: 20px;margin-top: 10px;">精选直播课</h2> -->
-  <h3 class="text_c " style="margin-bottom: 20px;margin-top: 10px;">
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i>
-    <em>公</em>／
-    <em>开</em>／
-    <em>课</em>
-    <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe756;</i>
-    
-  </h3>
-<div class="layui-row" style="margin:0px 0px 12px 18px;">
-  <div class="layui-col-md-offset2 layui-col-md4" style="padding-left: 25px;"> 
-    <div class="layui-row grid-demo " >
-      <div class="layui-col-md-offset1 layui-col-md10" style="background: url(/resource/public/static/img/title1.jpg);height: 108px;border-radius: 25px;">
-        <h3 class="ellipsis text_c">打开Spring Boot学习的最佳方式<p class="ellipsis1 text_c">直击Spring Boot框架核心，颠覆Java企业应用开发</p></h3>
         
-      </div>
+        <div class="width100 float_l">
+        	<?php if(is_array($newvideo) || $newvideo instanceof \think\Collection || $newvideo instanceof \think\Paginator): if( count($newvideo)==0 ) : echo "" ;else: foreach($newvideo as $key=>$vo): ?>
+             <div class="course_block" >
+                <div>
+                  <img class="course_img" src="/resource/<?php echo $vo['videotab_image']; ?>">
+                </div>
+                <div class="course-card-content"><!--课程内容-->
+                  <h3 class="text_c course_h3"><?php echo cutstr($vo['videotab_title'],0,20,'...') ?></h3>
+                </div>
+              <div class="course-card-bottom">
+                <div class="course-card-info">
+                  <span class="course-text">
+                    <i class="layui-icon">&#xe770;</i><?php echo $vo['username']; ?>
+                  </span>
+                  <span class="course-text">
+                    <i class="layui-icon"> &#xe62a;</i>
+                     <?php if(($vo['videotab_level'] == 1)): ?>
+                                      简单
+                      <?php elseif($vo['videotab_level'] == 2): ?>
+                        一般
+                      <?php else: ?> 
+                        复杂
+                      <?php endif; ?>
+                  </span>
+                  <span class="course-star-box">
+                    <?php for($i=0;$i<(int)$vo['videotab_assessscore'];$i++){ ?>
+                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    <?php } ?>
+                  </span>
+                </div>
+                <div style="font-size: 12px;color: #4D555D;padding: 2%">上传时间：<span style="color: #93999F;margin-right: 5px;"><?php echo date('Y-m-d',$vo['videotab_releasetime']) ?></span>
+                播放量：<span style="color: #93999F;"><?php echo $vo['videotab_views']; ?></span>
+                </div>
+              </div>
+            </div>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+        
     </div>
-    
-  </div>
-
-  <div class="layui-col-md4" style="padding-left: 25px;" > 
-    <div class="layui-row grid-demo " >
-      <div class="layui-col-md10" style="background: url(/resource/public/static/img/title2.jpg);height: 108px;border-radius: 16px;">
-        <h3 class="ellipsis text_c">打开Spring Boot学习的最佳方式</h3>
-        <p class="ellipsis1 text_c">直击Spring Boot框架核心，颠覆Java企业应用开发</p>
-      </div>
-    </div>
-    
-  </div>
 </div>
-    <div class="layui-col-md2">&nbsp;</div>
-    <!-- 课程块 -->
-    <div class="height500 layui-col-md8 float_l">
-      <?php for($i=0;$i<5;$i++){ ?>
-      <div class="course_block" >
-        <div >
-          <img class="course_img" src="/resource/public/static/img/59b8a486000107fb05400300.jpg">
-        </div>
-        <div class="course-card-content"><!--课程内容-->
-          <h3 class="text_c course_h3">全网最热Python3入门+进阶 更快上手实际开发</h3>
-        </div>
-      <div class="course-card-bottom">
-        <div class="course-card-info">
-          <span class="course-text">实战</span>
-          <span class="course-text">初级</span>
-          <span class="course-text">
-            <i class="layui-icon">&#xe770;</i>5850</span>
-          <span class="course-star-box">
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-            <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-          </span>
-        </div>
-        <div style="font-size: 12px;color: #4D555D;padding: 2%">￥366.00
-        </div>
-      </div>
-    </div>
-    <?php } ?>
-      
 
+<!-- 免费好课 -->
+<div class="width100 float_l margin_b40">
+	<div class="width_1200 margin_auto">
+    
+    	<div class="width100 float_l margin_b20">
+            <div class="text_c">
+                <h3 style="font-size: 23px;color: #07111B;margin:0px auto;"><i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe67a;</i> 热／播／排／行 <i class="layui-icon" style="font-size: 23px;color: #f4757c">&#xe67a;</i></h3>
+            </div>
+            <!-- <div class="float_r bianshou" style="margin-right: 10px;">
+                <span>更多></span>
+            </div> -->
+        </div>
+        
+        <div class="width100 float_l">
+        	<?php if(is_array($hotvideo) || $hotvideo instanceof \think\Collection || $hotvideo instanceof \think\Paginator): if( count($hotvideo)==0 ) : echo "" ;else: foreach($hotvideo as $key=>$vo): ?>
+             <div class="course_block" >
+                <div>
+                  <img class="course_img" src="/resource/<?php echo $vo['videotab_image']; ?>">
+                </div>
+                <div class="course-card-content"><!--课程内容-->
+                  <h3 class="text_c course_h3"><?php echo cutstr($vo['videotab_title'],0,20,'...') ?></h3>
+                </div>
+              <div class="course-card-bottom">
+                <div class="course-card-info">
+                  
+                  <span class="course-text">
+                    <i class="layui-icon">&#xe770;</i><?php echo $vo['username']; ?>
+                  </span>
+                  <span class="course-text">
+                    <i class="layui-icon"> &#xe62a;</i>
+                     <?php if(($vo['videotab_level'] == 1)): ?>
+                        简单
+                      <?php elseif($vo['videotab_level'] == 2): ?>
+                        一般
+                      <?php else: ?> 
+                        复杂
+                      <?php endif; ?>
+                  </span>
+                  <span class="course-star-box">
+                    <?php for($i=0;$i<(int)$vo['videotab_assessscore'];$i++){ ?>
+                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    <?php } ?>
+                  </span>
+                </div>
+                <div style="font-size: 12px;color: #4D555D;padding: 2%">上传时间：<span style="color: #93999F;margin-right: 5px;"><?php echo date('Y-m-d',$vo['videotab_releasetime']) ?></span>
+                播放量：<span style="color: #93999F;"><?php echo $vo['videotab_views']; ?></span>
+                </div>
+              </div>
+            </div>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+        </div>
+        
     </div>
-     <div class="layui-row layui-col-md12 " style="height: 30px;"> </div>
 </div>
- <!-- 页脚 -->
+
+<!-- java 工程师 -->
+<div class="width100 float_l backg_qiangray padding_b45">
+	<div class="width_1200 margin_auto">
+    	<div class=" width_224  float_l img_backg11 margin_r20" style="height: 364px;border-radius: 12px;">
+        	<div class="width100 float_l padding_lr20 color_white fon_siz32 b_weight700 margin_t10">
+            	<span>推荐<br>视频</span>
+            </div>
+            <div class="width100 float_l padding_lr20 color_white fon_siz16 margin_t30 jiantoubianhua bianshou">
+            	<span>推荐<span class="margin_l5 wobianhua">></span></span>
+            </div>
+			<!-- <div class="width100 float_l padding_lr20 fon_siz12 bianshou line_hei26 color_blue wobeijingguosa margin_t120">
+            	<a>jQuery源码探索之旅</a>
+                <a>高德开发者必由之路——JS API篇</a>
+                <a>教你HTML5开发爱心鱼游戏</a>
+            </div> -->
+        </div>
+        <div class="width_712 float_l margin_r20">
+        	<div class=" width100 float_l height172 kaishimeiyou img_backg10 text-center line_hei172 margin_b20"  style="border-radius: 12px;">
+            	<span class="fon_siz20 color_white b_weight700">搞定Java加解密</span>
+            </div>
+            <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
+            	<div class="width100 float_l img_100 z_inx_1">
+                	<img src="/resource/public/static/img/uiz7.jpg">
+                </div>
+                <div class="img_backg2 donghua">
+                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                </div>
+                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                    <span class="float_l color_red">￥88.00</span>
+                    <span class="float_r color_gray"><span>499</span>人在学</span>
+            	</div>
+            </div>
+            <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
+            	<div class="width100 float_l img_100 z_inx_1">
+                	<img src="/resource/public/static/img/uiz7.jpg">
+                </div>
+                <div class="img_backg2 donghua">
+                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                </div>
+                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                    <span class="float_l color_red">￥88.00</span>
+                    <span class="float_r color_gray"><span>499</span>人在学</span>
+            	</div>
+            </div>
+            <div class="width_224 height172 float_l border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
+            	<div class="width100 float_l img_100 z_inx_1">
+                	<img src="/resource/public/static/img/uiz7.jpg">
+                </div>
+                <div class="img_backg2 donghua">
+                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                </div>
+                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                    <span class="float_l color_red">￥88.00</span>
+                    <span class="float_r color_gray"><span>499</span>人在学</span>
+            	</div>
+            </div>
+        </div>
+
+        <div class="width_224 height364 float_l backg_white border_shadow"  style="border-radius: 12px;">
+        	<div class="width_224 height172 float_l jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
+            	<div class="width100 float_l img_100 z_inx_1">
+                	<img src="/resource/public/static/img/uiz7.jpg">
+                </div>
+                <div class="img_backg2 donghua">
+                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                </div>
+                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                    <span class="float_l color_red">￥88.00</span>
+                    <span class="float_r color_gray"><span>499</span>人在学</span>
+            	</div>
+            </div>
+            
+            <div class="width100 float_l padding_lr20 dadiv">
+            	<div class="width100 float_l border_t padding_t10">
+                    <ul class="tongli_ys chaochuyincang">
+                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
+                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
+                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
+                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="width100 float_l padding_b45 backg_qiangray">
+    <div class="width100 float_l padding_t45">
+        <div class="width_1200 margin_auto">
+            <div class="width100 float_l">
+            
+                <div class=" width_224 height172 float_l img_backg14 " style="height: 256px;border-radius: 12px;">
+                    <div class="width100 float_l padding_lr20 color_white fon_siz32 b_weight700 margin_t10">
+                        <span>高分<br>视频</span>
+                    </div>
+                    <div class="width100 float_l padding_lr20 color_white fon_siz16 margin_t30 jiantoubianhua bianshou">
+                        <span>高分<span class="margin_l5 wobianhua">></span></span>
+                    </div>
+                </div>  
+                <?php if(is_array($topvideo) || $topvideo instanceof \think\Collection || $topvideo instanceof \think\Paginator): if( count($topvideo)==0 ) : echo "" ;else: foreach($topvideo as $key=>$vo): ?>
+             <div class="course_block" >
+                <div>
+                  <img class="course_img" src="/resource/<?php echo $vo['videotab_image']; ?>">
+                </div>
+                <div class="course-card-content"><!--课程内容-->
+                  <h3 class="text_c course_h3"><?php echo cutstr($vo['videotab_title'],0,20,'...') ?></h3>
+                </div>
+              <div class="course-card-bottom">
+                <div class="course-card-info">
+                  <span class="course-text" style="color: #ff9900;">
+                    <i class="layui-icon">&#xe60b;</i>
+                    <?php echo $vo['parent_name']; ?>
+                    <?php echo $vo['son_name']; ?>
+                  </span>
+                  <br>
+                  <span class="course-text">
+                    <i class="layui-icon">&#xe770;</i><?php echo $vo['username']; ?>
+                  </span>
+                  <span class="course-text">
+                    <i class="layui-icon"> &#xe62a;</i>
+                     <?php if(($vo['videotab_level'] == 1)): ?>
+                        简单
+                      <?php elseif($vo['videotab_level'] == 2): ?>
+                        一般
+                      <?php else: ?> 
+                        复杂
+                      <?php endif; ?>
+                  </span>
+                  <span class="course-star-box">
+                    <?php for($i=0;$i<(int)$vo['videotab_assessscore'];$i++){ ?>
+                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    <?php } ?>
+                  </span>
+                </div>
+                <div style="font-size: 12px;color: #4D555D;padding: 2%">上传时间：<span style="color: #93999F;margin-right: 5px;"><?php echo date('Y-m-d',$vo['videotab_releasetime']) ?></span>
+                播放量：<span style="color: #93999F;"><?php echo $vo['videotab_views']; ?></span>
+                </div>
+              </div>
+            </div>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+                
+            </div>
+            
+        </div>
+    </div>     
+</div>
+
+
+
+
+<!-- 页脚 -->
 <div class="width100 float_l padding_t30 height193">
-  <div class="width_1200 margin_auto">
-     
-        <div class="width100 float_l text_c yejiao color_gray" >
+	<div class="width_1200 margin_auto">
+    	<!-- <div class="width100 float_l text_c margin_b30">
+        	<a class="img_backg5" href="#"></a>
+            <a class="img_backg6 posi_relative wexinmaxianshi" href="#"><i class="weixinweima dis_none"><img src="/resource/public/static/img/idx-btm.png"></i></a>
+            <a class="img_backg7" href="#"></a>
+            <a class="img_backg8" href="#"></a>
+        </div> -->
+        <div class="width100 float_l text_c yejiao color_gray">
             <a>关于我们</a>
-            <a>企业合作</a>
             <a>联系我们</a>
             <a>意见反馈</a>
             <a>友情链接</a>
-      </div>
+    	</div>
         <div class="width100 float_l text_c border_t margin_t20 padding_t20 color_gray fon_siz12">
-          <span>© 2016   京ICP备13042132号</span>
+        	<span>© 2016  京ICP备13042132号</span>
         </div>
     </div>
 </div>
-<!-- <script src="/resource/public/static/layui/layui.js"></script> -->
-<script>
-  $('#userinfomess').hover(function(){
-      $('#userinfoset').attr('class','userinfo');
-    },
-    function(){
-      // $('#userinfoset').attr('class','userinfo userinfo-hoverls');
-    })
-  $('#userinfoset').hover(function(){
 
-  },function(){
-      $('#userinfoset').attr('class','userinfo userinfo-hoverls');
-    }
-  )
+
+
+</body>
+<style type="text/css">
+  
+
+  .list-color{
+    background-image: url("/resource/public/static/img/title1.jpg");
+    height: 100px;
+    opacity: 0.3;
+    filter:blur(180px);
+    top:150px;
+    width: 100%;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    height: 200px;
+    filter:blur(100px);
+    z-index: -1
+}
+
+</style>
+<script>
 layui.use('carousel', function(){
   var carousel = layui.carousel;
   //建造实例
   carousel.render({
     elem: '#test1',
-    width: '80%',
+    width: '100%',
     adim:"fade",
     arrow: 'always',
-    height:'450px',
+    height:'460px',
     anim:'fade',
   });
 });
@@ -447,6 +568,7 @@ carousel.on('change(demo)', function(obj){
     
   });
 });
+
 
 </script>
 <script type="text/javascript">
@@ -521,6 +643,18 @@ $('table tr').hover(function(){
       }
     });
   })
+  $('#userinfomess').hover(function(){
+        $('#userinfoset').attr('class','userinfo');
+      },
+      function(){
+        // $('#userinfoset').attr('class','userinfo userinfo-hoverls');
+      })
+    $('#userinfoset').hover(function(){
+
+    },function(){
+        $('#userinfoset').attr('class','userinfo userinfo-hoverls');
+      }
+    )
 </script>
 <style type="text/css">
 .course_block img:hover{
@@ -555,7 +689,32 @@ opacity: 1;
     filter:blur(100px);
     z-index: -1
 }
-
+.course_block{
+    /*background-color: red;*/
+    height: 256px;
+    width: 220px;
+    float: left;
+    margin: 0px 0px 12px 18px;
+}
+.course_img{
+    width: 220px;
+    height: 120px;
+    /*position: relative;*/
+    border-radius:10px;
+}
 </style>
-</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

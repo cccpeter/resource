@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\notice\notice.html";i:1539853589;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540177796;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\notice\notice.html";i:1539853589;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540344610;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -29,8 +29,8 @@
             </div>
             <div class="float_l">
                 <ul class="ul_li fon_siz16">
-                    <li><a href="<?php echo url('Index/index/tab'); ?>">首页</a></li>
-                    <li><a href="<?php echo url('Index/index/index'); ?>">点播</a></li>
+                    <li><a href="<?php echo url('Index/index/index'); ?>">首页</a></li>
+                    <li><a href="<?php echo url('Index/index/tab'); ?>">点播</a></li>
                     <li><a href="<?php echo url('Index/live/live'); ?>">直播</a></li>
                     <li><a href="<?php echo url('Index/openclass/openclass'); ?>">公开课</a></li>
                     <li><a href="<?php echo url('Index/notice/notice'); ?>">公告</a></li>
@@ -43,7 +43,8 @@
                 <input class="posi_relative" type="text" name="" id="" placeholder="请输入想搜索的内容...">
                 <img class="img_sousuo bianshou" src="/resource/public/static/img/uiz4.png">
             </div>
-           <div class="float_l margin_l35" id='adminset' style="display: none;">
+          
+ <div class="float_l margin_l35" id='adminset' style="display: none;">
                 <span>
                     <a href="<?php echo url('Index/admin/index'); ?>">
                     <i style="font-size: 22px;margin:10px 20px 10px 20px" class="layui-icon">&#xe716;</i>

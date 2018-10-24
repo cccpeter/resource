@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1540171340;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540173754;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1540288095;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,31 +44,17 @@
 				            <div class="showhide-search float_l" data-show="no"><i class="layui-icon">&#xe615;</i></div>
 				        </div>
 					</li>
+					
 					<li>
-						<a href="">
-							<i style="font-size: 22px;margin:10px 20px 10px 20px" class="layui-icon">&#xe716;</i>
-						</a>
-					</li>
-					<li>
-						<!-- <a href="<?php echo url('Index/person/mycollect'); ?>" id='userinfomess'>
-							<img src="/resource/public/static/img/tx.jpg" style="width: 40px;height: 40px;; border-radius: 100%;">
-						</a>
-						<div class="userinfo userinfo-hoverls" id="userinfoset">
-							<div >
-								<a href="<?php echo url('Index/person/mycollect'); ?>">
-									<img src="/resource/public/static/img/tx.jpg" style="width: 72px;height: 72px;; border-radius: 100%;">
-								</a>
-								<span class="userinfo-name">大白菜111</span>
-							</div>
-							<div class="float_l">
-								<a class="userlist" href="<?php echo url('Index/person/myvideo'); ?>">我的视频</a>
-		                        <a class="userlist" href="<?php echo url('Index/person/mycollect'); ?>">我的收藏</a>
-		                        <a class="userlist" href="<?php echo url('Index/person/note'); ?>">我的笔记</a>
-							</div>
-							<hr>
-							<div class="exit"><a>安全退出</a></div>
-						</div> -->
-						<div class="float_l margin_l35 margin_r40" id="loginoff" style="display: none;">
+
+						 <div class="float_l margin_l35" id='adminset' style="display: none;">
+                <span>
+                    <a href="<?php echo url('Index/admin/index'); ?>">
+                    <i style="font-size: 22px;margin:10px 20px 10px 20px" class="layui-icon">&#xe716;</i>
+                </a>
+                </span>
+            </div>
+<div class="float_l margin_l35 margin_r40" id="loginoff" style="display: none;">
     <span class="loginfont" onclick="login();">登录</span>
 </div>
 <div class="float_l margin_l30 margin_r40" style="display: none;" id="loginon">
