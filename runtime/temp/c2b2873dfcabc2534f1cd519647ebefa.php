@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_list.html";i:1539853541;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540344610;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_list.html";i:1540458018;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540344610;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -147,41 +147,51 @@ layui.use('layer', function(){});
 			</div>
 			<div class="course-top-search float_r">
 	            <div class="search-area float_l" data-search="top-banner">
-	                <input class="search-input" data-suggest-trigger="suggest-trigger" placeholder="搜索感兴趣的内容" type="text" autocomplete="off">
+	                <input class="search-input" id="searchkey" data-suggest-trigger="suggest-trigger" placeholder="搜索感兴趣的内容" type="text" autocomplete="off">
 	                
 	            </div>
-	            <div class="showhide-search float_l" data-show="no"><i class="layui-icon">&#xe615;</i></div>
+	            <div class="showhide-search float_l" data-show="no" onclick="typesearch();"><i class="layui-icon" id="searchicon" style="cursor: pointer;">&#xe615;</i></div>
 	        </div>
 	        <hr style="margin-bottom: 0px;margin-top: 0px;">
 	        <div>
 	        	<div class="course-type">
 	        		<div class="sp">
-	        			<span>一级类目:</span>
+	        			<span>父级类目:</span>
 	        		</div>
 	        		<div class="bd">
 	        		<ul>
-	        			<a class="ison" href="javascript(0):;">全部</a>
-	        			<?php for($i=0;$i<5;$i++){ ?>
-	        			<li>
-	        				<a href="javascript(0):;">前沿技术</a>
-	        			</li>
-	        			<?php } ?>
+	        			<?php if(is_array($videotype_parent) || $videotype_parent instanceof \think\Collection || $videotype_parent instanceof \think\Paginator): if( count($videotype_parent)==0 ) : echo "" ;else: foreach($videotype_parent as $key=>$vo): ?>
+	        			<!-- <a class="ison" href="javascript(0):;">全部</a> -->
+	        			<?php if(($vo['is_on'] == 1)): ?>
+	                        <li>
+		        				<a class="ison" onclick="typeparent(<?php echo $vo['videotype_id']; ?>);"><?php echo $vo['videotype_name']; ?></a>
+		        			</li>  
+                        <?php else: ?> 
+                          <li>
+	        					<a onclick="typeparent(<?php echo $vo['videotype_id']; ?>);"><?php echo $vo['videotype_name']; ?></a>
+	        				</li>
+                        <?php endif; endforeach; endif; else: echo "" ;endif; ?>
 	        		</ul>
 	        		</div>
 	        	</div>
 	        	<hr class="layui-bg-gray" style="margin-bottom: 0px;margin-top: 0px;">
 	        	<div class="course-type">
 	        		<div class="sp">
-	        			<span>一级类目:</span>
+	        			<span>子级类目:</span>
 	        		</div>
 	        		<div class="bd">
 	        		<ul>
-	        			<a class="ison" href="javascript(0):;">全部</a>
-	        			<?php for($i=0;$i<5;$i++){ ?>
-	        			<li>
-	        				<a href="javascript(0):;">前沿技术</a>
-	        			</li>
-	        			<?php } ?>
+	        			<?php if(is_array($videotype_son) || $videotype_son instanceof \think\Collection || $videotype_son instanceof \think\Paginator): if( count($videotype_son)==0 ) : echo "" ;else: foreach($videotype_son as $key=>$vo): ?>
+	        			<!-- <a class="ison" href="javascript(0):;">全部</a> -->
+	        			<?php if(($vo['is_on'] == 1)): ?>
+	                        <li>
+		        				<a class="ison" onclick="typeson(<?php echo $vo['son_id']; ?>,<?php echo $vo['is_mesh']; ?>);"><?php echo $vo['son_name']; ?></a>
+		        			</li>  
+                        <?php else: ?> 
+                          <li>
+	        					<a onclick="typeson(<?php echo $vo['son_id']; ?>,<?php echo $vo['is_mesh']; ?>);"><?php echo $vo['son_name']; ?></a>
+	        				</li>
+                        <?php endif; endforeach; endif; else: echo "" ;endif; ?>
 	        		</ul>
 	        		</div>
 	        	</div>
@@ -192,16 +202,15 @@ layui.use('layer', function(){});
 	        		</div>
 	        		<div class="bd">
 	        		<ul>
-	        			<a class="ison" href="javascript(0):;">全部</a>
-	        			<li>
-	        				<a href="javascript(0):;">容易</a>
-	        			</li>
-	        			<li>
-	        				<a href="javascript(0):;">一般</a>
-	        			</li>
-	        			<li>
-	        				<a href="javascript(0):;">较难</a>
-	        			</li>
+	        			<?php if(is_array($level) || $level instanceof \think\Collection || $level instanceof \think\Paginator): if( count($level)==0 ) : echo "" ;else: foreach($level as $key=>$vo): if(($vo['is_on'] == 1)): ?>
+	                        <li>
+		        				<a class="ison"  onclick="typelevel(<?php echo $vo['level_id']; ?>);"><?php echo $vo['level_name']; ?></a>
+		        			</li>  
+                        <?php else: ?> 
+                          <li>
+	        					<a onclick="typelevel(<?php echo $vo['level_id']; ?>);"><?php echo $vo['level_name']; ?></a>
+	        				</li>
+                        <?php endif; endforeach; endif; else: echo "" ;endif; ?>
 	        		</ul>
 	        		</div>
 	        	</div>
@@ -264,27 +273,27 @@ layui.use('layer', function(){});
 </body>
 <script>
 //分页用tp5中带的render()分页即可
-layui.use('laypage', function(){
-  var laypage = layui.laypage;
+// layui.use('laypage', function(){
+//   var laypage = layui.laypage;
   
-  //执行一个laypage实例
-  laypage.render({
-    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-    ,count: 50 //数据总数，从服务端得到
-    ,first:'1'
-    ,limit:30
-    ,last:'100'
-    ,jump: function(obj, first){
-	    //obj包含了当前分页的所有参数，比如：
-	    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-	    console.log(obj.limit); //得到每页显示的条数
-	    //首次不执行
-	    if(!first){
-	      //do something
-	    }
-	}
-});
-});
+//   //执行一个laypage实例
+//   laypage.render({
+//     elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+//     ,count: 50 //数据总数，从服务端得到
+//     ,first:'1'
+//     ,limit:30
+//     ,last:'100'
+//     ,jump: function(obj, first){
+// 	    //obj包含了当前分页的所有参数，比如：
+// 	    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+// 	    console.log(obj.limit); //得到每页显示的条数
+// 	    //首次不执行
+// 	    if(!first){
+// 	      //do something
+// 	    }
+// 	}
+// });
+// });
 </script>
 <script type="text/javascript">
 	  // 课程模块的hover事件
@@ -321,22 +330,154 @@ layui.use('laypage', function(){
 	    $('#userinfoset').attr('class','userinfo userinfo-hoverls');
 	  }
 	)
+	$('#searchicon').hover(function(){
+		$('#searchicon').attr('style','font-size:26px;color:#333;cursor: pointer;')
+	},
+		function(){
+			$('#searchicon').attr('style','color:#93999F;cursor: pointer;')
+		}
+	);
+	//搜索代码
+	function typesearch(){
+		var searchkey=$('#searchkey').val();
+		var url="<?php echo url('Index/index/course_list'); ?>";
+		var videotype_id,search,level_id,is_mesh,son_id;
+		if(!getPar('level_id')){
+			level_id='0';//获取难度id
+		}else{
+			level_id=getPar('level_id');
+		}
+		if(!getPar('videotype_id')){
+			videotype_id='0';//获取难度id
+		}else{
+			videotype_id=getPar('videotype_id');
+		}
+		if(!getPar('is_mesh')){
+			is_mesh='0';//获取是否子类重复
+		}else{
+			is_mesh=getPar('is_mesh');
+		}
+		if(!getPar('son_id')){
+			son_id='0';//获取是否子类重复
+		}else{
+			son_id=getPar('son_id');
+		}
+		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+		location.href=url;
+	}
+	function typeparent(parent_id){
+		var url="<?php echo url('Index/index/course_list'); ?>";
+		var videotype_id,search,level_id,is_mesh,son_id;
+		videotype_id=parent_id;//获取菜单的id,不分父子节点
+		if(!getPar('search')){
+			search='';//获取搜索关键词
+		}else{
+			search=getPar('search');
+		}
+		if(!getPar('level_id')){
+			level_id='0';//获取难度id
+		}else{
+			level_id=getPar('level_id');
+		}
+		if(!getPar('is_mesh')){
+			is_mesh='0';//获取是否子类重复
+		}else{
+			is_mesh=getPar('is_mesh');
+		}
+		if(!getPar('son_id')){
+			son_id='0';//获取是否子类重复
+		}else{
+			son_id=getPar('son_id');
+		}
+		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+		location.href=url;
+	}
+	function typeson(son_id,is_mesh){
+		var url="<?php echo url('Index/index/course_list'); ?>";
+		var videotype_id,search,level_id,is_mesh,son_id;
+		if(!getPar('videotype_id')){
+			videotype_id='';//获取搜索关键词
+		}else{
+			videotype_id=getPar('videotype_id');
+		}
+		if(!getPar('search')){
+			search='';//获取搜索关键词
+		}else{
+			search=getPar('search');
+		}
+		if(!getPar('level_id')){
+			level_id='0';//获取难度id
+		}else{
+			level_id=getPar('level_id');
+		}
+		if(!getPar('is_mesh')){
+			is_mesh='0';//获取是否子类重复
+		}else{
+			is_mesh=getPar('is_mesh');
+		}
+		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+		location.href=url;
+	}
+	function typelevel(level_id){
+		var url="<?php echo url('Index/index/course_list'); ?>";
+		var videotype_id,search,level_id,is_mesh,son_id;
+		if(!getPar('search')){
+			search='';//获取搜索关键词
+		}else{
+			search=getPar('search');
+		}
+		if(!getPar('videotype_id')){
+			videotype_id='';
+		}else{
+			videotype_id=getPar('videotype_id');
+		}
+		if(!getPar('is_mesh')){
+			is_mesh='0';//获取是否子类重复
+		}else{
+			is_mesh=getPar('is_mesh');
+		}
+		if(!getPar('son_id')){
+			son_id='0';//获取是否子类重复
+		}else{
+			son_id=getPar('son_id');
+		}
+		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+		location.href=url;
+	}
+	function getPar(par){
+	    //获取当前URL
+	    var local_url = document.location.href; 
+	    //获取要取得的get参数位置
+	    var get = local_url.indexOf(par +"=");
+	    if(get == -1){
+	        return false;   
+	    }   
+	    //截取字符串
+	    var get_par = local_url.slice(par.length + get + 1);    
+	    //判断截取后的字符串是否还有其他get参数
+	    var nextPar = get_par.indexOf("&");
+	    if(nextPar != -1){
+	        get_par = get_par.slice(0, nextPar);
+	    }
+	    return get_par;
+	}
 </script>
 <style type="text/css">
 .course_block img:hover{
--webkit-transform:scale(1.1); /*Webkit: Scale up image to 1.2x original size*/
--moz-transform:scale(1.1); /*Mozilla scale version*/
--o-transform:scale(1.1); /*Opera scale version*/
-box-shadow:0px 0px 30px gray; /*CSS3 shadow: 30px blurred shadow all around image*/
--webkit-box-shadow:0px 0px 30px gray; /*Safari shadow version*/
--moz-box-shadow:0px 0px 30px gray; /*Mozilla shadow version*/
-opacity: 1;
+	-webkit-transform:scale(1.1); /*Webkit: Scale up image to 1.2x original size*/
+	-moz-transform:scale(1.1); /*Mozilla scale version*/
+	-o-transform:scale(1.1); /*Opera scale version*/
+	box-shadow:0px 0px 30px gray; /*CSS3 shadow: 30px blurred shadow all around image*/
+	-webkit-box-shadow:0px 0px 30px gray; /*Safari shadow version*/
+	-moz-box-shadow:0px 0px 30px gray; /*Mozilla shadow version*/
+	opacity: 1;
 
 }
 
 .course-card-content h3:hover{
-  color: red;
+  	color: red;
 }
+
 </style>
 </style>
 </html>

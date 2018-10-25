@@ -46,16 +46,16 @@
 	display: inline-block;
 	margin:16px 10px 7px 10px;
 }
-.course-type .bd ul li a{
+/*.course-type .bd ul li a{
 	color: #1c1f21;
-}
+}*/
 .course-type .ison{
 	background: rgba(242,13,13,.06);
     border-radius: 6px;
     font-weight: 700;
     color: #F20D0D;
     display: inline-block;
-	margin:16px 0px 7px 10px;
+	/*margin:16px 0px 7px 10px;*/
 	padding:10px;
 }
 .course-type .bd ul li a:hover{

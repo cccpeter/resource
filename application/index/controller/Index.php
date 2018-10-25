@@ -41,7 +41,6 @@ class Index extends Base
         $where=['videotab_status'=>'6','videotab_recommend'=>'1'];
         $recommend=$this->getvideo($where,'5','videotab_releasetime');
         $recommend=$this->gettypeson($videotype,$recommend);
-        // dump($topvideo);
         $this->assign('videotype',$videotype);
         $this->assign('newvideo',$newvideo);
         $this->assign('hotvideo',$hotvideo);
@@ -98,7 +97,7 @@ class Index extends Base
             ->where($where)
             ->alias('a')
             ->join('re_user u','a.user_id = u.id')
-            ->field('username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views,videotype_id,videotype_parentid')
+            ->field('username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views,videotype_id,videotype_parentid,videotab_content')
             ->order($order_field.' desc')
             ->limit($limit)
             ->select();
@@ -107,8 +106,117 @@ class Index extends Base
     public function course_detail(){
         return view("course_detail");
     }
+    /**
+     * 课程类别的页面
+     * [course_list description]
+     * @return [type] [description]
+     */
     public function course_list(){
+        // cache('videotypecache',NULL);
+        // $videotype_id=input('get.videotype_id');
+        $search=input('get.search');
+        $videotype_id=input('get.videotype_id');
+        $level_id=input('get.level_id');
+        $son_id=input('get.son_id');
+        $is_mesh=input('get.is_mesh');
+        if($videotype_id==''){
+            $videotype_id='0';
+        }
+        if($son_id==''){
+            $son_id='0';
+        }
+        if($is_mesh=='1'){//子类出现重复
+            $videoname=Db::table('re_videotype')
+                ->where(['videotype_id'=>$videotype_id])
+                ->field('videotype_name')
+                ->find();
+            $videotype_aid=Db::table('re_videotype')
+                ->where(['videotype_name'=>$videoname['videotype_name']])
+                ->field('videotype_id')
+                ->select();
+            dump($videotype_aid);
+        }
+        if($level_id==''){
+            $level_id='0';
+        }
+
+        $type=$this->gettypeison($videotype_id,$son_id,$level_id);
+        $this->assign('videotype_parent',$type['parent']);
+        $this->assign('videotype_son',$type['son']);
+        $this->assign('level',$type['level']);
         return view("course_list");
+    }
+    /**
+     * [gettypeison description]
+     * @param  [type] $parent_id [description]
+     * @param  [type] $son_id    [description]
+     * @param  [type] $level_id  [description]
+     * @return [type] type       类别的数组
+     */
+    private function gettypeison($parent_id,$son_id,$level_id){
+        $videotype=$this->getvideotype();
+        $videotype_parent[0]['videotype_name']='全部';
+        $videotype_parent[0]['videotype_id']='0';
+        $videotype_parent[0]['is_on']='0';
+        $videotype_son[0]['son_id']='0'; 
+        $videotype_son[0]['son_name']='全部'; 
+        $videotype_son[0]['is_on']='0'; 
+        $videotype_son[0]['is_mesh']='0'; 
+        $son_name[0]='全部';// 全部这个类别是不予许加入类别中的，系统设置需要过滤下
+        $p=1;
+        $s=1;
+        foreach ($videotype as $value) {
+            $videotype_parent[$p]=$value;
+            $videotype_parent[$p]['is_on']='0';
+            if($value['videotype_son']!=''){
+                foreach ($value['videotype_son'] as $sonvalue) {
+                    if(!in_array($sonvalue['videotype_name'],$son_name)){
+                        $son_name[$s]=$sonvalue['videotype_name'];
+                        $videotype_son[$s]['son_name']=$sonvalue['videotype_name'];
+                        $videotype_son[$s]['son_id']=$sonvalue['videotype_id']; 
+                        $videotype_son[$s]['is_on']='0'; 
+                        $videotype_son[$s]['is_mesh']='0'; //0不是合并项
+                        $s++;
+                    }else{
+                        $key=array_search($sonvalue['videotype_name'],$son_name);//会返回键值
+                        $videotype_son[$key]['is_mesh']='1';
+                    }
+                }
+            }
+            $p++;
+        }
+        $level[0]['level_id']='0';
+        $level[0]['level_name']='全部';
+        $level[0]['is_on']='0';
+        $level[1]['level_id']='1';
+        $level[1]['level_name']='容易';
+        $level[1]['is_on']='0';
+        $level[2]['level_id']='2';
+        $level[2]['level_name']='一般';
+        $level[2]['is_on']='0';
+        $level[3]['level_id']='3';
+        $level[3]['level_name']='较难';
+        $level[3]['is_on']='0';
+        foreach ($videotype_parent as &$value) {
+            if($value['videotype_id']==$parent_id){
+                $value['is_on']='1';
+            }
+        }
+        foreach ($videotype_son as &$value) {
+            if($value['son_id']==$son_id){
+                $value['is_on']='1';
+            }
+        }
+        foreach ($level as &$value) {
+            if($value['level_id']==$level_id){
+                $value['is_on']='1';
+            }
+        }
+        $type['parent']=$videotype_parent;
+        $type['son']=$videotype_son;
+        $type['level']=$level;
+        dump($videotype_parent);die;
+        return $type;
     }
     public function video(){
         return view("video");

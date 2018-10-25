@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540374317;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540447744;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -352,78 +352,34 @@ layui.use('layer', function(){});
             </div> -->
         </div>
         <div class="width_712 float_l margin_r20">
-        	<div class=" width100 float_l height172 kaishimeiyou img_backg10 text-center line_hei172 margin_b20"  style="border-radius: 12px;">
-            	<span class="fon_siz20 color_white b_weight700">搞定Java加解密</span>
+        	<div class=" width_712 float_l height172 kaishimeiyou img_backg10 text-center line_hei172 margin_b20"  style="border-radius: 12px;">
+            	<span class="fon_siz20 color_white b_weight700">精品视频推荐</span>
             </div>
-            <?php if(is_array($recommend) || $recommend instanceof \think\Collection || $recommend instanceof \think\Paginator): if( count($recommend)==0 ) : echo "" ;else: foreach($recommend as $key=>$vo): ?>
+            
+            <div class="width_1200 float_l margin_r20">
+              <?php if(is_array($recommend) || $recommend instanceof \think\Collection || $recommend instanceof \think\Paginator): if( count($recommend)==0 ) : echo "" ;else: foreach($recommend as $key=>$vo): ?>
             <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
             	<div class="width100 float_l img_100 z_inx_1">
-                	<img src="/resource/public/static/img/uiz7.jpg">
+                	<img src="/resource/<?php echo $vo['videotab_image']; ?>">
                 </div>
                 <div class="img_backg2 donghua">
-                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                    <span class="margin_t15 float_l "><?php echo cutstr($vo['videotab_title'],0,20,'...') ?></span>
+                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">
+                  <!-- 至少需要15个字，最高只显示到40个字 -->
+                    <?php echo cutstr($vo['videotab_content'],0,40,'...') ?></span>
                 </div>
                 <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                    <span class="float_l color_red">￥88.00</span>
-                    <span class="float_r color_gray"><span>499</span>人在学</span>
+                    <span class="float_l" style="color:#ff9900">
+                      <i class="layui-icon">&#xe60b;</i>
+                      <?php echo $vo['parent_name']; ?>
+                      <?php echo $vo['son_name']; ?>
+                    </span>
+                    <span class="float_r color_gray"><?php echo $vo['username']; ?></span>
             	</div>
             </div>
             <?php endforeach; endif; else: echo "" ;endif; ?>
-            <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
-            	<div class="width100 float_l img_100 z_inx_1">
-                	<img src="/resource/public/static/img/uiz7.jpg">
-                </div>
-                <div class="img_backg2 donghua">
-                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                </div>
-                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                    <span class="float_l color_red">￥88.00</span>
-                    <span class="float_r color_gray"><span>499</span>人在学</span>
-            	</div>
-            </div>
-            <div class="width_224 height172 float_l border_shadow jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
-            	<div class="width100 float_l img_100 z_inx_1">
-                	<img src="/resource/public/static/img/uiz7.jpg">
-                </div>
-                <div class="img_backg2 donghua">
-                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                </div>
-                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                    <span class="float_l color_red">￥88.00</span>
-                    <span class="float_r color_gray"><span>499</span>人在学</span>
-            	</div>
-            </div>
+          </div>
            
-        </div>
-
-        <div class="width_224 height364 float_l backg_white border_shadow"  style="border-radius: 12px;">
-        	<div class="width_224 height172 float_l jingguoxianshi over_pos bianshou"  style="border-radius: 12px;">
-            	<div class="width100 float_l img_100 z_inx_1">
-                	<img src="/resource/public/static/img/uiz7.jpg">
-                </div>
-                <div class="img_backg2 donghua">
-                    <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                </div>
-                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                    <span class="float_l color_red">￥88.00</span>
-                    <span class="float_r color_gray"><span>499</span>人在学</span>
-            	</div>
-            </div>
-            
-            <div class="width100 float_l padding_lr20 dadiv">
-            	<div class="width100 float_l border_t padding_t10">
-                    <ul class="tongli_ys chaochuyincang">
-                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
-                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
-                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
-                        <li><a><span class="diandian">.</span>带你学习Ja学习Jadede模板引擎</a></li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -661,13 +617,13 @@ $('table tr').hover(function(){
 </script>
 <style type="text/css">
 .course_block img:hover{
--webkit-transform:scale(1.1); /*Webkit: Scale up image to 1.2x original size*/
--moz-transform:scale(1.1); /*Mozilla scale version*/
--o-transform:scale(1.1); /*Opera scale version*/
-box-shadow:0px 0px 30px gray; /*CSS3 shadow: 30px blurred shadow all around image*/
--webkit-box-shadow:0px 0px 30px gray; /*Safari shadow version*/
--moz-box-shadow:0px 0px 30px gray; /*Mozilla shadow version*/
-opacity: 1;
+  -webkit-transform:scale(1.1); /*Webkit: Scale up image to 1.2x original size*/
+  -moz-transform:scale(1.1); /*Mozilla scale version*/
+  -o-transform:scale(1.1); /*Opera scale version*/
+  box-shadow:0px 0px 30px gray; /*CSS3 shadow: 30px blurred shadow all around image*/
+  -webkit-box-shadow:0px 0px 30px gray; /*Safari shadow version*/
+  -moz-box-shadow:0px 0px 30px gray; /*Mozilla shadow version*/
+  opacity: 1;
 
 }
 
