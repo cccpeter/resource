@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540447744;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540545754;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -166,7 +166,7 @@ layui.use('layer', function(){});
                             	<span class="width100 color_shenred fon_siz14 float_l margin_b20">分类目录</span>
                                 <ul class="width100 ul_lis float_l">
                                   <?php if(is_array($vo['videotype_son']) || $vo['videotype_son'] instanceof \think\Collection || $vo['videotype_son'] instanceof \think\Paginator): if( count($vo['videotype_son'])==0 ) : echo "" ;else: foreach($vo['videotype_son'] as $key=>$it): ?>
-                                	<li><a href="<?php echo url('index/index/course_list',['videotype_id'=>$it['videotype_id']]); ?>"><?php echo $it['videotype_name']; ?></a></li>
+                                	<li><a href="<?php echo url('index/index/course_list',['videotype_id'=>$vo['videotype_id'],'son_id'=>$it['videotype_id'],'level_id'=>'0','is_mesh'=>'1','is_tab'=>1]); ?>"><?php echo $it['videotype_name']; ?></a></li>
                                   <li>/</li>
                                   <?php endforeach; endif; else: echo "" ;endif; ?>
                                 </ul>
@@ -251,6 +251,12 @@ layui.use('layer', function(){});
                 </div>
               <div class="course-card-bottom">
                 <div class="course-card-info">
+                  <span class="course-text" style="color: #ff9900;">
+                    <i class="layui-icon">&#xe60b;</i>
+                    <?php echo $vo['parent_name']; ?>
+                    <?php echo $vo['son_name']; ?>
+                  </span>
+                  <br>
                   <span class="course-text">
                     <i class="layui-icon">&#xe770;</i><?php echo $vo['username']; ?>
                   </span>
@@ -304,7 +310,12 @@ layui.use('layer', function(){});
                 </div>
               <div class="course-card-bottom">
                 <div class="course-card-info">
-                  
+                  <span class="course-text" style="color: #ff9900;">
+                    <i class="layui-icon">&#xe60b;</i>
+                    <?php echo $vo['parent_name']; ?>
+                    <?php echo $vo['son_name']; ?>
+                  </span>
+                  <br>
                   <span class="course-text">
                     <i class="layui-icon">&#xe770;</i><?php echo $vo['username']; ?>
                   </span>
@@ -365,8 +376,8 @@ layui.use('layer', function(){});
                 <div class="img_backg2 donghua">
                     <span class="margin_t15 float_l "><?php echo cutstr($vo['videotab_title'],0,20,'...') ?></span>
                     <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">
-                  <!-- 至少需要15个字，最高只显示到40个字 -->
-                    <?php echo cutstr($vo['videotab_content'],0,40,'...') ?></span>
+                  <!-- 至少需要15个字，最高只显示到35个字 -->
+                    <?php echo cutstr($vo['videotab_content'],0,30,'...') ?></span>
                 </div>
                 <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
                     <span class="float_l" style="color:#ff9900">

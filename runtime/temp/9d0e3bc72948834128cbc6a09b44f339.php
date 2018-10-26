@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1539853442;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540344610;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540547899;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -41,7 +41,7 @@
         <div class="float_r">
             <div class="float_l top_input">
                 <input class="posi_relative" type="text" name="" id="" placeholder="请输入想搜索的内容...">
-                <img class="img_sousuo bianshou" src="/resource/public/static/img/uiz4.png">
+                <i class="layui-icon" id="searchicon" style="cursor: pointer;">&#xe615;</i>
             </div>
           
  <div class="float_l margin_l35" id='adminset' style="display: none;">
@@ -143,14 +143,15 @@ layui.use('layer', function(){});
 		<div class="layui-col-md8 layui-col-md-offset2 ">
 			<div class="path">
 				<span class="layui-breadcrumb" lay-separator="\">
-				  <a href="">点播</a>
-				  <a href="">一级分类</a>
-				  <a href="">一级子类</a>
-				  <a>如何用CSS进行网页布局</a>
+				  <a href="<?php echo url('Index/index/tab'); ?>">点播</a>
+				  <a href="<?php echo url('Index/index/course_list',['videotype_id'=>$videotab['videotype_parentid'],'son_id'=>'0','level_id'=>'0','is_mesh'=>'1','is_tab'=>1]); ?>"><?php echo $videotab['parent_name']; ?></a>
+				  <a href="<?php echo url('Index/index/course_list',['videotype_id'=>$videotab['videotype_parentid'],'son_id'=>$videotab['videotype_id'],'level_id'=>'0','is_mesh'=>'1','is_tab'=>1]); ?>"><?php echo $videotab['son_name']; ?></a>
+				  <a href="">
+				  <?php echo cutstr($videotab['videotab_title'],0,5,'...') ?></a>
 				</span>
 			</div>
 			<div class="title float_l">
-				如何用CSS进行网页布局
+				<?php echo cutstr($videotab['videotab_title'],0,10,'...') ?>
 				
 			</div>
 			<div class="static-item float_l">
@@ -159,22 +160,28 @@ layui.use('layer', function(){});
 			</div>
 			<div class="float_l width100 " style="margin-bottom: 20px;">
 				<div class="info float_l" >
-					<img class="image " src="https://img.mukewang.com/5269cc190001854d14561456-80-80.jpg">
-					<span class="name ">大白菜</span><br>
-					<span class="work ">web前端工程师</span>
+					<img class="image " src="/resource/public/static/img/touxiang.png">
+					<span class="name "><?php echo $videotab['username']; ?></span><br>
+					<span class="work ">上传者</span>
 				</div>
 				<div class="static-item float_l">
-					-难度：一般-
+					-难度：<?php if(($videotab['videotab_level'] == 1)): ?>
+                      简单-
+                    <?php elseif($videotab['videotab_level'] == 2): ?>
+                      一般-
+                    <?php else: ?> 
+                      复杂-
+                    <?php endif; ?>
 				</div>
 				
 				<div class="static-item float_l">
-					-观看次数：192552-
+					-观看次数：<?php echo $videotab['videotab_views']; ?>-
 				</div>
 				<div class="static-item float_l">
-					-评价人数：1950-
+					-评价人数：<?php echo $videotab['videotab_assessnums']; ?>-
 				</div>
 				<div class="static-item float_l">
-					-综合评分：9.6-
+					-综合评分：<?php echo $videotab['videotab_assessscore']; ?>-
 				</div>
 			</div>
 			
@@ -187,7 +194,7 @@ layui.use('layer', function(){});
 			<div class="layui-col-md8 layui-col-md-offset2 float_l" >
 				<ul class="menu">
 					<li class="ison">课程简介</li>
-					<li>课程资源</li>
+					<li>课程资源/作业</li>
 					<li>课堂讨论</li>
 					<li>课程评价</li>
 				</ul>
@@ -197,21 +204,23 @@ layui.use('layer', function(){});
 </div>
 <div style="height: 7px;width: 100%;"></div>
 <div class="width100 backg_qiangray">
-	<div class="layui-row">
+	<div class="layui-row" style="min-height: 290px;">
 		<div class="content layui-col-md-offset2 layui-col-md5">
-			<div class="course-description">
-				<span class="course-title">第1章 内容简介</span><br>
-				<?php for($i=0;$i<100;$i++){ ?>这课程很好啊
-				<?php } ?>
+			<div class="course-description" style="min-height: 190px;">
+				<span class="course-title">简介</span><br>
+				<?php if($videotab['videotab_content']==''): ?>
+				<?php echo $videotab['videotab_title']; ?><br>
+				暂时无内容
+				<?php else: ?>
+				<?php echo $videotab['videotab_title']; ?><br>
+				<?php echo $videotab['videotab_content']; endif; ?>
 			</div>
 		</div>
 		<div class="course-learn layui-col-md2">
 			<dt class="course-known">课程须知</dt>
-			<dd class="course-known">1.你需要掌握html+css样式基础知识
-			2.有一定的前端实际开发经验</dd>
-			<dt class="course-known">你能学到的</dt>
-			<dd class="course-known">1.基础知识
-			2.实际经验</dd>
+			<dd class="course-known"><?php echo $videotab['videotab_mustknown']; ?></dd>
+			<!-- <dt class="course-known">你能学到的</dt>
+			<dd class="course-known"></dd> -->
 			<a class="startlearn" href="<?php echo url('Index/index/video'); ?>">开始学习</a>
 			<!-- <dt class="course-known">课程须知</dt>
 			<dd  class="course-known">1.你需要掌握html+css样式基础知识
@@ -230,16 +239,15 @@ layui.use('layer', function(){});
 <!-- 页脚 -->
 <div class="width100 float_l padding_t30 height193">
   <div class="width_1200 margin_auto">
-     
         <div class="width100 float_l text_c yejiao color_gray" >
             <a>关于我们</a>
             <a>企业合作</a>
             <a>联系我们</a>
             <a>意见反馈</a>
             <a>友情链接</a>
-      </div>
+      	</div>
         <div class="width100 float_l text_c border_t margin_t20 padding_t20 color_gray fon_siz12">
-          <span>© 2016   京ICP备13042132号</span>
+          	<span>© 2016   京ICP备13042132号</span>
         </div>
     </div>
 </div>

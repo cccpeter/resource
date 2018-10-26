@@ -78,7 +78,7 @@
                             	<span class="width100 color_shenred fon_siz14 float_l margin_b20">分类目录</span>
                                 <ul class="width100 ul_lis float_l">
                                   {foreach name="$vo['videotype_son']" item="it"}
-                                	<li><a href="{:url('index/index/course_list',['videotype_id'=>$it.videotype_id])}">{$it.videotype_name}</a></li>
+                                	<li><a href="{:url('index/index/course_list',['videotype_id'=>$vo.videotype_id,'son_id'=>$it.videotype_id,'level_id'=>'0','is_mesh'=>'1','is_tab'=>1])}">{$it.videotype_name}</a></li>
                                   <li>/</li>
                                   {/foreach}
                                 </ul>
@@ -163,6 +163,12 @@
                 </div>
               <div class="course-card-bottom">
                 <div class="course-card-info">
+                  <span class="course-text" style="color: #ff9900;">
+                    <i class="layui-icon">&#xe60b;</i>
+                    {$vo.parent_name}
+                    {$vo.son_name}
+                  </span>
+                  <br>
                   <span class="course-text">
                     <i class="layui-icon">&#xe770;</i>{$vo.username}
                   </span>
@@ -216,7 +222,12 @@
                 </div>
               <div class="course-card-bottom">
                 <div class="course-card-info">
-                  
+                  <span class="course-text" style="color: #ff9900;">
+                    <i class="layui-icon">&#xe60b;</i>
+                    {$vo.parent_name}
+                    {$vo.son_name}
+                  </span>
+                  <br>
                   <span class="course-text">
                     <i class="layui-icon">&#xe770;</i>{$vo.username}
                   </span>
@@ -277,8 +288,8 @@
                 <div class="img_backg2 donghua">
                     <span class="margin_t15 float_l ">{php}echo cutstr($vo['videotab_title'],0,20,'...'){/php}</span>
                     <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">
-                  <!-- 至少需要15个字，最高只显示到40个字 -->
-                    {php}echo cutstr($vo['videotab_content'],0,40,'...'){/php}</span>
+                  <!-- 至少需要15个字，最高只显示到35个字 -->
+                    {php}echo cutstr($vo['videotab_content'],0,30,'...'){/php}</span>
                 </div>
                 <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
                     <span class="float_l" style="color:#ff9900">

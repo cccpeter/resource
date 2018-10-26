@@ -16,6 +16,7 @@ use think\Route;
     // 'index'  =>  'Index/index/index',
     'tab'  =>  'Index/index/tab',
     'course_list'  =>  'Index/index/course_list',
+    'error404'  =>  'Index/index/error404',
     'course_detail'  =>  'Index/index/course_detail',
     'video'  =>  'Index/index/video',
     'userinfo'  =>  'Index/person/userinfo',

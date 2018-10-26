@@ -67,7 +67,7 @@ class Index extends Base
     }
     // 获取子类别的名称
     /**
-     * 获取归属类别的名称
+     * 获取视频归属类别的名称
      * $videotype videotype所有类别的名称
      * $video  目标转化数组
      * @return 转化数组
@@ -103,43 +103,130 @@ class Index extends Base
             ->select();
         return $video;
     }   
-    public function course_detail(){
-        return view("course_detail");
-    }
     /**
-     * 课程类别的页面
+     * 课程类别筛选逻辑
      * [course_list description]
      * @return [type] [description]
      */
     public function course_list(){
-        // cache('videotypecache',NULL);
-        // $videotype_id=input('get.videotype_id');
         $search=input('get.search');
         $videotype_id=input('get.videotype_id');
         $level_id=input('get.level_id');
         $son_id=input('get.son_id');
         $is_mesh=input('get.is_mesh');
+        $is_tab=input('get.is_tab');
+        // cache('videotypecache',NULL);
+        // dump($resultwhere);
+        // dump($resultwhere);
+        // $video=Db::table('re_videotab')->where($resultwhere)->select();
+        // 从点播进入六年级英语
+        // ?videotype_id=6&son_id=10&level_id=0&is_mesh=1&is_tab=1
+        // 切换二年级英语
+        // ?videotype_id=2&level_id=0&son_id=10&is_mesh=1
+        // if($is_tab=='1'){
+        $re_name=Db::table('re_videotype')->where(['videotype_id'=>$son_id])->field('videotype_name')->order('videotype_sort desc')->find();
+        $re_id=Db::table('re_videotype')->where(['videotype_name'=>$re_name['videotype_name']])->field('videotype_id')->order('videotype_sort desc')->find();
+        $son_id=$re_id['videotype_id'];
+            // dump($re_id);
+        // }
+        $where=array();//定义搜索数组
         if($videotype_id==''){
             $videotype_id='0';
         }
         if($son_id==''){
             $son_id='0';
         }
+        $whereson_id=array();
         if($is_mesh=='1'){//子类出现重复
             $videoname=Db::table('re_videotype')
-                ->where(['videotype_id'=>$videotype_id])
+                ->where(['videotype_id'=>$son_id])
                 ->field('videotype_name')
                 ->find();
-            $videotype_aid=Db::table('re_videotype')
+            $videotype_sonid=Db::table('re_videotype')
                 ->where(['videotype_name'=>$videoname['videotype_name']])
-                ->field('videotype_id')
+                ->field('videotype_id,videotype_parent')
                 ->select();
-            dump($videotype_aid);
+                $n=0;
+            foreach ($videotype_sonid as $value) {
+                // 如果传回的父类的id对应子类中父类id的则该子类视频存在
+                if($videotype_id!='0'){
+                    if($value['videotype_parent']==$videotype_id){
+                        $whereson_id[$n]['videotype_id']=$value['videotype_id'];
+                        $n++;
+                    }
+                }else{
+                    $whereson_id[$n]['videotype_id']=$value['videotype_id'];
+                    $n++;
+                }
+            }
+            $wherein='';
+            foreach ($whereson_id as $value) {
+                $wherein=$wherein.$value['videotype_id'].',';
+            }
+            $whereson_id=substr($wherein, 0,strlen($wherein)-1);
+            
+        }else{//子类不重复
+            $parent_id=Db::table('re_videotype')
+                ->where(['videotype_id'=>$son_id])
+                ->field('videotype_parent')
+                ->find();
+            
+            if($videotype_id!='0'){
+                // 如果父id不为全部时
+                if($parent_id['videotype_parent']==$videotype_id){
+                // 如果二类的父类id对应了父类id
+                    $where['videotype_id']=$son_id;
+                }
+            }else{
+                $where['videotype_id']=$son_id;
+            }
+            if($where){
+                $whereson_id=$where['videotype_id'];
+            }else{
+                $whereson_id='';
+            }
         }
+        // dump($where);
+        // dump($whereson_id);//son如果等于0则为全部，目标id为1,3,8,9,12这样为一个son的所有数组where('id','in','1,3,8');
+        $resultwhere='';
+        if($son_id=='0'){
+            // dump($videotype_id);
+            if($videotype_id=='0'){
+                $resultwhere='';
+            }else{
+                $resultwhere='videotype_parentid='.$videotype_id;
+            }
+        }else{
+            if($whereson_id==''){
+                dump('类别不存在');
+                $this->assign('video','');
+                $type=$this->gettypeison($videotype_id,$son_id,$level_id);
+                $this->assign('videotype_parent',$type['parent']);
+                $this->assign('videotype_son',$type['son']);
+                $this->assign('level',$type['level']);
+                return view("course_list");
+            }
+            $resultwhere='videotype_id in ('.$whereson_id.')';
+        }
+        if(!$level_id=='0'){
+            //防止sql注入
+            $resultwhere.=' AND videotab_level="'.$level_id.'"';
+        }
+        
+        // $video=$this->getvideo($resultwhere,'30','videotab_id');
+        $field="username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views";
+        $video=Db::table('re_videotab')
+            ->alias('a')
+            ->join('re_user u','a.user_id = u.id')
+            ->where($resultwhere)
+            ->field($field)
+            ->order('videotab_id desc')
+            ->paginate('2');
         if($level_id==''){
             $level_id='0';
         }
-
+        // dump($video);
+        $this->assign('video',$video);
         $type=$this->gettypeison($videotype_id,$son_id,$level_id);
         $this->assign('videotype_parent',$type['parent']);
         $this->assign('videotype_son',$type['son']);
@@ -215,11 +302,54 @@ class Index extends Base
         $type['parent']=$videotype_parent;
         $type['son']=$videotype_son;
         $type['level']=$level;
-        dump($videotype_parent);die;
+        // dump($videotype_parent);die;
         return $type;
+    }
+    private function gettype($type_id){
+        $videotype=$this->getvideotype();
+        foreach ($videotype as $value) {
+            if($value['videotype_id']==$type_id){
+                return $value;
+            }
+            if($value['videotype_son']!=''){
+                foreach ($value['videotype_son'] as $value_son) {
+                    if($value_son['videotype_id']==$type_id){
+                        return $value_son;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    // 课程详情
+    public function course_detail(){
+        $videotab_id=input('get.videotab_id');
+        $field="videotab_id,videotype_id,videotype_parentid,videotab_level,videotab_title,videotab_views,videotab_assessnums,videotab_assessscore,videotab_content,user_id,videotab_resource,videotab_mustknown,username";
+        $videotab=Db::table('re_videotab')
+            ->where(['videotab_id'=>$videotab_id,'videotab_status'=>'6'])
+            ->alias('a')
+            ->join('re_user u','a.user_id = u.id')
+            ->field($field)
+            ->find();
+        if($videotab){
+            $parent=$this->gettype($videotab['videotype_parentid']);
+            $son=$this->gettype($videotab['videotype_id']);
+            $videotab['parent_name']=$parent['videotype_name'];
+            $videotab['son_name']=$son['videotype_name'];
+        }else{
+            $this->redirect('Index/index/error404');
+            // return;
+        }
+        // dump($videotab);die;
+
+        $this->assign('videotab',$videotab);
+        return view("course_detail");
     }
     public function video(){
         return view("video");
+    }
+    public function error404(){
+        return view('error404');
     }
     //php性能测试的代码
     // function test(){

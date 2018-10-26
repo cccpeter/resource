@@ -1,7 +1,7 @@
 {include file="common/headcss"}
 {include file="common/head"}
 <div style="height: 80px;"></div>
-<div class="layui-fluid " >
+<div class="layui-fluid">
 	<div class="layui-row">
 		<div class="layui-col-md10 layui-col-md-offset1">
 			<!-- 搜索框 -->
@@ -9,13 +9,6 @@
 				<img style="width: 140px;height: 60" src="__STATIC__/img/logo-course.png">
 				<img style="width: 96px;height: 60px;" src="__STATIC__/img/course-top.png">
 			</div>
-			<div class="course-top-search float_r">
-	            <div class="search-area float_l" data-search="top-banner">
-	                <input class="search-input" id="searchkey" data-suggest-trigger="suggest-trigger" placeholder="搜索感兴趣的内容" type="text" autocomplete="off">
-	                
-	            </div>
-	            <div class="showhide-search float_l" data-show="no" onclick="typesearch();"><i class="layui-icon" id="searchicon" style="cursor: pointer;">&#xe615;</i></div>
-	        </div>
 	        <hr style="margin-bottom: 0px;margin-top: 0px;">
 	        <div>
 	        	<div class="course-type">
@@ -87,38 +80,52 @@
 	</div>
 </div>
 <div class="backg_qiangray" style="box-shadow: 0px 1px 3px #ccc inset;">
-	<div class="layui-fluid" >
+	<div class="layui-fluid" style="min-height: 360px;">
 		<div class="layui-row">
 			<div class="layui-col-md10 layui-col-md-offset1 float_l" style="margin-top:32px;">
-		{php}for($i=0;$i<30;$i++){{/php}
-             <div class="course_block" onclick="link();">
+		{foreach name="video" item="vo"}
+             <div class="course_block" onclick="link({$vo.videotab_id});">
                 <div>
-                  <img class="course_img" src="__STATIC__/img/59b8a486000107fb05400300.jpg">
+                  <img class="course_img" src="__ROOT__/{$vo.videotab_image}">
                 </div>
                 <div class="course-card-content"><!--课程内容-->
-                  <h3 class="text_c course_h3">全网最热Python3入门+进阶 更快上手实际开发</h3>
+                  <h3 class="text_c course_h3">{php}echo cutstr($vo['videotab_title'],0,20,'...'){/php}</h3>
                 </div>
               <div class="course-card-bottom">
                 <div class="course-card-info">
-                  <span class="course-text">实战</span>
-                  <span class="course-text">初级</span>
+                  <span class="course-text"> 
+                  	<i class="layui-icon">&#xe770;</i>
+                  </span>
                   <span class="course-text">
-                    <i class="layui-icon">&#xe770;</i>5850</span>
+					{$vo.username}
+                  </span>
+                  <span class="course-text">
+                    <i class="layui-icon"> &#xe62a;</i>
+                     {if condition="($vo.videotab_level eq 1)"}
+                        简单
+                      {elseif condition="$vo.videotab_level eq 2"/}
+                        一般
+                      {else /} 
+                        复杂
+                      {/if}
+                    
                   <span class="course-star-box">
+                   {php}for($i=0;$i<(int)$vo['videotab_assessscore'];$i++){{/php}
                     <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
-                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    {php}}{/php}
                   </span>
                 </div>
-                <div style="font-size: 12px;color: #4D555D;padding: 2%">￥366.00
+                <div style="font-size: 12px;color: #4D555D;padding: 2%">
+                	上传时间：<span style="color: #93999F;margin-right: 5px;">{php}echo date('Y-m-d',$vo['videotab_releasetime']){/php}</span>
+                播放量：<span style="color: #93999F;">{$vo['videotab_views']}</span>
                 </div>
               </div>
             </div>
-            {php}}{/php}
+            {/foreach}
+
+            {php}if(!$video){echo "<p class='no-course-helper' style='text-align:center'><span>精彩课程制作中，敬请期待！</span></p>";}{/php}
 			</div>
-			<div class="layui-col-md-offset1 layui-col-md10 text_c" id="test1"></div>
+			<div class="layui-col-md-offset1 layui-col-md10 text_c" id="test1">{php}if($video){{/php}{$video->render()}{php}}{/php}</div>
 		</div>
 	</div>
 </div>
@@ -184,9 +191,9 @@
       }
     });
   })
-  function link(){
+  function link($videotab_id){
   	// alert('321');
-  	window.location.href='http://localhost/resource/index.php/course_detail.html';
+  	window.location.href='http://localhost/resource/index.php/course_detail?videotab_id='+$videotab_id;
   }
   $('#userinfomess').hover(function(){
     $('#userinfoset').attr('class','userinfo');
@@ -205,34 +212,34 @@
 			$('#searchicon').attr('style','color:#93999F;cursor: pointer;')
 		}
 	);
-	//搜索代码
-	function typesearch(){
-		var searchkey=$('#searchkey').val();
-		var url="{:url('Index/index/course_list')}";
-		var videotype_id,search,level_id,is_mesh,son_id;
-		if(!getPar('level_id')){
-			level_id='0';//获取难度id
-		}else{
-			level_id=getPar('level_id');
-		}
-		if(!getPar('videotype_id')){
-			videotype_id='0';//获取难度id
-		}else{
-			videotype_id=getPar('videotype_id');
-		}
-		if(!getPar('is_mesh')){
-			is_mesh='0';//获取是否子类重复
-		}else{
-			is_mesh=getPar('is_mesh');
-		}
-		if(!getPar('son_id')){
-			son_id='0';//获取是否子类重复
-		}else{
-			son_id=getPar('son_id');
-		}
-		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
-		location.href=url;
-	}
+	// //搜索代码
+	// function typesearch(){
+	// 	var searchkey=$('#searchkey').val();
+	// 	var url="{:url('Index/index/course_list')}";
+	// 	var videotype_id,search,level_id,is_mesh,son_id;
+	// 	if(!getPar('level_id')){
+	// 		level_id='0';//获取难度id
+	// 	}else{
+	// 		level_id=getPar('level_id');
+	// 	}
+	// 	if(!getPar('videotype_id')){
+	// 		videotype_id='0';//获取难度id
+	// 	}else{
+	// 		videotype_id=getPar('videotype_id');
+	// 	}
+	// 	if(!getPar('is_mesh')){
+	// 		is_mesh='0';//获取是否子类重复
+	// 	}else{
+	// 		is_mesh=getPar('is_mesh');
+	// 	}
+	// 	if(!getPar('son_id')){
+	// 		son_id='0';//获取是否子类重复
+	// 	}else{
+	// 		son_id=getPar('son_id');
+	// 	}
+	// 	url=url+"?videotype_id="+videotype_id+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+	// 	location.href=url;
+	// }
 	function typeparent(parent_id){
 		var url="{:url('Index/index/course_list')}";
 		var videotype_id,search,level_id,is_mesh,son_id;
@@ -257,7 +264,7 @@
 		}else{
 			son_id=getPar('son_id');
 		}
-		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+		url=url+"?videotype_id="+videotype_id+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
 		location.href=url;
 	}
 	function typeson(son_id,is_mesh){
@@ -278,12 +285,7 @@
 		}else{
 			level_id=getPar('level_id');
 		}
-		if(!getPar('is_mesh')){
-			is_mesh='0';//获取是否子类重复
-		}else{
-			is_mesh=getPar('is_mesh');
-		}
-		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+		url=url+"?videotype_id="+videotype_id+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
 		location.href=url;
 	}
 	function typelevel(level_id){
@@ -309,7 +311,7 @@
 		}else{
 			son_id=getPar('son_id');
 		}
-		url=url+"?videotype_id="+videotype_id+"&search="+search+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
+		url=url+"?videotype_id="+videotype_id+"&level_id="+level_id+"&son_id="+son_id+"&is_mesh="+is_mesh;
 		location.href=url;
 	}
 	function getPar(par){
@@ -341,7 +343,12 @@
 	opacity: 1;
 
 }
-
+.no-course-helper{
+	font-size: 24px;
+    font-weight: 300;
+    color: #93999f;
+    line-height: 24px;
+}
 .course-card-content h3:hover{
   	color: red;
 }
