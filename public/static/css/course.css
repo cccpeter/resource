@@ -217,6 +217,17 @@
     /*将个人信息模块隐藏*/
     /*visibility:hidden;*/
 }
+/*课程收藏的样式*/
+/*已收藏样式*/
+.collect-y{
+    font-weight: 700;
+    color: #8a6d3b;
+}
+/*未收藏样式*/
+.collect-n{
+    color:#5fb878;
+    font-weight: 700;
+}
 .userinfo-hoverls{
     visibility: hidden;
 }

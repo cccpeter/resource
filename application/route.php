@@ -25,10 +25,6 @@ use think\Route;
     'notice'  =>  'Index/notice/notice',
     'openclass'  =>  'Index/openclass/openclass',
     'test'  =>  'Index/index/test',
-    //系统配置
-    'member_list'  =>  'admin/sysconfig/member_list',
-    'mem_add'  =>  'admin/sysconfig/member_add',
-    'mem_edit'  =>  'admin/sysconfig/member_edit',
     
 	]);
 

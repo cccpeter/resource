@@ -22,17 +22,17 @@ define('APP_PATH', __DIR__ . '/application/');
 
 //常量
 //设备表名
-define('DEV_NUB', '2');
+// define('DEV_NUB', '2');
 
-//表前缀，用查询级联服务器的表是否存在
-define('DB_PREFIX', 'yun_');
+// //表前缀，用查询级联服务器的表是否存在
+// define('DB_PREFIX', 'yun_');
 
-//超管名 
-define('SUSER', 'admin');
-//debug
-define('DEBUG', 'debug');
-//表格背景颜色
-define('BG_COLOR', '#D8DCE3');
+// //超管名 
+// define('SUSER', 'admin');
+// //debug
+// define('DEBUG', 'debug');
+// //表格背景颜色
+// define('BG_COLOR', '#D8DCE3');
 
 // 加载框架引导文件
 require './thinkphp/start.php';

@@ -198,7 +198,7 @@ class Index extends Base
             }
         }else{
             if($whereson_id==''){
-                dump('类别不存在');
+                // dump('类别不存在');
                 $this->assign('video','');
                 $type=$this->gettypeison($videotype_id,$son_id,$level_id);
                 $this->assign('videotype_parent',$type['parent']);
@@ -208,13 +208,21 @@ class Index extends Base
             }
             $resultwhere='videotype_id in ('.$whereson_id.')';
         }
-        if(!$level_id=='0'){
-            //防止sql注入
-            $resultwhere.=' AND videotab_level="'.$level_id.'"';
+        if($son_id!='0'||$videotype_id!='0'){
+            if(!$level_id=='0'){
+                //防止sql注入
+                $resultwhere.=' AND videotab_level="'.$level_id.'"';
+            }
+        }else{
+            if(!$level_id=='0'){
+                //防止sql注入
+                $resultwhere.='videotab_level="'.$level_id.'"';
+            }
         }
         
         // $video=$this->getvideo($resultwhere,'30','videotab_id');
         $field="username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views";
+        // dump($resultwhere);
         $video=Db::table('re_videotab')
             ->alias('a')
             ->join('re_user u','a.user_id = u.id')
@@ -324,6 +332,11 @@ class Index extends Base
     // 课程详情
     public function course_detail(){
         $videotab_id=input('get.videotab_id');
+        $user='';
+        if($_COOKIE){
+            $token=$_COOKIE['token'];
+            $user=cache($token);
+        }
         $field="videotab_id,videotype_id,videotype_parentid,videotab_level,videotab_title,videotab_views,videotab_assessnums,videotab_assessscore,videotab_content,user_id,videotab_resource,videotab_mustknown,username";
         $videotab=Db::table('re_videotab')
             ->where(['videotab_id'=>$videotab_id,'videotab_status'=>'6'])
@@ -332,18 +345,37 @@ class Index extends Base
             ->field($field)
             ->find();
         if($videotab){
-            $parent=$this->gettype($videotab['videotype_parentid']);
-            $son=$this->gettype($videotab['videotype_id']);
-            $videotab['parent_name']=$parent['videotype_name'];
-            $videotab['son_name']=$son['videotype_name'];
+            $videotype=config('videotype.videotab');
+            if($user){
+                $iscollect=Db::table('re_collect')
+                    ->where(['video_type'=>$videotype,'video_id'=>$videotab_id,'user_id'=>$user['id']])
+                    ->field('collect_id')
+                    ->find();
+                    // dump($videotab['user_id']);
+                if($iscollect){
+                    $videotab['iscollect']='1';
+                }else{
+                    $videotab['iscollect']='0';
+                }
+            }else{
+                $videotab['iscollect']='0';
+            }
+            if($videotab){
+                $parent=$this->gettype($videotab['videotype_parentid']);
+                $son=$this->gettype($videotab['videotype_id']);
+                $videotab['parent_name']=$parent['videotype_name'];
+                $videotab['son_name']=$son['videotype_name'];
+            }else{
+                $this->redirect('Index/index/error404');
+                // return;
+            }
+            $videotab['video_type']=config('videotype.videotab');
+            // dump($videotab);die;
+            $this->assign('videotab',$videotab);
+            return view("course_detail");
         }else{
             $this->redirect('Index/index/error404');
-            // return;
         }
-        // dump($videotab);die;
-
-        $this->assign('videotab',$videotab);
-        return view("course_detail");
     }
     public function video(){
         return view("video");
@@ -366,6 +398,4 @@ class Index extends Base
     //     //print_r($data);die;//此处的打印数据看起来非常不直观，所以需要安装yum install graphviz 图形化界面显示,更直观
     //     $x->save_run($data, $xhprofFilename);
     // }
-    
-
 }

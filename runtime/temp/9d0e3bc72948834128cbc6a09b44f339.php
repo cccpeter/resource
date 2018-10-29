@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540547899;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540800683;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -155,8 +155,15 @@ layui.use('layer', function(){});
 				
 			</div>
 			<div class="static-item float_l">
-				<i class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-
-				<i class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-
+				<?php if(($videotab['iscollect'] == 0)): ?>
+				<div id="clickcollect" style="cursor: pointer;" onclick="collectchoose('0',<?php echo $videotab['video_type']; ?>,<?php echo $videotab['videotab_id']; ?>);">
+					<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-
+				</div>
+				<?php else: ?>
+				<div id="clickcollect" style="cursor: pointer;" onclick="collectchoose('1',<?php echo $videotab['video_type']; ?>,<?php echo $videotab['videotab_id']; ?>);">
+					<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-
+				</div>
+				<?php endif; ?>
 			</div>
 			<div class="float_l width100 " style="margin-bottom: 20px;">
 				<div class="info float_l" >
@@ -273,6 +280,7 @@ layui.use('layer', function(){});
 }
 
 </style>
+<script type="text/javascript" src="/resource/public/static/js/cookie.js"></script>
 <script>
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
@@ -290,5 +298,55 @@ $('#userinfomess').hover(function(){
 	    $('#userinfoset').attr('class','userinfo userinfo-hoverls');
 	  }
 	)
+	// alert("页面加载完成====》onload");
+	// 未收藏的hover事件
+
+
+function collectchoose(choose,videotype,video_id){
+	var token=getCookie('token');
+	// alert('token:'+token);
+	var url="<?php echo url('Index/person/coursecollect'); ?>";
+	var data={};
+		data['choose']=choose;
+		data['videotype']=videotype;
+		data['video_id']=video_id;
+		data=JSON.stringify(data);
+		// {"token":"96bebf18c3a102c494f1e8f8a9d471e1","choose":"0","videotype":1,"video_id":4}
+		if(token!=''){
+			$.ajax({
+			    url:url,
+			    data:{'data':data,'token':token},
+			    type:'post',
+			    datatype:'json',
+			    success : function(event){
+			    	// layer.msg(event.data);
+			    	if(choose=='0'){
+						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
+						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+					}else if(choose=='1'){
+						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
+						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+					}
+			    }
+			});
+		}else{
+			layer.msg('收藏失败，您还未登录哦');
+		}
+	}
+	// $('#collect').hover(function(){
+	// 	$('#collect').attr('class','layui-icon collect-n');
+	// 	// alert('收藏的悬浮');
+	// },
+	// 	function(){
+	// 		$('#collect').attr('class','layui-icon');
+	// 	}
+	// );
+	// $('#oncollect').hover(function(){
+	// 	$('#oncollect').attr('class','layui-icon collect-y');
+	// },
+	// 	function(){
+	// 	$('#oncollect').attr('class','layui-icon');
+	// 	}
+	// );
 </script>
 </html>

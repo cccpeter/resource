@@ -26,6 +26,11 @@ return [
     'sqlmode'               =>[
         // 数据库模式，0为sqlite，1位mysql
         'type'   => '0',
+    ],
+    'videotype'             =>[
+        'videotab'=>'1',
+        'livetab'=>'2',
+        'opentab'=>'3',
     ]
     
 ];

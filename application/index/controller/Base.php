@@ -28,6 +28,9 @@ class Base extends Controller
         		if($navctl['nav_auth']<$user['auth_level']){//权限不够
         			$this->redirect('Index/index/index');
         		}
+                if($user['en']=='02'){
+                    $this->redirect('Index/index/index');
+                }
         	}else{//token在缓存中失效，需要重新登录
         		$this->redirect('Index/index/index');
         	}
