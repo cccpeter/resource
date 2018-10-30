@@ -187,9 +187,11 @@ function collectchoose(choose,videotype,video_id){
 			    	if(choose=='0'){
 						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+						layer.msg('收藏成功');
 					}else if(choose=='1'){
 						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+						layer.msg('取消收藏成功');
 					}
 			    }
 			});

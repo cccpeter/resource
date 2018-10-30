@@ -136,10 +136,11 @@
     padding: 30px;
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(28,31,33,.1);
-    margin:25px 10px 10px 0px;
+    margin:25px 0px 10px 0px;
     font-size: 12px;
     color: #545C63;
     line-height: 18px;
+    height:auto; overflow:hidden
 }
 .course-title{
     color: #1c1f21;
@@ -450,16 +451,23 @@
 }
 /*课程的评价*/
 .username{
-    float: left;
-    margin-right: 10px;
     color: #787d82;
     font-size: 12px;
     text-align: left;
     line-height: 20px;
     font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .assess-info{
-    margin:2px 8px 0px 24px;
+    width: 85%;
+    height: auto;
+}
+.user-score{
+    float: right;
+}
+.clearfix{
+    height: 20px;
 }
 .star-box{
     padding-left: 20px;
@@ -542,6 +550,19 @@
     color: #787d82;
     line-height: 29px;
     margin-left: 7px;
+}
+.time{
+    color: #b5b9bc;
+    font-size: 12px;
+    line-height: 20px;
+}
+.discuss-title{
+    font-size: 16px;
+    font-weight: 700;
+    color: #07111B;
+    line-height: 24px;
+    margin:10px 0px 20px 0px;
+
 }
 .titletab{
     color: #787d82;

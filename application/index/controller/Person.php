@@ -109,4 +109,30 @@ class Person extends Base
         }
         return $re;
     }
+    // 课程讨论中的回答iframe页面
+    // 未登录用户是进入不了的
+    public function course_answer(){
+        return view('course_answer');
+    }
+    public function course_answerlist(){
+        $discuss_id=input('get.discuss_id');
+        if($discuss_id){
+            $discuss=Db::table('re_discuss')
+                    ->where(['discuss_id'=>$discuss_id,'video_type'=>'1','video_isover'=>'0'])
+                    ->alias('a')
+                    ->join('re_user u','a.user_id=u.id')
+                    ->field('discuss_id,discuss_title,discuss_title,discuss_time,username,discuss_content')
+                    ->find();
+            $discusscall=Db::table('re_discusscall')
+                    ->where(['discuss_id'=>$discuss_id])
+                    ->alias('a')
+                    ->join('re_user u','a.user_id=u.id')
+                    ->field('username,discusscall_content,discusscall_time')
+                    ->select();
+            $discuss['discusscall']=$discusscall;
+            $discuss['discuss_num']=sizeof($discusscall);
+            $this->assign('discuss',$discuss);
+        }
+        return view('course_answerlist');
+    }
 }

@@ -95,13 +95,25 @@
 				<a class="float_l">
 					<img src="__STATIC__/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
 				</a>
-				<div class="assess-info float_l" style="cursor:pointer;">
+				<div class="assess-info float_l" style="cursor:pointer;margin-left: 10px;">
 					<span class="username">
 						{$vo.username}
 					</span>
+					<div class="user-score">
+						{php}for($i=0;$i<(int)$vo['assess_score'];$i++){{/php}
+                    	<i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    	{php}}{/php}
+                    	{$vo.assess_score}分
+                    </div>
+					<p class="" style="margin-top: 10px;">
+						{$vo.assess_content}
+					</p>
+					<span class="float_r time" >时间：{php}echo date('Y-m-d H:i',$vo['assess_time']);{/php}</span>
 				</div>
+	            
 			</div>
 			{/foreach}
+
 		</div>
 		<div class="course-learn layui-col-md2">
 			<dt class="course-known">课程须知</dt>
@@ -121,6 +133,7 @@
 			
 		</div>
 	</div>
+	<div align="center">{$assess->render()}</div>
 </div>
 
 <!-- 页脚 -->
@@ -202,9 +215,11 @@ function collectchoose(choose,videotype,video_id){
 			    	if(choose=='0'){
 						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+						layer.msg('收藏成功');
 					}else if(choose=='1'){
 						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+						layer.msg('取消收藏成功');
 					}
 			    }
 			});

@@ -1,5 +1,64 @@
-.user-bg{
-	margin-left: 16.7%;
-	width: 66.7%;
-	background-color: #999;
+.answer-bg{
+	margin-left: 10%;
+	width: 80%;
+	padding: 30px;
+}
+.qa-content{
+	padding: 15px 0;
+	height: auto;
+	
+}
+.qa-content h1{
+	word-break: break-all;
+    word-wrap: break-word;
+    overflow: hidden;
+    font-weight: bolder;
+    font-size: 16px;
+    line-height: 32px;
+}
+.js-qa-content{
+	min-height: 50px;
+	padding: 12px;
+}
+.user-time{
+	color: #c8cdd2;
+    line-height: 24px;
+    font-size: 12px;
+    margin-top: 10px;
+    float: left;
+}
+.content-answer{
+	min-height: 50px;
+	border-radius: 12px;
+    color: #1c1f21;
+    border-radius: 10px;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(28,31,33,.1);
+    font-size: 12px;
+    line-height: 18px;
+    height: auto;
+    overflow: hidden;
+}
+.course-submit{
+	border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    background-color: #f20d0d;
+    border-color: #f20d0d;
+    opacity: 1;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    box-sizing: border-box;
+    background-image: none;
+    padding: 11px 32px;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 24px;
+    color: #fff;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

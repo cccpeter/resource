@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540802997;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540866878;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -322,9 +322,11 @@ function collectchoose(choose,videotype,video_id){
 			    	if(choose=='0'){
 						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+						layer.msg('收藏成功');
 					}else if(choose=='1'){
 						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+						layer.msg('取消收藏成功');
 					}
 			    }
 			});

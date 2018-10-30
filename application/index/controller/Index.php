@@ -400,7 +400,7 @@ class Index extends Base
     public function course_assess(){
         $videotab=$this->course();
         $assess=$this->getassess($videotab['videotab_id']);
-        dump($assess);
+        // dump($assess);
         if($videotab){
             if($assess){
                 $this->assign('assess',$assess);
@@ -416,8 +416,14 @@ class Index extends Base
     // 课程讨论
     public function course_discuss(){
         $videotab=$this->course();
-        $videotab_id=$videotab['videotab_id'];
+        $discuss=$this->getdiscuss($videotab['videotab_id']);
+        // dump($assess);
         if($videotab){
+            if($discuss){
+                $this->assign('discuss',$discuss);
+            }else{
+                $this->assign('discuss','0');
+            }
             $this->assign('videotab',$videotab);
         }else{
             $this->redirect('Index/index/error404');
@@ -435,8 +441,33 @@ class Index extends Base
                 ->alias('a')
                 ->join('re_user u','a.user_id = u.id')
                 ->field('assess_time,assess_content,username,assess_score,video_id,video_title')
-                ->select();
+                ->paginate(10);
         return $assess;
+    }
+    private function getdiscuss($videotab_id){
+        $discuss=Db::table('re_discuss')
+                ->where(['video_id'=>$videotab_id,'video_type'=>'1','video_isover'=>'0'])
+                ->alias('a')
+                ->join('re_user u','a.user_id=u.id')
+                ->field('discuss_id,discuss_title,discuss_title,discuss_time,username,discuss_content')
+                ->select();
+        foreach ($discuss as &$value) {
+            # code...可以优化代码
+            $discusscall=Db::table('re_discusscall')
+                ->where(['discuss_id'=>$value['discuss_id']])
+                ->alias('a')
+                ->join('re_user u','a.user_id=u.id')
+                ->field('username,discusscall_time,discusscall_content')
+                ->select();
+            if($discusscall){
+                $value['discusscall']=$discusscall;
+                $value['discusscall_num']=sizeof($discusscall);
+            }else{
+                $value['discusscall_num']=0;
+            }
+        }
+        // dump($discuss);
+        return $discuss;
     }
     public function video(){
         return view("video");

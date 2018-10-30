@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_assess.html";i:1540863824;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_assess.html";i:1540866863;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -231,13 +231,25 @@ layui.use('layer', function(){});
 				<a class="float_l">
 					<img src="/resource/public/static/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
 				</a>
-				<div class="assess-info float_l" style="cursor:pointer;">
+				<div class="assess-info float_l" style="cursor:pointer;margin-left: 10px;">
 					<span class="username">
 						<?php echo $vo['username']; ?>
 					</span>
+					<div class="user-score">
+						<?php for($i=0;$i<(int)$vo['assess_score'];$i++){ ?>
+                    	<i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    	<?php } ?>
+                    	<?php echo $vo['assess_score']; ?>分
+                    </div>
+					<p class="" style="margin-top: 10px;">
+						<?php echo $vo['assess_content']; ?>
+					</p>
+					<span class="float_r time" >时间：<?php echo date('Y-m-d H:i',$vo['assess_time']); ?></span>
 				</div>
+	            
 			</div>
 			<?php endforeach; endif; else: echo "" ;endif; ?>
+
 		</div>
 		<div class="course-learn layui-col-md2">
 			<dt class="course-known">课程须知</dt>
@@ -257,6 +269,7 @@ layui.use('layer', function(){});
 			
 		</div>
 	</div>
+	<div align="center"><?php echo $assess->render(); ?></div>
 </div>
 
 <!-- 页脚 -->
@@ -338,9 +351,11 @@ function collectchoose(choose,videotype,video_id){
 			    	if(choose=='0'){
 						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+						layer.msg('收藏成功');
 					}else if(choose=='1'){
 						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+						layer.msg('取消收藏成功');
 					}
 			    }
 			});

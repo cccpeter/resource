@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_discuss.html";i:1540803114;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_discuss.html";i:1540889006;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -213,15 +213,35 @@ layui.use('layer', function(){});
 <div class="width100 backg_qiangray">
 	<div class="layui-row" style="min-height: 290px;">
 		<div class="content layui-col-md-offset2 layui-col-md5">
-			<div class="course-description" style="min-height: 190px;">
-				<span class="course-title">简介</span><br>
-				<?php if($videotab['videotab_content']==''): ?>
-				<?php echo $videotab['videotab_title']; ?><br>
-				暂时无内容
-				<?php else: ?>
-				<?php echo $videotab['videotab_title']; ?><br>
-				<?php echo $videotab['videotab_content']; endif; ?>
+			<?php if(is_array($discuss) || $discuss instanceof \think\Collection || $discuss instanceof \think\Paginator): if( count($discuss)==0 ) : echo "" ;else: foreach($discuss as $key=>$vo): ?>
+			<div class="course-description" style="min-height: 150px;color: #1c1f21;">
+				<div class="layui-col-md2">
+					<a class="float_l">
+						<img src="/resource/public/static/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
+					</a>
+					<div class="assess-info" style="height:100%;cursor:pointer;margin-left: 10px;">
+						<span class="username float_l">
+							<?php echo $vo['username']; ?>
+						</span>
+						
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<p class="discuss-title">
+						<?php echo $vo['discuss_title']; ?>
+                    </p>
+					<p class="" style="margin-top: 10px;">
+						<?php echo $vo['discuss_content']; ?>
+					</p>
+					<span class="float_r time" >
+						<a style="color: #1E9FFF;" onclick="discusscall('<?php echo $vo['discuss_id']; ?>','<?php echo $vo['discuss_title']; ?>');">回答：<?php echo $vo['discusscall_num']; ?>  </a> 发布时间：<?php echo date('Y-m-d H:i',$vo['discuss_time']); ?>
+						<button class="layui-btn layui-btn-radius layui-btn-normal" style="margin-left: 15px;" onclick="answer('<?php echo $vo['discuss_id']; ?>','<?php echo $vo['discuss_title']; ?>');">我来回答</button>
+					</span>
+					
+				</div>
 			</div>
+			<?php endforeach; endif; else: echo "" ;endif; ?>
+
 		</div>
 		<div class="course-learn layui-col-md2">
 			<dt class="course-known">课程须知</dt>
@@ -297,9 +317,6 @@ $('#userinfomess').hover(function(){
 	    $('#userinfoset').attr('class','userinfo userinfo-hoverls');
 	  }
 	)
-	// alert("页面加载完成====》onload");
-	// 未收藏的hover事件
-
 
 function collectchoose(choose,videotype,video_id){
 	var token=getCookie('token');
@@ -322,9 +339,11 @@ function collectchoose(choose,videotype,video_id){
 			    	if(choose=='0'){
 						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+						layer.msg('收藏成功');
 					}else if(choose=='1'){
 						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
 						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+						layer.msg('取消收藏成功');
 					}
 			    }
 			});
@@ -347,5 +366,36 @@ function collectchoose(choose,videotype,video_id){
 	// 	$('#oncollect').attr('class','layui-icon');
 	// 	}
 	// );
+	var token=getCookie('token');
+	function discusscall(discuss_id,title){
+		var url="<?php echo url('Index/person/course_answerlist'); ?>";
+		url+='?discuss_id='+discuss_id;
+		if(token!=''){
+			layer.open({
+				type: 2, 
+				title:title,
+				content: url,
+				area: ['900px', '600px'],
+			}); 
+		}else{
+			layer.msg('您还未登录');
+		}
+	}
+	function answer(discuss_id,title){
+		var url="<?php echo url('Index/person/course_answer'); ?>";
+		url+='?discuss_id='+discuss_id;
+		if(token!=''){
+			layer.open({
+				type:2,
+				title:title,
+				content:url,
+				width:"500px",
+				area: ['700px', '500px'],
+			});
+		}else{
+			layer.msg('您还未登录');
+		}
+
+	}
 </script>
 </html>
