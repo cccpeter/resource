@@ -329,8 +329,8 @@ class Index extends Base
         }
         return false;
     }
-    // 课程详情
-    public function course_detail(){
+    // 课程详情的头部数据
+    private function course(){
         $videotab_id=input('get.videotab_id');
         $user='';
         if($_COOKIE){
@@ -366,16 +366,77 @@ class Index extends Base
                 $videotab['parent_name']=$parent['videotype_name'];
                 $videotab['son_name']=$son['videotype_name'];
             }else{
-                $this->redirect('Index/index/error404');
+                // $this->redirect('Index/index/error404');
                 // return;
+                return false;
             }
             $videotab['video_type']=config('videotype.videotab');
-            // dump($videotab);die;
+            return $videotab;
+        }else{
+            return false;
+        }
+    }
+    // 课程详情
+    public function course_detail(){
+        $videotab=$this->course();
+        if($videotab){
             $this->assign('videotab',$videotab);
-            return view("course_detail");
         }else{
             $this->redirect('Index/index/error404');
         }
+        return view("course_detail");
+    }
+    // 课程资源/作业
+    public function course_resource(){
+        $videotab=$this->course();
+        if($videotab){
+            $this->assign('videotab',$videotab);
+        }else{
+            $this->redirect('Index/index/error404');
+        }
+        return view('course_resource');
+    }
+    // 课程评价
+    public function course_assess(){
+        $videotab=$this->course();
+        $assess=$this->getassess($videotab['videotab_id']);
+        dump($assess);
+        if($videotab){
+            if($assess){
+                $this->assign('assess',$assess);
+            }else{
+                $this->assign('assess','0');
+            }
+            $this->assign('videotab',$videotab);
+        }else{
+            $this->redirect('Index/index/error404');
+        }
+        return view('course_assess');
+    }
+    // 课程讨论
+    public function course_discuss(){
+        $videotab=$this->course();
+        $videotab_id=$videotab['videotab_id'];
+        if($videotab){
+            $this->assign('videotab',$videotab);
+        }else{
+            $this->redirect('Index/index/error404');
+        }
+        return view('course_discuss');
+    }
+    /**
+     * 获取评论列表
+     * @param  [type] $videotab_id [description]
+     * @return [type]              [description]
+     */
+    private function getassess($videotab_id){
+        $assess=Db::table('re_assess')
+                ->where(['video_id'=>$videotab_id,'video_isover'=>'0','video_type'=>'1'])
+                ->alias('a')
+                ->join('re_user u','a.user_id = u.id')
+                ->field('assess_time,assess_content,username,assess_score,video_id,video_title')
+                ->select();
+        return $assess;
     }
     public function video(){
         return view("video");

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540802997;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_assess.html";i:1540863824;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -200,10 +200,10 @@ layui.use('layer', function(){});
 		<div class="layui-row">
 			<div class="layui-col-md8 layui-col-md-offset2 float_l" >
 				<ul class="menu">
-					<a href="<?php echo url('Index/index/course_detail',['videotab_id'=>$videotab['videotab_id']]); ?>"><li class="ison" style="cursor: pointer;">课程简介</li></a>
+					<a href="<?php echo url('Index/index/course_detail',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课程简介</li></a>
 					<a href="<?php echo url('Index/index/course_resource',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课程资源/作业</li></a>
 					<a href="<?php echo url('Index/index/course_discuss',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课堂讨论</li></a>
-					<a href="<?php echo url('Index/index/course_assess',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课程评价</li></a>
+					<a href="<?php echo url('Index/index/course_assess',['videotab_id'=>$videotab['videotab_id']]); ?>"><li class="ison" style="cursor: pointer;">课程评价</li></a>
 				</ul>
 			</div>
 		</div>
@@ -211,17 +211,33 @@ layui.use('layer', function(){});
 </div>
 <div style="height: 7px;width: 100%;"></div>
 <div class="width100 backg_qiangray">
-	<div class="layui-row" style="min-height: 290px;">
+	<div class="layui-row" style="min-height: 400px;">
 		<div class="content layui-col-md-offset2 layui-col-md5">
-			<div class="course-description" style="min-height: 190px;">
-				<span class="course-title">简介</span><br>
-				<?php if($videotab['videotab_content']==''): ?>
-				<?php echo $videotab['videotab_title']; ?><br>
-				暂时无内容
-				<?php else: ?>
-				<?php echo $videotab['videotab_title']; ?><br>
-				<?php echo $videotab['videotab_content']; endif; ?>
+			<div class="evaluation-info">
+				<div class="score float_l">综合得分</div>
+				<div class="evaluation-score float_l"><?php echo $videotab['videotab_assessscore']; ?></div>
+				<div class="float_l star-box">
+					<?php for($i=0;$i<(int)$videotab['videotab_assessscore'];$i++){ ?>
+                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    <?php } ?>
+				</div>
+				<div class="peoplenum float_l">评价总人数：</div>
+				<span class="nums float_l"><?php echo $videotab['videotab_assessnums']; ?></span>
+				<div class="peoplenum float_l">评价总分：</div>
+				<span class="nums float_l"><?php echo $videotab['videotab_assessnums']*$videotab['videotab_assessscore']; ?></span>
 			</div>
+			<?php if(is_array($assess) || $assess instanceof \think\Collection || $assess instanceof \think\Paginator): if( count($assess)==0 ) : echo "" ;else: foreach($assess as $key=>$vo): ?>
+			<div class="course-description" style="min-height: 150px;color: #1c1f21;">
+				<a class="float_l">
+					<img src="/resource/public/static/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
+				</a>
+				<div class="assess-info float_l" style="cursor:pointer;">
+					<span class="username">
+						<?php echo $vo['username']; ?>
+					</span>
+				</div>
+			</div>
+			<?php endforeach; endif; else: echo "" ;endif; ?>
 		</div>
 		<div class="course-learn layui-col-md2">
 			<dt class="course-known">课程须知</dt>

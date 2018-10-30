@@ -425,7 +425,56 @@
 .course-tab a:hover{
     color: #f01400;
 }
-
+/*课程评价模块*/
+.evaluation-info{
+    height: 80px;
+    box-shadow: 0 4px 8px 0 rgba(7,17,27,.1);
+    background-color: #fff;
+    border-radius:12px;
+    padding: 24px 32px 24px 60px;
+    margin:24px 5px 0px 5px;
+}
+.score{
+    width: 28px;
+    height: 32px;
+    color: #1C1F21;
+    line-height: 16px;
+    font-weight: 700;
+}
+.evaluation-score{
+    padding-left: 16px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #4D555D;
+    line-height: 32px;
+}
+/*课程的评价*/
+.username{
+    float: left;
+    margin-right: 10px;
+    color: #787d82;
+    font-size: 12px;
+    text-align: left;
+    line-height: 20px;
+    font-weight: 700;
+}
+.assess-info{
+    margin:2px 8px 0px 24px;
+}
+.star-box{
+    padding-left: 20px;
+}
+.peoplenum{
+    color: #1C1F21;
+    font-weight: 700;
+    margin-left: 60px;
+}
+.nums{
+    padding-left: 10px;
+    font-size: 24px;
+    color: #F90;
+    line-height: 20px;
+}
 .active{
     position: relative;
     display: block;

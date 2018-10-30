@@ -19,8 +19,15 @@
 				
 			</div>
 			<div class="static-item float_l">
-				<i class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-
-				<i class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-
+				{if condition="($videotab['iscollect'] eq 0)"}
+				<div id="clickcollect" style="cursor: pointer;" onclick="collectchoose('0',{$videotab['video_type']},{$videotab['videotab_id']});">
+					<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-
+				</div>
+				{else /}
+				<div id="clickcollect" style="cursor: pointer;" onclick="collectchoose('1',{$videotab['video_type']},{$videotab['videotab_id']});">
+					<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-
+				</div>
+				{/if}
 			</div>
 			<div class="float_l width100 " style="margin-bottom: 20px;">
 				<div class="info float_l" >
@@ -57,10 +64,10 @@
 		<div class="layui-row">
 			<div class="layui-col-md8 layui-col-md-offset2 float_l" >
 				<ul class="menu">
-					<li class="ison">课程简介</li>
-					<li>课程资源/作业</li>
-					<li>课堂讨论</li>
-					<li>课程评价</li>
+					<a href="{:url('Index/index/course_detail',['videotab_id'=>$videotab['videotab_id']])}"><li style="cursor: pointer;">课程简介</li></a>
+					<a href="{:url('Index/index/course_resource',['videotab_id'=>$videotab['videotab_id']])}"><li style="cursor: pointer;">课程资源/作业</li></a>
+					<a href="{:url('Index/index/course_discuss',['videotab_id'=>$videotab['videotab_id']])}"><li style="cursor: pointer;">课堂讨论</li></a>
+					<a href="{:url('Index/index/course_assess',['videotab_id'=>$videotab['videotab_id']])}"><li class="ison" style="cursor: pointer;">课程评价</li></a>
 				</ul>
 			</div>
 		</div>
@@ -68,18 +75,33 @@
 </div>
 <div style="height: 7px;width: 100%;"></div>
 <div class="width100 backg_qiangray">
-	<div class="layui-row" style="min-height: 290px;">
+	<div class="layui-row" style="min-height: 400px;">
 		<div class="content layui-col-md-offset2 layui-col-md5">
-			<div class="course-description" style="min-height: 190px;">
-				<span class="course-title">简介</span><br>
-				{if $videotab.videotab_content==''}
-				{$videotab.videotab_title}<br>
-				暂时无内容
-				{else /}
-				{$videotab.videotab_title}<br>
-				{$videotab.videotab_content}
-				{/if}
+			<div class="evaluation-info">
+				<div class="score float_l">综合得分</div>
+				<div class="evaluation-score float_l">{$videotab.videotab_assessscore}</div>
+				<div class="float_l star-box">
+					{php}for($i=0;$i<(int)$videotab['videotab_assessscore'];$i++){{/php}
+                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    {php}}{/php}
+				</div>
+				<div class="peoplenum float_l">评价总人数：</div>
+				<span class="nums float_l">{$videotab.videotab_assessnums}</span>
+				<div class="peoplenum float_l">评价总分：</div>
+				<span class="nums float_l">{php}echo $videotab['videotab_assessnums']*$videotab['videotab_assessscore'];{/php}</span>
 			</div>
+			{foreach name="assess" item="vo"}
+			<div class="course-description" style="min-height: 150px;color: #1c1f21;">
+				<a class="float_l">
+					<img src="__STATIC__/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
+				</a>
+				<div class="assess-info float_l" style="cursor:pointer;">
+					<span class="username">
+						{$vo.username}
+					</span>
+				</div>
+			</div>
+			{/foreach}
 		</div>
 		<div class="course-learn layui-col-md2">
 			<dt class="course-known">课程须知</dt>
@@ -119,7 +141,6 @@
 
 </body>
 <style type="text/css">
-  
 
   .list-color{
     background-image: url("__STATIC__/img/test.png");
@@ -138,6 +159,7 @@
 }
 
 </style>
+<script type="text/javascript" src="__STATIC__/js/cookie.js"></script>
 <script>
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
@@ -155,5 +177,55 @@ $('#userinfomess').hover(function(){
 	    $('#userinfoset').attr('class','userinfo userinfo-hoverls');
 	  }
 	)
+	// alert("页面加载完成====》onload");
+	// 未收藏的hover事件
+
+
+function collectchoose(choose,videotype,video_id){
+	var token=getCookie('token');
+	// alert('token:'+token);
+	var url="{:url('Index/person/coursecollect')}";
+	var data={};
+		data['choose']=choose;
+		data['videotype']=videotype;
+		data['video_id']=video_id;
+		data=JSON.stringify(data);
+		// {"token":"96bebf18c3a102c494f1e8f8a9d471e1","choose":"0","videotype":1,"video_id":4}
+		if(token!=''){
+			$.ajax({
+			    url:url,
+			    data:{'data':data,'token':token},
+			    type:'post',
+			    datatype:'json',
+			    success : function(event){
+			    	// layer.msg(event.data);
+			    	if(choose=='0'){
+						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
+						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+					}else if(choose=='1'){
+						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
+						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+					}
+			    }
+			});
+		}else{
+			layer.msg('收藏失败，您还未登录哦');
+		}
+	}
+	// $('#collect').hover(function(){
+	// 	$('#collect').attr('class','layui-icon collect-n');
+	// 	// alert('收藏的悬浮');
+	// },
+	// 	function(){
+	// 		$('#collect').attr('class','layui-icon');
+	// 	}
+	// );
+	// $('#oncollect').hover(function(){
+	// 	$('#oncollect').attr('class','layui-icon collect-y');
+	// },
+	// 	function(){
+	// 	$('#oncollect').attr('class','layui-icon');
+	// 	}
+	// );
 </script>
 </html>

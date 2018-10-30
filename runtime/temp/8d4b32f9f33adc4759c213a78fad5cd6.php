@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540802997;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_discuss.html";i:1540803114;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -200,9 +200,9 @@ layui.use('layer', function(){});
 		<div class="layui-row">
 			<div class="layui-col-md8 layui-col-md-offset2 float_l" >
 				<ul class="menu">
-					<a href="<?php echo url('Index/index/course_detail',['videotab_id'=>$videotab['videotab_id']]); ?>"><li class="ison" style="cursor: pointer;">课程简介</li></a>
+					<a href="<?php echo url('Index/index/course_detail',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课程简介</li></a>
 					<a href="<?php echo url('Index/index/course_resource',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课程资源/作业</li></a>
-					<a href="<?php echo url('Index/index/course_discuss',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课堂讨论</li></a>
+					<a href="<?php echo url('Index/index/course_discuss',['videotab_id'=>$videotab['videotab_id']]); ?>"><li class="ison" style="cursor: pointer;">课堂讨论</li></a>
 					<a href="<?php echo url('Index/index/course_assess',['videotab_id'=>$videotab['videotab_id']]); ?>"><li style="cursor: pointer;">课程评价</li></a>
 				</ul>
 			</div>

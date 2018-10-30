@@ -64,10 +64,10 @@
 		<div class="layui-row">
 			<div class="layui-col-md8 layui-col-md-offset2 float_l" >
 				<ul class="menu">
-					<li class="ison">课程简介</li>
-					<li>课程资源/作业</li>
-					<li>课堂讨论</li>
-					<li>课程评价</li>
+					<a href="{:url('Index/index/course_detail',['videotab_id'=>$videotab['videotab_id']])}"><li class="ison" style="cursor: pointer;">课程简介</li></a>
+					<a href="{:url('Index/index/course_resource',['videotab_id'=>$videotab['videotab_id']])}"><li style="cursor: pointer;">课程资源/作业</li></a>
+					<a href="{:url('Index/index/course_discuss',['videotab_id'=>$videotab['videotab_id']])}"><li style="cursor: pointer;">课堂讨论</li></a>
+					<a href="{:url('Index/index/course_assess',['videotab_id'=>$videotab['videotab_id']])}"><li style="cursor: pointer;">课程评价</li></a>
 				</ul>
 			</div>
 		</div>
@@ -126,7 +126,6 @@
 
 </body>
 <style type="text/css">
-  
 
   .list-color{
     background-image: url("__STATIC__/img/test.png");
