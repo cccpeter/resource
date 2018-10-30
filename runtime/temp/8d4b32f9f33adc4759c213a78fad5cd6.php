@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_discuss.html";i:1540889006;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_discuss.html";i:1540893005;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -213,6 +213,7 @@ layui.use('layer', function(){});
 <div class="width100 backg_qiangray">
 	<div class="layui-row" style="min-height: 290px;">
 		<div class="content layui-col-md-offset2 layui-col-md5">
+			 1
 			<?php if(is_array($discuss) || $discuss instanceof \think\Collection || $discuss instanceof \think\Paginator): if( count($discuss)==0 ) : echo "" ;else: foreach($discuss as $key=>$vo): ?>
 			<div class="course-description" style="min-height: 150px;color: #1c1f21;">
 				<div class="layui-col-md2">

@@ -22,17 +22,46 @@
 		<textarea style="width: 550px;height: 200px;" id="answer" placeholder="请输入你的答案"></textarea>
 	</div>
 	<button class="layui-btn layui-btn-radius layui-btn-normal" style="margin-left: 470px;" onclick="myanswer()">我来回答</button> 
-		<!-- <div class="user-time">
-			时间：1975-01-10 08:04
-		</div> -->
 	</div>
 	
 </div>
 </body>
 
 <script type="text/javascript">//讨论的弹出框
+	var discuss_id="{$discuss_id}";
+	var url="{:url('Index/person/course_answer')}";
 	function myanswer(){
-		
+		alert(discuss_id);
+		var token=getCookie('token');
+		if(token!=''){
+			$.ajax({
+			    url:url,
+			    data:{'data':data,'token':token},
+			    type:'post',
+			    datatype:'json',
+			    success : function(event){
+			    	if(event['status']=='1'){
+			    		//设置cookie
+				    	setCookie('token',event['data']['token'],event['data']['token_time']);
+				    	setCookie('token_time',event['data']['token_time'],event['data']['token_time']);
+				    	setCookie('auth_level',event['data']['auth_level'],event['data']['token_time']);
+				    	setCookie('username',event['data']['username'],event['data']['token_time']);
+				    	// delCookie('token');删除cookie
+				    	// alert(getCookie('token'))
+				    	layer.msg("登录成功");
+					    setTimeout(function(){
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+							window.parent.location.reload(); //登录成功后重载父层
+				        },1500);
+				    }else{
+				    	layer.msg(event['data']);
+				    }
+		    	}
+		    });
+		}else{
+			layer.msg('您还未登录');
+		}
 	}
 </script>
 </html>

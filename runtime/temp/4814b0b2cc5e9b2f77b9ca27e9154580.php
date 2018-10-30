@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:89:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\course_answerlist.html";i:1540890274;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:89:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\course_answerlist.html";i:1540892421;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,10 +30,11 @@
 			回答：<?php echo $discuss['discuss_num']; ?> 发布时间：<?php  echo date("Y-m-d H:i", $discuss['discuss_time']); ?>
 		</div>
 		<hr>
-		<div class="content-answer width100">
+		<?php if(!$discuss['discusscall']){echo "<p class='no-course-helper' style='text-align:center'><span>暂时无评论！</span></p>";} if(is_array($discuss['discusscall']) || $discuss['discusscall'] instanceof \think\Collection || $discuss['discusscall'] instanceof \think\Paginator): if( count($discuss['discusscall'])==0 ) : echo "" ;else: foreach($discuss['discusscall'] as $key=>$vo): ?>
+		<div class="content-answer width100" style="margin-top: 15px;">
 			<div class="qa-header width100">
 			<img class="user-header" src="//img.mukewang.com/user/5458501000018e5802200220-40-40.jpg" width="40" height="40">
-			<span class="user-name">ptuser</span>
+			<span class="user-name"><?php echo $vo['username']; ?></span>
 
 		</div>
 		<!-- <div class="width100 qa-content">
@@ -42,12 +43,13 @@
 			</h1>
 		</div> -->
 		<div class="js-qa-content width100">
-			晚上大白菜晚上大白菜晚上大白
+			<?php echo $vo['discusscall_content']; ?>
 		</div>
 			<div class="user-time">
-				时间：1975-01-10 08:04
+				时间：<?php  echo date("Y-m-d H:i", $vo['discusscall_time']); ?>
 			</div>
 		</div>
+		<?php endforeach; endif; else: echo "" ;endif; ?>
 	</div>
 	
 </div>

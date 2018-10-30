@@ -112,6 +112,10 @@ class Person extends Base
     // 课程讨论中的回答iframe页面
     // 未登录用户是进入不了的
     public function course_answer(){
+        $discuss_id=input('get.discuss_id');
+        if($discuss_id){
+            $this->assign('discuss_id',$discuss_id);
+        }
         return view('course_answer');
     }
     public function course_answerlist(){
@@ -131,6 +135,7 @@ class Person extends Base
                     ->select();
             $discuss['discusscall']=$discusscall;
             $discuss['discuss_num']=sizeof($discusscall);
+            // dump($discuss);
             $this->assign('discuss',$discuss);
         }
         return view('course_answerlist');
