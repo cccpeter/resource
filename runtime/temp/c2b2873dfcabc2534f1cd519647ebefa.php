@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_list.html";i:1540542328;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_list.html";i:1540964287;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -253,7 +253,8 @@ layui.use('layer', function(){});
                 </div>
               </div>
             </div>
-            <?php endforeach; endif; else: echo "" ;endif; if(!$video){echo "<p class='no-course-helper' style='text-align:center'><span>精彩课程制作中，敬请期待！</span></p>";} ?>
+            <?php endforeach; endif; else: echo "" ;endif; if(!$isview){echo "<p class='no-course-helper' style='text-align:center'><span>精彩课程制作中，敬请期待！</span></p>";} ?>
+            
 			</div>
 			<div class="layui-col-md-offset1 layui-col-md10 text_c" id="test1"><?php if($video){ ?><?php echo $video->render(); } ?></div>
 		</div>

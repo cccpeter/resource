@@ -122,8 +122,8 @@
               </div>
             </div>
             {/foreach}
-
-            {php}if(!$video){echo "<p class='no-course-helper' style='text-align:center'><span>精彩课程制作中，敬请期待！</span></p>";}{/php}
+			{php}if(!$isview){echo "<p class='no-course-helper' style='text-align:center'><span>精彩课程制作中，敬请期待！</span></p>";}{/php}
+            
 			</div>
 			<div class="layui-col-md-offset1 layui-col-md10 text_c" id="test1">{php}if($video){{/php}{$video->render()}{php}}{/php}</div>
 		</div>

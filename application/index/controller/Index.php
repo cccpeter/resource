@@ -199,6 +199,7 @@ class Index extends Base
         }else{
             if($whereson_id==''){
                 // dump('类别不存在');
+                $this->assign('isview','');
                 $this->assign('video','');
                 $type=$this->gettypeison($videotype_id,$son_id,$level_id);
                 $this->assign('videotype_parent',$type['parent']);
@@ -223,7 +224,7 @@ class Index extends Base
         // $video=$this->getvideo($resultwhere,'30','videotab_id');
         $field="username,videotab_level,videotab_image,videotab_id,videotab_title,videotab_assessscore,videotab_releasetime,videotab_views";
         // dump($resultwhere);
-        $video=Db::table('re_videotab')
+        @$video=Db::table('re_videotab')
             ->alias('a')
             ->join('re_user u','a.user_id = u.id')
             ->where($resultwhere)
@@ -233,7 +234,12 @@ class Index extends Base
         if($level_id==''){
             $level_id='0';
         }
-        // dump($video);
+        if($video->items()){
+            $isview='1';
+        }else{
+            $isview='';
+        }
+        $this->assign('isview',$isview);
         $this->assign('video',$video);
         $type=$this->gettypeison($videotype_id,$son_id,$level_id);
         $this->assign('videotype_parent',$type['parent']);
@@ -450,6 +456,7 @@ class Index extends Base
                 ->alias('a')
                 ->join('re_user u','a.user_id=u.id')
                 ->field('discuss_id,discuss_title,discuss_title,discuss_time,username,discuss_content')
+                ->order('discuss_id desc')
                 ->select();
         foreach ($discuss as &$value) {
             # code...可以优化代码
@@ -470,6 +477,39 @@ class Index extends Base
         return $discuss;
     }
     public function video(){
+        $video_type=input('get.video_type');
+        $video_id=input('get.video_id');
+        $user='';
+        if($_COOKIE){
+            $token=$_COOKIE['token'];
+            $user=cache($token);
+        }
+        switch ($video_type) {
+            case '1':
+                $video=Db::table('re_videotab')
+                    ->where(['videotab_id'=>$video_id])
+                    ->field('videotab_id,videotab_title,videotab_stream')
+                    ->find();
+                if($user){
+                    $collect=Db::table('re_collect')
+                        ->where(['video_id'=>$video['videotab_id'],'video_type'=>'1','user_id'=>$user['id']])
+                        ->find();
+                    if($user){//已经收藏
+                        $video['is_collect']='1';
+                    }else{
+                        $video['is_collect']='0';
+                    }
+                }else{
+                    $video['is_collect']='0';
+                }
+                break;
+            case '2':
+                break;
+            case '3':
+                break;
+            default:
+                break;
+        }
         return view("video");
     }
     public function error404(){

@@ -112,6 +112,27 @@ class Person extends Base
     // 课程讨论中的回答iframe页面
     // 未登录用户是进入不了的
     public function course_answer(){
+         if(request()->isPost()){
+            $re='';
+            $data=input('post.data');
+            $token=input('post.token');
+            $user=cache($token);
+            $data=isset($data)?json_decode($data):false;
+            if($data){
+                foreach ($data as $key=>$value){
+                    $arr["".$key.""]=$value;
+                }
+                $data=$arr;
+                $re=Db::table('re_discusscall')
+                    ->insert(['discuss_id'=>$data['discuss_id'],'user_id'=>$user['id'],'discusscall_time'=>time(),'discusscall_content'=>$data['content']]);
+                if($re){
+                    return send('操作成功','1');
+                }else{
+                    return send('操作失败','0');
+                }
+            }
+            return send('操作失败','0');
+        }
         $discuss_id=input('get.discuss_id');
         if($discuss_id){
             $this->assign('discuss_id',$discuss_id);
@@ -132,6 +153,7 @@ class Person extends Base
                     ->alias('a')
                     ->join('re_user u','a.user_id=u.id')
                     ->field('username,discusscall_content,discusscall_time')
+                    ->order('discusscall_id desc')
                     ->select();
             $discuss['discusscall']=$discusscall;
             $discuss['discuss_num']=sizeof($discusscall);

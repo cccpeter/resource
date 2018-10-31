@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\userinfo.html";i:1539853643;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540259703;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\userinfo.html";i:1539853643;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -29,8 +29,8 @@
             </div>
             <div class="float_l">
                 <ul class="ul_li fon_siz16">
-                    <li><a href="<?php echo url('Index/index/tab'); ?>">首页</a></li>
-                    <li><a href="<?php echo url('Index/index/index'); ?>">点播</a></li>
+                    <li><a href="<?php echo url('Index/index/index'); ?>">首页</a></li>
+                    <li><a href="<?php echo url('Index/index/tab'); ?>">点播</a></li>
                     <li><a href="<?php echo url('Index/live/live'); ?>">直播</a></li>
                     <li><a href="<?php echo url('Index/openclass/openclass'); ?>">公开课</a></li>
                     <li><a href="<?php echo url('Index/notice/notice'); ?>">公告</a></li>
@@ -41,7 +41,7 @@
         <div class="float_r">
             <div class="float_l top_input">
                 <input class="posi_relative" type="text" name="" id="" placeholder="请输入想搜索的内容...">
-                <img class="img_sousuo bianshou" src="/resource/public/static/img/uiz4.png">
+                <i class="layui-icon" id="searchicon" style="cursor: pointer;">&#xe615;</i>
             </div>
           
  <div class="float_l margin_l35" id='adminset' style="display: none;">

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1540372673;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1540970128;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -168,8 +168,8 @@ layui.use('layer', function(){});
 		</div> -->
 		<div id="video" class="float_l" style=" height:100%;  width: 95%;border-radius: 12px;margin-top: 10px;margin-bottom: 10px;">
 			<video id="myPlayer" style="width: 100%;height: 783px;" poster="" controls playsInline webkit-playsinline autoplay>
-			    <!-- <source src="/resource/public/static/img/123.mp4" type="video/mp4" /> -->
-			    <source src="rtmp://media3.sinovision.net:1935/live/livestream" type="rtmp/flv" />
+			    <source src="/resource/public/static/img/123.mp4" type="video/mp4" />
+			    <!-- <source src="rtmp://media3.sinovision.net:1935/live/livestream" type="rtmp/flv" /> -->
 			</video>
 		</div>
 		<div id='request' class="float_l request" style="display:none">

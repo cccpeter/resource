@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540866878;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_detail.html";i:1540968266;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -228,7 +228,7 @@ layui.use('layer', function(){});
 			<dd class="course-known"><?php echo $videotab['videotab_mustknown']; ?></dd>
 			<!-- <dt class="course-known">你能学到的</dt>
 			<dd class="course-known"></dd> -->
-			<a class="startlearn" href="<?php echo url('Index/index/video'); ?>">开始学习</a>
+			<a class="startlearn" href="<?php echo url('Index/index/video',['video_id'=>$videotab['videotab_id'],'video_type'=>'1']); ?>">开始学习</a>
 			<!-- <dt class="course-known">课程须知</dt>
 			<dd  class="course-known">1.你需要掌握html+css样式基础知识
 			2.有一定的前端实际开发经验</dd>
