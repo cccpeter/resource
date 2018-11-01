@@ -113,7 +113,7 @@
 			<dd class="course-known">{$videotab.videotab_mustknown}</dd>
 			<!-- <dt class="course-known">你能学到的</dt>
 			<dd class="course-known"></dd> -->
-			<a class="startlearn" href="{:url('Index/index/video')}">开始学习</a>
+			<a class="startlearn" href="{:url('Index/index/video',['video_id'=>$videotab['videotab_id'],'video_type'=>'1'])}">开始学习</a>
 			<!-- <dt class="course-known">课程须知</dt>
 			<dd  class="course-known">1.你需要掌握html+css样式基础知识
 			2.有一定的前端实际开发经验</dd>

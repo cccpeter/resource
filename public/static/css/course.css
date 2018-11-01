@@ -110,6 +110,7 @@
     padding: 20px 20px 20px 0px;
     font-size: 16px;
     font-weight: bold;
+    cursor:pointer;
 }
 .menu li:hover{
     color: #f20d0d;
@@ -118,8 +119,7 @@
 .menu .ison{
     position: relative;
     color: #f20d0d !important;
-    cursor: default;
-
+    cursor:pointer;
 }
 .menu .ison:after{
     margin: 0 auto;

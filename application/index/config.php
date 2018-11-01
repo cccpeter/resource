@@ -31,6 +31,11 @@ return [
         'videotab'=>'1',
         'livetab'=>'2',
         'opentab'=>'3',
+    ],
+    'video_type'             =>[
+        '1'=>'videotab',
+        '2'=>'livetab',
+        '3'=>'opentab',
     ]
     
 ];

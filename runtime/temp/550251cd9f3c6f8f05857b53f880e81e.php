@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\course_answer.html";i:1540967088;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\course_answer.html";i:1540967839;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>

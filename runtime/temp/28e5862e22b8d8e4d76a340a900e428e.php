@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1540970128;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1541062792;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,17 +21,23 @@
 			<div class="layui-col-md12 float_l " >
 				<ul>
 					<li>
-						<a href="<?php echo url('Index/index/course_detail'); ?>" class="last">
+						<a href="<?php echo url('Index/index/course_detail',['videotab_id'=>$video['videotab_id']]); ?>" class="last">
 							<i class="layui-icon " style="font-size: 26px;">&#xe65c;</i>
 						</a>
 					</li>
 					<li>
-						<em class="videotitle">1-1 微服务架构特点</em>
+						<em class="videotitle"><?php echo $video['videotab_title']; ?></em>
 					</li>
 					<li>
-						<a>
-							<i class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-
-						</a>
+						<?php if(($video['is_collect'] == 0)): ?>
+				<div id="clickcollect" style="cursor: pointer;" onclick="collectchoose('0',<?php echo $video['video_type']; ?>,<?php echo $video['videotab_id']; ?>);">
+					<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-
+				</div>
+				<?php else: ?>
+				<div id="clickcollect" style="cursor: pointer;" onclick="collectchoose('1',<?php echo $video['video_type']; ?>,<?php echo $video['videotab_id']; ?>);">
+					<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-
+				</div>
+				<?php endif; ?>
 					</li>
 				</ul>
 				<ul class="float_r">
@@ -167,9 +173,14 @@ layui.use('layer', function(){});
 			</video>
 		</div> -->
 		<div id="video" class="float_l" style=" height:100%;  width: 95%;border-radius: 12px;margin-top: 10px;margin-bottom: 10px;">
-			<video id="myPlayer" style="width: 100%;height: 783px;" poster="" controls playsInline webkit-playsinline autoplay>
-			    <source src="/resource/public/static/img/123.mp4" type="video/mp4" />
-			    <!-- <source src="rtmp://media3.sinovision.net:1935/live/livestream" type="rtmp/flv" /> -->
+			<video id="myPlayer" style="width: 100%;height: 783px;" poster="" controls playsInline webkit-playsinline autoplay controlslist="nodownload">		
+				<!-- 如果是点播数据库的路径为：static后的路径 -->
+				<!-- 如果是直播数据库的路径为：整个rtmp流的路径 -->
+				<?php if(($video['video_type'] == 1)): ?>
+			    <source src="/resource/public/static/<?php echo $video['videotab_stream']; ?>" type="video/mp4" />
+			    <?php else: ?>
+			    <source src="<?php echo $video['videotab_stream']; ?>" type="rtmp/flv" />
+			    <?php endif; ?>
 			</video>
 		</div>
 		<div id='request' class="float_l request" style="display:none">
@@ -178,29 +189,25 @@ layui.use('layer', function(){});
 			<p style="height: 24px;"></p>
 			<p style="height: 24px;"></p>
 
-			<div ><input class="questtext" type="text" placeholder="请一句话说明你的问题"></div>
-			<div><input class="questtextarea" type="textarea" name="" placeholder="请描述你问题的详情"></div>
+			<div ><input class="questtext" type="text" placeholder="请一句话说明你的问题" id="questtitle"></div>
+			<div><input class="questtextarea" type="textarea" name="" placeholder="请描述你问题的详情" id="questcontent"></div>
 			<p style="height: 24px;"></p>
-			<div><a href="javascript:;" class="putqa-submit">提交</a></div>
+			<div><a  onclick="subquest(<?php echo $video['videotab_id']; ?>);" class="putqa-submit">提交</a></div>
 		</div>
 		<div id='note' class="float_l request" style="display:none">
 			<div class="quest float_l">记笔记</div>
 			<div class="close float_r"><i onclick="closenote();" class="layui-icon" style="font-size: 24px;font-color: #93999F">&#x1006;</i></div>
 			<p style="height: 24px;"></p>
 			<p style="height: 24px;"></p>
-
-			<!-- <div ><input class="questtext" type="text" placeholder="请一句话说明你的问题"></div> -->
-			<div><input class="questtextarea" type="textarea" name="" placeholder="请记录下你的笔记"></div>
+			<div><input class="questtextarea" type="textarea" id="notecontent" name="" placeholder="请记录下你的笔记"></div>
 			<p style="height: 24px;"></p>
-			<div><a href="javascript:;" class="putqa-submit">提交</a></div>
+			<div><a onclick="subnote(<?php echo $video['videotab_id']; ?>);" class="putqa-submit">提交</a></div>
 		</div>
 		<div id='assess' class="float_l request" style="display:none">
 			<div class="quest float_l">评价</div>
 			<div class="close float_r"><i onclick="closeassess();" class="layui-icon" style="font-size: 24px;font-color: #93999F">&#x1006;</i></div>
 			<p style="height: 24px;"></p>
 			<p style="height: 24px;"></p>
-
-			<!-- <div ><input class="questtext" type="text" placeholder="请一句话说明你的问题"></div> -->
 			评分：<div id="test1"></div><span id="level" style="font-size:15px;color: #F90;"></span>
 			<div><input class="questtextarea" type="textarea" name="" placeholder="请写下你的评价"></div>
 			<p style="height: 24px;"></p>
@@ -212,24 +219,106 @@ layui.use('layer', function(){});
 	<div class="layui-fluid">
 		<div class="layui-row">
 			<div class="layui-col-md8 layui-col-md-offset3 float_l" >
-				<ul class="menu">
+				<ul id="tab" class="menu">
 					<li class="ison">讨论</li>
-					<li>评价</li>
-					<li>笔记</li>
-				</ul>
+					<li class="">评价</li>
+					<li class="">笔记</li>
+				</ul> 
 			</div>
 		</div>
 	</div>
 </div>
 <div style="height: 7px;width: 100%;"></div>
 <div class="width100 backg_qiangray">
-	<div class="layui-row">
-		<div class="content layui-col-md-offset3 layui-col-md5">
-			<div class="course-description">
-				<span class="course-title">第1章 内容简介</span><br>
-				<?php for($i=0;$i<100;$i++){ ?>这课程很好啊
-				<?php } ?>
+	<div id="tab-item" class="layui-row">
+		<div class="content layui-col-md-offset3 layui-col-md5" style="display: block;;">
+			<?php if(!$discuss){echo "<p class='no-course-helper' style='text-align:center'><span>暂时无讨论！</span></p>";} if(is_array($discuss) || $discuss instanceof \think\Collection || $discuss instanceof \think\Paginator): if( count($discuss)==0 ) : echo "" ;else: foreach($discuss as $key=>$vo): ?>
+			<div class="course-description" style="min-height: 150px;color: #1c1f21;">
+				<div class="layui-col-md2">
+					<a class="float_l">
+						<img src="/resource/public/static/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
+					</a>
+					<div class="assess-info" style="height:100%;cursor:pointer;margin-left: 10px;">
+						<span class="username float_l">
+							<?php echo $vo['username']; ?>
+						</span>
+						
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<p class="discuss-title">
+						<?php echo $vo['discuss_title']; ?>
+                    </p>
+					<p class="" style="margin-top: 10px;">
+						<?php echo $vo['discuss_content']; ?>
+					</p>
+					<span class="float_r time" >
+						<a style="color: #1E9FFF;" onclick="discusscall('<?php echo $vo['discuss_id']; ?>','<?php echo $vo['discuss_title']; ?>');">回答：<?php echo $vo['discusscall_num']; ?>  </a> 发布时间：<?php echo date('Y-m-d H:i',$vo['discuss_time']); ?>
+						<button class="layui-btn layui-btn-radius layui-btn-normal" style="margin-left: 15px;" onclick="answer('<?php echo $vo['discuss_id']; ?>','<?php echo $vo['discuss_title']; ?>');">我来回答</button>
+					</span>
+					
+				</div>
 			</div>
+			<?php endforeach; endif; else: echo "" ;endif; ?>
+		</div>
+		<div class="content layui-col-md-offset3 layui-col-md5" style="display:none;">
+			<div class="evaluation-info">
+				<div class="score float_l">综合得分</div>
+				<div class="evaluation-score float_l"><?php echo $video['videotab_assessscore']; ?></div>
+				<div class="float_l star-box">
+					<?php for($i=0;$i<(int)$video['videotab_assessscore'];$i++){ ?>
+                    <i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    <?php } ?>
+				</div>
+				<div class="peoplenum float_l">评价总人数：</div>
+				<span class="nums float_l"><?php echo $video['videotab_assessnums']; ?></span>
+				<div class="peoplenum float_l">评价总分：</div>
+				<span class="nums float_l"><?php echo $video['videotab_assessnums']*$video['videotab_assessscore']; ?></span>
+			</div>
+			<?php if(is_array($assess) || $assess instanceof \think\Collection || $assess instanceof \think\Paginator): if( count($assess)==0 ) : echo "" ;else: foreach($assess as $key=>$vo): ?>
+			<div class="course-description" style="min-height: 150px;color: #1c1f21;">
+				<a class="float_l">
+					<img src="/resource/public/static/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
+				</a>
+				<div class="assess-info float_l" style="cursor:pointer;margin-left: 10px;">
+					<span class="username">
+						<?php echo $vo['username']; ?>
+					</span>
+					<div class="user-score">
+						<?php for($i=0;$i<(int)$vo['assess_score'];$i++){ ?>
+                    	<i class="layui-icon" style="color: #ff9900;font-size: 7px;">&#xe67a;</i>
+                    	<?php } ?>
+                    	<?php echo $vo['assess_score']; ?>分
+                    </div>
+					<p class="" style="margin-top: 10px;">
+						<?php echo $vo['assess_content']; ?>
+					</p>
+					<span class="float_r time" >时间：<?php echo date('Y-m-d H:i',$vo['assess_time']); ?></span>
+				</div>
+	            
+			</div>
+			<?php endforeach; endif; else: echo "" ;endif; ?>
+		</div>
+		<div class="content layui-col-md-offset3 layui-col-md5" style="display: none">
+			<!-- <div class="course-description"> -->
+			<?php if(!$note){echo "<p class='no-course-helper' style='text-align:center'><span>暂时无笔记！</span></p>";} if(is_array($note) || $note instanceof \think\Collection || $note instanceof \think\Paginator): if( count($note)==0 ) : echo "" ;else: foreach($note as $key=>$vo): ?>
+			<div class="course-description" style="min-height: 150px;color: #1c1f21;">
+				<a class="float_l">
+					<img src="/resource/public/static/img/touxiang.png" style="height: 48px;width: 48px;border-radius: 50%;">
+				</a>
+				<div class="assess-info float_l" style="cursor:pointer;margin-left: 10px;">
+					<span class="username">
+						<?php echo $vo['username']; ?>
+					</span>
+					<p class="" style="margin-top: 10px;">
+						<?php echo $vo['note_content']; ?>
+					</p>
+					<span class="float_r time" >时间：<?php echo date('Y-m-d H:i',$vo['note_time']); ?></span>
+				</div>
+	            
+			</div>
+			<?php endforeach; endif; else: echo "" ;endif; ?>
+			<!-- </div> -->
 		</div>
 		
 	</div>
@@ -255,26 +344,180 @@ layui.use('layer', function(){});
 		</div>
 	</div>
 </div>
-<!-- <div class="width100 float_l padding_t30 height193">
-  <div class="width_1200 margin_auto">
-     
-        <div class="width100 float_l text_c yejiao color_gray" >
-            <a>关于我们</a>
-            <a>企业合作</a>
-            <a>联系我们</a>
-            <a>意见反馈</a>
-            <a>友情链接</a>
-      </div>
-        <div class="width100 float_l text_c border_t margin_t20 padding_t20 color_gray fon_siz12">
-          <span>© 2016   京ICP备13042132号</span>
-        </div>
-    </div>
-</div> -->
+<style type="text/css">
+	.no-course-helper{
+	font-size: 24px;
+    font-weight: 300;
+    color: #93999f;
+    line-height: 24px;
+    min-height: 150px;
+}
+</style>
+<script>
+	// alert(tablist[i].className);onclick为异步监控，先注册后回调。
+	// tab选项卡切换，切换的时刻可以做异步处理，防止刷新页面影响视频观看中断
+ window.onload = function() {
+ 	var tablist=$('#tab').children('li');
+ 	var tabitemlist=$('#tab-item').children('div');
+ 	for(var i=0;i<tablist.length;i++){
+ 		tablist[i].index=i;
+ 		tablist[i].onclick=function(){
+ 			for(var j=0;j<tabitemlist.length;j++){
+ 				if(this.index==j){
+ 					this.className="ison";
+ 					tabitemlist[j].style.display="block";
+ 				}else{
+ 					tablist[j].className="";
+ 					tabitemlist[j].style.display="none";
+ 				}
+ 			}
+ 		}
+ 	}
+ }
+ 	// 未收藏的hover事件
+function collectchoose(choose,videotype,video_id){
+	var token=getCookie('token');
+	// alert('token:'+token);
+	var url="<?php echo url('Index/person/coursecollect'); ?>";
+	var data={};
+		data['choose']=choose;
+		data['videotype']=videotype;
+		data['video_id']=video_id;
+		data=JSON.stringify(data);
+		// {"token":"96bebf18c3a102c494f1e8f8a9d471e1","choose":"0","videotype":1,"video_id":4}
+		if(token!=''){
+			$.ajax({
+			    url:url,
+			    data:{'data':data,'token':token},
+			    type:'post',
+			    datatype:'json',
+			    success : function(event){
+			    	// layer.msg(event.data);
+			    	if(choose=='0'){
+						$('#clickcollect').html('<i id="oncollect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67a;</i>-已收藏-');
+						$('#clickcollect').attr('onclick','collectchoose(1,'+videotype+','+video_id+')');
+						layer.msg('收藏成功');
+					}else if(choose=='1'){
+						$('#clickcollect').html('<i id="collect" class="layui-icon" style="font-size: 25px;margin-left: 50px;">&#xe67b;</i>-收藏-');
+						$('#clickcollect').attr('onclick','collectchoose(0,'+videotype+','+video_id+')');
+						layer.msg('取消收藏成功');
+					}
+			    }
+			});
+		}else{
+			layer.msg('收藏失败，您还未登录哦');
+		}
+	}
 
+	// 讨论列表和我要回答
+	var token=getCookie('token');
+	function discusscall(discuss_id,title){
+		var url="<?php echo url('Index/person/course_answerlist'); ?>";
+		url+='?discuss_id='+discuss_id;
+		if(token!=''){
+			layer.open({
+				type: 2, 
+				title:title,
+				content: url,
+				area: ['900px', '600px'],
+			}); 
+		}else{
+			layer.msg('您还未登录');
+		}
+	}
+	function answer(discuss_id,title){
+		var url="<?php echo url('Index/person/course_answer'); ?>";
+		url+='?discuss_id='+discuss_id;
+		if(token!=''){
+			layer.open({
+				type:2,
+				title:title,
+				content:url,
+				width:"500px",
+				area: ['700px', '500px'],
+			});
+		}else{
+			layer.msg('您还未登录');
+		}
+
+	}
+	/**
+	 * 提交讨论的表单
+	 * @param  {[type]} video_id [description]
+	 * @return {[type]}          [description]
+	 */
+	function subquest(video_id){
+		var token=getCookie('token');
+		var title=$('#questtitle').val();
+		var content=$('#questcontent').val();
+		var data={};
+		var url="<?php echo url('Index/person/subquest'); ?>";
+		if(title==''||content==''){
+			layer.msg('请补充完整问题', {icon: 5});
+			return false;
+		}
+		if(token!=''){
+			data['title']=title;
+			data['content']=content;
+			data['video_id']=video_id;
+			data['video_type']="<?php echo $video['video_type']; ?>";
+			data=JSON.stringify(data);
+			$.ajax({
+				url:url,
+			    data:{'data':data,'token':token},
+			    type:'post',
+			    datatype:'json',
+			    success:function(event){
+			    	if(event.status=='1'){
+			    		layer.msg('提交成功',{icon:6});
+			    	}else{
+			    		layer.msg('提交失败，你的网络异常',{icon:6});
+			    	}
+			    }
+			});
+
+		}else{
+			layer.msg('您还未登录哦，请先登录', {icon: 5});
+		}
+	}
+	/**
+	 * 提交笔记的内容
+	 */
+	function subnote(video_id){
+		var token=getCookie('token');
+		var content=$('#notecontent').val();
+		data={};
+		var url="<?php echo url('Index/person/subnote'); ?>";
+		if(content==''){
+			layer.msg('请补充笔记的内容');
+			return false;
+		}
+		if(token!=''){
+			data['content']=content;
+			data['video_id']=video_id;
+			data['video_type']="<?php echo $video['video_type']; ?>";
+			data=JSON.stringify(data);
+			$.ajax({
+				url:url,
+				data:{'data':data,'token':token},
+				type:'post',
+				datatype:'json',
+				success:function(event){
+					if(event.status=='1'){
+						layer.msg('操作成功',{icon:6});
+					}else{
+						layer.msg('你这操作有点秀',{icon:5});
+					}
+				}
+			});
+		}else{
+			layer.msg('您还未登录哦，请先登录');
+		}
+	}
+</script>
 <script type="text/javascript">//讨论的弹出框
 	layui.use('rate', function(){
 	    var rate = layui.rate;
-	   
 	    //渲染
 	    var ins1 = rate.render({
 	    	elem: '#test1'  //绑定元素
@@ -297,7 +540,6 @@ layui.use('layer', function(){});
 	    			case 5: 
 	    				$('#level').html('精品');
 	    				break;
-
 	    		}
 			}
 	    });
@@ -405,6 +647,7 @@ layui.use('layer', function(){});
 	}
 
     var player = new EZUIPlayer('myPlayer');
+    $('#myPlayer').bind('contextmenu',function() { return false; });
     player.on('error', function(){
         console.log('error');
     });

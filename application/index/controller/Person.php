@@ -123,6 +123,10 @@ class Person extends Base
                     $arr["".$key.""]=$value;
                 }
                 $data=$arr;
+                $keyarr=['discuss_id','content'];
+                if(!$this->isarray($keyarr,$data)){
+                    return send("缺少必要数据",'0');
+                }
                 $re=Db::table('re_discusscall')
                     ->insert(['discuss_id'=>$data['discuss_id'],'user_id'=>$user['id'],'discusscall_time'=>time(),'discusscall_content'=>$data['content']]);
                 if($re){
@@ -161,5 +165,88 @@ class Person extends Base
             $this->assign('discuss',$discuss);
         }
         return view('course_answerlist');
+    }
+    public function subquest(){
+         if(request()->isPost()){
+            $re='';
+            $data=input('post.data');
+            $token=input('post.token');
+            $user=cache($token);
+            $data=isset($data)?json_decode($data):false;
+            if($data){
+                foreach ($data as $key=>$value){
+                    $arr["".$key.""]=$value;
+                }
+                $data=$arr;
+                $keyarr=["title","content","video_id","video_type"];
+                if(!$this->isarray($keyarr,$data)){
+                    return send('缺少必要数据','0');
+                }
+                $type_name=config('video_type.'.$data['video_type']);
+                if($type_name){
+                    $video=Db::table('re_videotab')
+                            ->where(['videotab_id'=>$data['video_id'],'videotab_status'=>'6'])
+                            ->field('videotab_id,videotab_title')
+                            ->find();
+                    if($video){
+                        $re=Db::table('re_discuss')
+                                ->insert(['video_type'=>$data['video_type'],'video_id'=>$data['video_id'],'discuss_title'=>$data['title'],'user_id'=>$user['id'],'discuss_time'=>time(),'discuss_content'=>$data['content'],'video_title'=>$video['videotab_title'],'video_isover'=>'0']);
+                        if($re){
+                            return send('操作成功','1');
+                        }else{
+                            return send('操作失败','0');
+                        }
+                    }
+                }
+                
+                
+            }
+            return send('操作失败','0');
+        }
+        
+    }
+    public function subnote(){
+         if(request()->isPost()){
+            $re='';
+            $data=input('post.data');
+            $token=input('post.token');
+            $user=cache($token);
+            $data=isset($data)?json_decode($data):false;
+            if($data){
+                foreach ($data as $key=>$value){
+                    $arr["".$key.""]=$value;
+                }
+                $data=$arr;
+                $keyarr=["content","video_id","video_type"];
+                if(!$this->isarray($keyarr,$data)){
+                    return send('缺少必要数据','0');
+                }
+                $type_name=config('video_type.'.$data['video_type']);
+                if($type_name){
+                    $video=Db::table('re_videotab')
+                            ->where(['videotab_id'=>$data['video_id'],'videotab_status'=>'6'])
+                            ->field('videotab_id,videotab_title')
+                            ->find();
+                    if($video){
+                        $re=Db::table('re_note')
+                            ->insert(['video_type'=>$data['video_type'],'video_id'=>$data['video_id'],'user_id'=>$user['id'],'note_time'=>time(),'note_content'=>$data['content'],'video_title'=>$video['videotab_title'],'video_isover'=>'0']);
+                        if($re){
+                            return send('操作成功','1');
+                        }else{
+                            return send('操作失败','0');
+                        }
+                    }
+                }
+            }
+            return send('操作失败','0');
+        }
+    }
+    private function isarray($keyarr,$arr){
+        foreach ($keyarr as $value) {
+            if(!array_key_exists($value, $arr)){
+                return false;
+            }
+        }
+        return true;
     }
 }

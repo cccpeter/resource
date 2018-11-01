@@ -476,9 +476,72 @@ class Index extends Base
         // dump($discuss);
         return $discuss;
     }
+    /**
+     * [getnote description]
+     * @param  [type] $videotab_id [description]
+     * @param  [type] $video_type  [description]
+     * @return [type]              [description]
+     */
+    private function getnote($videotab_id,$video_type){
+        $user='';
+        if($_COOKIE){
+            $token=$_COOKIE['token'];
+            $user=cache($token);
+        }
+        if($user){
+            $note=Db::table('re_note')
+                    ->where(['video_id'=>$videotab_id,'video_type'=>$video_type,'user_id'=>$user['id']])
+                    ->alias('a')
+                    ->join('re_user u','a.user_id=u.id')
+                    ->field('note_content,note_time,username')
+                    ->order('note_id desc')
+                    ->select();
+            return $note;
+        }else{
+            return false;
+        }
+    }
     public function video(){
         $video_type=input('get.video_type');
         $video_id=input('get.video_id');
+        if($video_type==''||$video_id==''){
+            $this->redirect('Index/index/error404');
+            return;
+        }
+        $video=$this->getvideotab($video_type,$video_id);
+        $video['video_type']=$video_type;
+        //讨论列表
+        $discuss=$this->getdiscuss($video_id);
+        if($discuss){
+            $this->assign('discuss',$discuss);
+        }else{
+            $this->assign('discuss','0');
+        }
+        // 评价列表
+        $assess=$this->getassess($video_id);
+        if($assess){
+            $this->assign('assess',$assess);
+        }else{
+            $this->assign('assess','0');
+        }
+        // 笔记列表
+        $note=$this->getnote($video_id,$video_type);
+        if($note){
+            $this->assign('note',$note);
+        }else{
+            $this->assign('note','0');
+        }
+        // dump($video);
+        $this->assign('video',$video);
+        return view("video");
+    }
+    /**
+     * [getvideotab description]
+     * @param  [type] $videotype [description]
+     * @param  [type] $video_id  [description]
+     * @return [type]            [description]
+     */
+    private function getvideotab($video_type,$video_id){
         $user='';
         if($_COOKIE){
             $token=$_COOKIE['token'];
@@ -488,29 +551,65 @@ class Index extends Base
             case '1':
                 $video=Db::table('re_videotab')
                     ->where(['videotab_id'=>$video_id])
-                    ->field('videotab_id,videotab_title,videotab_stream')
+                    ->field('videotab_id,videotab_title,videotab_stream,videotab_assessscore,videotab_assessnums')
                     ->find();
+                if(!$video){
+                    $this->redirect('Index/index/error404');
+                    return;
+                }
                 if($user){
                     $collect=Db::table('re_collect')
                         ->where(['video_id'=>$video['videotab_id'],'video_type'=>'1','user_id'=>$user['id']])
                         ->find();
-                    if($user){//已经收藏
+                        // dump($collect);
+                    if($collect){//已经收藏
                         $video['is_collect']='1';
+                        $video['video_type']=$video_type;
                     }else{
                         $video['is_collect']='0';
+                        $video['video_type']=$video_type;
                     }
                 }else{
                     $video['is_collect']='0';
+                    $video['video_type']=$video_type;
                 }
                 break;
             case '2':
+                $video=Db::table('re_videotab')
+                    ->where(['videotab_id'=>$video_id])
+                    ->field('videotab_id,videotab_title,videotab_stream,videotab_assessscore,videotab_assessnums')
+                    ->find();
+                if(!$video){
+                    $this->redirect('Index/index/error404');
+                    return;
+                }
+                if($user){
+                    $collect=Db::table('re_collect')
+                        ->where(['video_id'=>$video['videotab_id'],'video_type'=>'1','user_id'=>$user['id']])
+                        ->find();
+                        // dump($collect);
+                    if($collect){//已经收藏
+                        $video['is_collect']='1';
+                        $video['video_type']=$video_type;
+                    }else{
+                        $video['is_collect']='0';
+                        $video['video_type']=$video_type;
+                    }
+                }else{
+                    $video['is_collect']='0';
+                    $video['video_type']=$video_type;
+                }
                 break;
             case '3':
+                $video="";
+                $video['video_type']='3';
                 break;
             default:
+                $video="";
+                $video['video_type']='';
                 break;
         }
-        return view("video");
+        return $video;
     }
     public function error404(){
         return view('error404');
