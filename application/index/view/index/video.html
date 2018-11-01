@@ -120,10 +120,10 @@
 			<div class="close float_r"><i onclick="closeassess();" class="layui-icon" style="font-size: 24px;font-color: #93999F">&#x1006;</i></div>
 			<p style="height: 24px;"></p>
 			<p style="height: 24px;"></p>
-			评分：<div id="test1"></div><span id="level" style="font-size:15px;color: #F90;"></span>
-			<div><input class="questtextarea" type="textarea" name="" placeholder="请写下你的评价"></div>
+			评分：<div id="test1"></div><span id="level" style="font-size:15px;color: #F90;" value=""></span>
+			<div><input class="questtextarea" id="assesscontent" type="textarea" name="" placeholder="请写下你的评价"></div>
 			<p style="height: 24px;"></p>
-			<div><a href="javascript:;" class="putqa-submit">提交</a></div>
+			<div><a onclick="subassess({$video['videotab_id']});" class="putqa-submit">提交</a></div>
 		</div>
 	</div>
 </div>
@@ -420,13 +420,17 @@ function collectchoose(choose,videotype,video_id){
 					if(event.status=='1'){
 						layer.msg('操作成功',{icon:6});
 					}else{
-						layer.msg('你这操作有点秀',{icon:5});
+						layer.msg('操作失败',{icon:5});
 					}
 				}
 			});
 		}else{
 			layer.msg('您还未登录哦，请先登录');
 		}
+	}
+	function subassess(video_id){
+		var level=$('#level').val();
+		alert(level);
 	}
 </script>
 <script type="text/javascript">//讨论的弹出框
@@ -441,18 +445,23 @@ function collectchoose(choose,videotype,video_id){
 	    		{
 	    			case 1: 
 	    				$('#level').html('一般');
+	    				$('#level').val('1');
 	    				break;
 	    			case 2: 
 	    				$('#level').html('良好');
+	    				$('#level').val('2');
 	    				break;
 	    			case 3: 
 	    				$('#level').html('推荐');
+	    				$('#level').val('3');
 	    				break;
 	    			case 4: 
 	    				$('#level').html('优秀');
+	    				$('#level').val('4');
 	    				break;
 	    			case 5: 
 	    				$('#level').html('精品');
+	    				$('#level').val('5');
 	    				break;
 	    		}
 			}
