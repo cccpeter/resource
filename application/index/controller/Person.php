@@ -241,6 +241,60 @@ class Person extends Base
             return send('操作失败','0');
         }
     }
+    /**
+     * [subassess description]
+     * 评价功能的模块
+     * @return [type] [description]
+     */
+    public function subassess(){
+        if(request()->isPost()){
+            $re='';
+            $data=input('post.data');
+            $token=input('post.token');
+            $user=cache($token);
+            $data=isset($data)?json_decode($data):false;
+            if($data){
+                foreach ($data as $key=>$value){
+                    $arr["".$key.""]=$value;
+                }
+                $data=$arr;
+                $keyarr=["content","video_id","video_type","level"];
+                if(!$this->isarray($keyarr,$data)){
+                    return send('缺少必要数据','0');
+                }
+                $type_name=config('video_type.'.$data['video_type']);
+                if($type_name){
+                    $video=Db::table('re_videotab')
+                            ->where(['videotab_id'=>$data['video_id'],'videotab_status'=>'6'])
+                            ->field('videotab_id,videotab_title,videotab_assessnums,videotab_assessscore')
+                            ->find();
+                    if($video){
+                        $assess=Db::table('re_assess')
+                                ->where(['user_id'=>$user['id'],'video_id'=>$data['video_id'],'video_type'=>$data['video_type']])
+                                ->field('assess_id')
+                                ->find();
+                        if(!$assess){
+                            $re=Db::table('re_assess')
+                                ->insert(['video_type'=>$data['video_type'],'video_id'=>$data['video_id'],'user_id'=>$user['id'],'assess_time'=>time(),'assess_content'=>$data['content'],'video_title'=>$video['videotab_title'],'video_isover'=>'0','assess_score'=>$data['level']]);
+                            if($re){
+                                $nums=$video['videotab_assessnums']+1;
+                                $score=($video['videotab_assessnums']*$video['videotab_assessscore']+$data['level'])/$nums;
+                                Db::table('re_videotab')
+                                    ->where(['videotab_id'=>$video['videotab_id']])
+                                    ->update(['videotab_id'=>$video['videotab_id'],'videotab_assessnums'=>$nums,'videotab_assessscore'=>$score]);
+                                    dump($video);
+                                    die;
+                                return send('操作成功','1');
+                            }else{
+                                return send('操作失败','0');
+                            }
+                        }
+                    }
+                }
+            }
+            return send('操作失败','0');
+        }
+    }
     private function isarray($keyarr,$arr){
         foreach ($keyarr as $value) {
             if(!array_key_exists($value, $arr)){

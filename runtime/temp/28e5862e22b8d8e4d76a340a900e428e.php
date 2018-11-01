@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1541063947;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\video.html";i:1541064952;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -515,8 +515,37 @@ function collectchoose(choose,videotype,video_id){
 		}
 	}
 	function subassess(video_id){
+		var token=getCookie('token');
+		var content=$('#assesscontent').val();
 		var level=$('#level').val();
-		alert(level);
+		data={};
+		var url="<?php echo url('Index/person/subassess'); ?>";
+		if(content==''||level==''){
+			layer.msg('请补充评价的内容');
+			return false;
+		}
+		if(token!=''){
+			data['content']=content;
+			data['level']=level;
+			data['video_id']=video_id;
+			data['video_type']="<?php echo $video['video_type']; ?>";
+			data=JSON.stringify(data);
+			$.ajax({
+				url:url,
+				data:{'data':data,'token':token},
+				type:'post',
+				datatype:'json',
+				success:function(event){
+					if(event.status=='1'){
+						layer.msg('操作成功',{icon:6});
+					}else{
+						layer.msg('您已经评价过了，请勿重复评价',{icon:5});
+					}
+				}
+			});
+		}else{
+			layer.msg('您还未登录哦，请先登录');
+		}
 	}
 </script>
 <script type="text/javascript">//讨论的弹出框
