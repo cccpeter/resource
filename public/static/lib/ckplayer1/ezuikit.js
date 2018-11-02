@@ -48,7 +48,7 @@
 
 
   // var Domain = 'https://open.ys7.com';
-  var logDomain = 'https://log.ys7.com/statistics.do';
+  // var logDomain = 'https://log.ys7.com/statistics.do';
 
   // var ckplayerJS =  './ckplayer/ckplayer.js';
   // var ckplayerSWF =  './ckplayer/ckplayer.swf';
@@ -100,8 +100,8 @@
     }
     var params = '?' + tempArray.join('&');
     // 上报一次本地统计信息
-    var img = new Image();
-    img.src = logDomain + params;
+    // var img = new Image();
+    // img.src = logDomain + params;
   }
 
   // 上报一次本地信息

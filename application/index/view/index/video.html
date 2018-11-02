@@ -84,17 +84,7 @@
 		        <p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a> </p>
 			</video>
 		</div> -->
-		<div id="video" class="float_l" style=" height:100%;  width: 95%;border-radius: 12px;margin-top: 10px;margin-bottom: 10px;">
-			<video id="myPlayer" style="width: 100%;height: 783px;" poster="" controls playsInline webkit-playsinline autoplay controlslist="nodownload">		
-				<!-- 如果是点播数据库的路径为：static后的路径 -->
-				<!-- 如果是直播数据库的路径为：整个rtmp流的路径 -->
-				{if condition="($video['video_type'] eq 1)"}
-			    <source src="__STATIC__/{$video['videotab_stream']}" type="video/mp4" />
-			    {else /}
-			    <source src="{$video['videotab_stream']}" type="rtmp/flv" />
-			    {/if}
-			</video>
-		</div>
+		
 		<div id='request' class="float_l request" style="display:none">
 			<div class="quest float_l">提问题</div>
 			<div class="close float_r"><i onclick="closereq();" class="layui-icon" style="font-size: 24px;font-color: #93999F">&#x1006;</i></div>
@@ -124,6 +114,17 @@
 			<div><input class="questtextarea" id="assesscontent" type="textarea" name="" placeholder="请写下你的评价"></div>
 			<p style="height: 24px;"></p>
 			<div><a onclick="subassess({$video['videotab_id']});" class="putqa-submit">提交</a></div>
+		</div>
+		<div id="video" class="float_l" style=" height:100%;  width: 95%;border-radius: 12px;margin-top: 10px;margin-bottom: 10px;">
+			<video id="myPlayer" style="width: 100%;height: 783px;" poster="" controls playsInline webkit-playsinline autoplay controlslist="nodownload">		
+				<!-- 如果是点播数据库的路径为：static后的路径 -->
+				<!-- 如果是直播数据库的路径为：整个rtmp流的路径 -->
+				{if condition="($video['video_type'] eq 1)"}
+			    <source src="__STATIC__/{$video['videotab_stream']}" type="video/mp4" />
+			    {else /}
+			    <source src="{$video['videotab_stream']}" type="rtmp/flv" />
+			    {/if}
+			</video>
 		</div>
 	</div>
 </div>
@@ -267,7 +268,62 @@
     min-height: 150px;
 }
 </style>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>  
 <script>
+	//上报观看视频的时间
+ 
+token=getCookie('token');
+if(token){
+	url=getRootPath()+"/index.php/Index/person/videolist";
+	line=window.location.href;
+	var regex=new RegExp("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
+	var localip = line.match(regex); 
+	$.ajax({
+		url:url,
+		data:{'token':token,'video_id':{$video.videotab_id}},
+		type:'post',
+		datatype:'json',
+		success:function(event){
+
+		}
+	});
+	
+}
+setInterval('time1()',5000);
+	setInterval('time()',5000);
+
+function time1(){
+  token=getCookie('token');
+  if(token){
+      var videotime=getCookie('videotime');
+      if(videotime){
+        if(parseInt(videotime)>90){
+        //如果viewtime等于120则发请求给服务器
+          setCookie('videotime','0','100');
+          url=getRootPath()+"/index.php/Index/person/videotime";
+          $.ajax({
+            url:url,
+            data:{'token':token},
+            type:'post',
+              datatype:'json',
+              success:function(event){
+                // if(event.status=='1'){
+                //  alert('上报成功');
+                // }else{
+                //  alert('上报失败');
+                // }
+              }
+          })
+        }else{
+          setCookie('videotime',parseInt(videotime)+5,'100');
+        }
+      }else{
+        setCookie('videotime','0','100');
+        // alert('初始化cookie');
+      }
+    }
+}
+
 	// alert(tablist[i].className);onclick为异步监控，先注册后回调。
 	// tab选项卡切换，切换的时刻可以做异步处理，防止刷新页面影响视频观看中断
  window.onload = function() {
@@ -288,6 +344,7 @@
  		}
  	}
  }
+
  	// 未收藏的hover事件
 function collectchoose(choose,videotype,video_id){
 	var token=getCookie('token');

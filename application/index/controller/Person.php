@@ -279,11 +279,10 @@ class Person extends Base
                             if($re){
                                 $nums=$video['videotab_assessnums']+1;
                                 $score=($video['videotab_assessnums']*$video['videotab_assessscore']+$data['level'])/$nums;
-                                Db::table('re_videotab')
+                                $score=round($score,2);
+                                $re=Db::table('re_videotab')
                                     ->where(['videotab_id'=>$video['videotab_id']])
-                                    ->update(['videotab_id'=>$video['videotab_id'],'videotab_assessnums'=>$nums,'videotab_assessscore'=>$score]);
-                                    dump($video);
-                                    die;
+                                    ->update(['videotab_assessnums'=>$nums,'videotab_assessscore'=>$score]);
                                 return send('操作成功','1');
                             }else{
                                 return send('操作失败','0');
@@ -294,6 +293,60 @@ class Person extends Base
             }
             return send('操作失败','0');
         }
+    }
+    public function viewtime(){
+        if(request()->isPost()){
+            $token=input('post.token');
+            $user=cache($token);
+            $re_user=Db::table('re_user')
+                    ->where(['id'=>$user['id']])
+                    ->field('viewtime')
+                    ->find();
+            $re=Db::table('re_user')
+                ->update(['id'=>$user['id'],'viewtime'=>($re_user['viewtime']+120)]);
+            if($re){
+                return send('上报ok','1');
+            }else{
+                return send('上报error','1');
+            }
+        }
+    }
+    public function videotime(){
+        if(request()->isPost()){
+            $token=input('post.token');
+            $user=cache($token);
+            $re_user=Db::table('re_user')
+                    ->where(['id'=>$user['id']])
+                    ->field('videotime')
+                    ->find();
+            $re=Db::table('re_user')
+                ->update(['id'=>$user['id'],'videotime'=>($re_user['videotime']+120)]);
+            if($re){
+                return send('上报ok','1');
+            }else{
+                return send('上报error','1');
+            }
+        }
+    }
+    public function videolist(){
+        if(request()->isPost()){
+            $token=input('post.token');
+            $user=cache($token);
+
+            $re_user=Db::table('re_user')
+                    ->where(['id'=>$user['id']])
+                    ->field('videotime')
+                    ->find();
+            $re=Db::table('re_user')
+                ->update(['id'=>$user['id'],'videotime'=>($re_user['videotime']+120)]);
+            if($re){
+                return send('上报ok','1');
+            }else{
+                return send('上报error','1');
+            }
+    }
+    private function ipcache($ip){
+        return ;
     }
     private function isarray($keyarr,$arr){
         foreach ($keyarr as $value) {

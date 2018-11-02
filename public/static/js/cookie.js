@@ -25,3 +25,45 @@ function delCookie(name)
     if(cval!=null)
     document.cookie= name + "="+cval+";Path=/;expires="+exp.toGMTString();
 }
+function getRootPath(){ 
+  var strFullPath=window.document.location.href; 
+  var strPath=window.document.location.pathname; 
+  var pos=strFullPath.indexOf(strPath); 
+  var prePath=strFullPath.substring(0,pos); 
+  var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1); 
+  return(prePath+postPath); 
+} 
+window.onload=function(e){
+  setInterval('time()',5000);
+}
+function time(){
+  token=getCookie('token');
+  if(token){
+      var viewtime=getCookie('viewtime');
+      if(viewtime){
+        if(parseInt(viewtime)>90){
+        //如果viewtime等于120则发请求给服务器
+          setCookie('viewtime','0','100');
+          url=getRootPath()+"/index.php/Index/person/viewtime";
+          $.ajax({
+            url:url,
+            data:{'token':token},
+            type:'post',
+              datatype:'json',
+              success:function(event){
+                // if(event.status=='1'){
+                //  alert('上报成功');
+                // }else{
+                //  alert('上报失败');
+                // }
+              }
+          })
+        }else{
+          setCookie('viewtime',parseInt(viewtime)+5,'100');
+        }
+      }else{
+        setCookie('viewtime','0','100');
+        // alert('初始化cookie');
+      }
+    }
+}
