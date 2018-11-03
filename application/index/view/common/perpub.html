@@ -78,30 +78,52 @@
 			</ul>
 		</div>
 <script>
-// alert(getCookie('username'));
-$('#username').html(getCookie('username'));
 var token=getCookie('token');
-var url=url=getRootPath()+"/index.php/Index/person/perpub";
-// alert(url);
-if(token){
-	$.ajax({
-		url:url,
-		type:'post',
-		dataType:'json',
-		data:{'token':token},
-		success:function(e){
-			if(e.status=='1'){
-				$('#viewtime').html(timehour(e.data.viewtime)+'H');
-				$('#videotime').html(timehour(e.data.videotime)+'H');
-				$('#collect').html(e.data.collect);
-			}else{
-				alert('你的网络炸了还是你的操作秀了？');
+getdata();
+getmenu();
+//获取菜单数据
+function getmenu(){
+	var url=getRootPath()+'/index.php/Index/person/menu';
+	var action="{$action}";
+	if(token){
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{'token':token,'action':action},
+			success:function(e){
+				if(e.status=='1'){
+					alert(e.data.action);
+				}
 			}
-		}
-	})
+		});
+	}
+}
+//获取页面三个基本数据
+function getdata(){
+	$('#username').html(getCookie('username'));
+	var url=getRootPath()+"/index.php/Index/person/perpub";
+	// alert(url);
+	if(token){
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{'token':token},
+			success:function(e){
+				if(e.status=='1'){
+					$('#viewtime').html(timehour(e.data.viewtime)+'H');
+					$('#videotime').html(timehour(e.data.videotime)+'H');
+					$('#collect').html(e.data.collect);
+				}else{
+					alert('你的网络炸了还是你的操作秀了？');
+				}
+			}
+		})
+	}
 }
 function timehour(second){
-	second=second/3600;
-	return parseInt(second*100)/100;
-}
+		second=second/3600;
+		return parseInt(second*100)/100;
+	}
 </script>

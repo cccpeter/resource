@@ -37,5 +37,13 @@ return [
         '2'=>'livetab',
         '3'=>'opentab',
     ]
+    'person_menu'           =>[
+        'userinfo'=>'index/person/userinfo',
+        'note'=>'index/person/note',
+        'mycollect'=>'index/person/mycollect',
+        'myassess'=>'index/person/myassess',
+        'myvideo'=>'index/person/myvideo',
+        
+    ]
     
 ];

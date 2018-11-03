@@ -11,25 +11,46 @@ class Person extends Base
 {
 
     public function userinfo(){
+        $action=request()->action();
+        $this->assign('action',$action);
         return view('userinfo');
     }
     public function note(){
+        $action=request()->action();
+        $this->assign('action',$action);
         return view('note');
     }
     public function mycollect(){
+        $action=request()->action();
+        $this->assign('action',$action);
         return view('mycollect');
     }
     public function myassess(){
+        $action=request()->action();
+        $this->assign('action',$action);
         return view('myassess');
     }
     public function myvideo(){
+        $action=request()->action();
+        $this->assign('action',$action);
         return view('myvideo');
     }
     public function publicvideo(){
+        $action=request()->action();
+        $this->assign('action',$action);
         return view('publicvideo');
     }
     public function myrequest(){
+        $action=request()->action();
+        $this->assign('action',$action);
         return view('myrequest');
+    }
+    public function menu(){
+        if(request()->isPost()){
+            $token=input('post.token');
+            $action['action']=input('post.action');
+            return send($action,'1');
+        }
     }
     /**
      * 课程收藏的异步请求

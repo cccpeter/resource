@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:83:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\publicvideo.html";i:1541236080;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541238445;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myassess.html";i:1541236022;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541237497;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -223,13 +223,12 @@ getmenu();
 //获取菜单数据
 function getmenu(){
 	var url=getRootPath()+'/index.php/Index/person/menu';
-	var action="<?php echo $action; ?>";
 	if(token){
 		$.ajax({
 			url:url,
 			type:'post',
 			dataType:'json',
-			data:{'token':token,'action':action},
+			data:{'token':token},
 			success:function(e){
 				if(e.status=='1'){
 					alert(e.data.action);

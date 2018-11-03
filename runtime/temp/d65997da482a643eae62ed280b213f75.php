@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\userinfo.html";i:1541236087;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541236043;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\userinfo.html";i:1541236087;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541238445;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -217,32 +217,54 @@ layui.use('layer', function(){});
 			</ul>
 		</div>
 <script>
-// alert(getCookie('username'));
-$('#username').html(getCookie('username'));
 var token=getCookie('token');
-var url=url=getRootPath()+"/index.php/Index/person/perpub";
-// alert(url);
-if(token){
-	$.ajax({
-		url:url,
-		type:'post',
-		dataType:'json',
-		data:{'token':token},
-		success:function(e){
-			if(e.status=='1'){
-				$('#viewtime').html(timehour(e.data.viewtime)+'H');
-				$('#videotime').html(timehour(e.data.videotime)+'H');
-				$('#collect').html(e.data.collect);
-			}else{
-				alert('你的网络炸了还是你的操作秀了？');
+getdata();
+getmenu();
+//获取菜单数据
+function getmenu(){
+	var url=getRootPath()+'/index.php/Index/person/menu';
+	var action="<?php echo $action; ?>";
+	if(token){
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{'token':token,'action':action},
+			success:function(e){
+				if(e.status=='1'){
+					alert(e.data.action);
+				}
 			}
-		}
-	})
+		});
+	}
+}
+//获取页面三个基本数据
+function getdata(){
+	$('#username').html(getCookie('username'));
+	var url=getRootPath()+"/index.php/Index/person/perpub";
+	// alert(url);
+	if(token){
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{'token':token},
+			success:function(e){
+				if(e.status=='1'){
+					$('#viewtime').html(timehour(e.data.viewtime)+'H');
+					$('#videotime').html(timehour(e.data.videotime)+'H');
+					$('#collect').html(e.data.collect);
+				}else{
+					alert('你的网络炸了还是你的操作秀了？');
+				}
+			}
+		})
+	}
 }
 function timehour(second){
-	second=second/3600;
-	return parseInt(second*100)/100;
-}
+		second=second/3600;
+		return parseInt(second*100)/100;
+	}
 </script>
 
 
