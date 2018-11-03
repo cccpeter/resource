@@ -1,0 +1,60 @@
+<div class="list-color width100" style="background-image: url(__STATIC__/img/test.png);top:150px;position: absolute;top: 50px;height: 180px;z-index: -1;background-size:cover; ">
+</div>
+<div style="height: 80px;"></div>
+<!-- 个人资料 -->
+<div class="width100 float_l" style="height: 180px;">
+	<div class="user-bg">
+		<div class="user-pic">
+			<img class="headerimg" src="http://img2.mukewang.com/545865da00012e6402200220-140-140.jpg">
+		</div>
+		<div class="user-info-right" id="username">
+			
+		</div>
+		<div class="item-follows">
+			<ul>
+				<li>
+					<em id="viewtime"></em>
+					<span>在线时长</span>
+				</li>
+				<li>
+					<em id="collect"></em>
+					<span>收藏</span>
+				</li>
+				<li>
+					<em id="videotime"></em>
+					<span>观看时长</span>
+				</li>
+				
+
+			</ul>
+		</div>
+	</div>
+</div>
+<script>
+// alert(getCookie('username'));
+$('#username').html(getCookie('username'));
+var token=getCookie('token');
+var url=url=getRootPath()+"/index.php/Index/person/perpub";
+// alert(url);
+if(token){
+	$.ajax({
+		url:url,
+		type:'post',
+		dataType:'json',
+		data:{'token':token},
+		success:function(e){
+			if(e.status=='1'){
+				$('#viewtime').html(timehour(e.data.viewtime)+'H');
+				$('#videotime').html(timehour(e.data.videotime)+'H');
+				$('#collect').html(e.data.collect);
+			}else{
+				alert('你的网络炸了还是你的操作秀了？');
+			}
+		}
+	})
+}
+function timehour(second){
+	second=second/3600;
+	return parseInt(second*100)/100;
+}
+</script>

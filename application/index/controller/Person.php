@@ -294,6 +294,9 @@ class Person extends Base
             return send('操作失败','0');
         }
     }
+    /**
+     * 上报在线时长每2分钟一次
+     */
     public function viewtime(){
         if(request()->isPost()){
             $token=input('post.token');
@@ -311,6 +314,9 @@ class Person extends Base
             }
         }
     }
+    /**
+     * 上报观看视频的时长每俩分钟上报一次
+     */
     public function videotime(){
         if(request()->isPost()){
             $token=input('post.token');
@@ -324,10 +330,14 @@ class Person extends Base
             if($re){
                 return send('上报ok','1');
             }else{
-                return send('上报error','1');
+                return send('上报error','0');
             }
         }
     }
+    /**
+     * 上报最近的浏览记录
+     * 点击视频后5s上报一次
+     */
     public function videolist(){
         if(request()->isPost()){
             $token=input('post.token');
@@ -361,24 +371,63 @@ class Person extends Base
                 break;
             }
             if($video){
-                $re=Db::table('re_uservideo')
-                        ->insert([
+                $uservideo=Db::table('re_uservideo')
+                        ->where([
                             'user_id'=>$user['id'],
-                            'uservideo_time'=>time(),
                             'video_id'=>$video_id,
                             'video_type'=>$video_type
+                        ])
+                        ->field('uservideo_id')
+                        ->find();
+                if($uservideo){
+                    $re=Db::table('re_uservideo')
+                        ->update([
+                            'uservideo_id'=>$uservideo['uservideo_id'],
+                            'uservideo_time'=>time()
                         ]);
+                }else{
+                    $re=Db::table('re_uservideo')
+                            ->insert([
+                                'user_id'=>$user['id'],
+                                'uservideo_time'=>time(),
+                                'video_id'=>$video_id,
+                                'video_type'=>$video_type
+                            ]);
+                }
                 if($re){
                     return send('上报ok','1');
                 }else{
-                    return send('上报error','1');
+                    return send('上报error','0');
                 }
             }
+            return send('上报error','0');
+        }
     }
-}
-    // private function ipcache($ip){
-    //     return ;
-    // }
+    public function perpub(){
+        if(request()->isPost()){
+            $token=input('post.token');
+            if($token){
+                $user=cache($token);
+                if($user){
+                    //缓存中的数据不是实时的
+                    $usernow=Db::table('re_user')
+                            ->where(['id'=>$user['id'],'en'=>'01'])
+                            ->field('viewtime,videotime')
+                            ->find();
+                    $collect=Db::table('re_collect')
+                            ->where(['user_id'=>$user['id']])
+                            ->count();
+                    $usernow['collect']=$collect;
+                    if($usernow){
+                        return send($usernow,'1');
+                    }else{
+                        return send('操作失败了','0');
+                    }
+                }
+            }
+            return send('操作失败了','0');
+        }
+    }
     private function isarray($keyarr,$arr){
         foreach ($keyarr as $value) {
             if(!array_key_exists($value, $arr)){

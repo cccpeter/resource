@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myrequest.html";i:1539853620;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1540015743;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myrequest.html";i:1541215069;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541229698;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -17,6 +17,7 @@
 <!-- <style type="text/css">
   @media (max-width: 1500px) {    .layui-fluid { width: 1500px; }.width100{width: 1500px;}}
 </style> -->
+
 </head>
 <body class="backg_huibai">
 <!-- 顶部 -->
@@ -145,22 +146,22 @@ layui.use('layer', function(){});
 		<div class="user-pic">
 			<img class="headerimg" src="http://img2.mukewang.com/545865da00012e6402200220-140-140.jpg">
 		</div>
-		<div class="user-info-right">
-			大白菜管理员
+		<div class="user-info-right" id="username">
+			
 		</div>
 		<div class="item-follows">
 			<ul>
 				<li>
-					<em>24H</em>
+					<em id="viewtime"></em>
 					<span>在线时长</span>
 				</li>
 				<li>
-					<em>410</em>
+					<em id="collect"></em>
 					<span>收藏</span>
 				</li>
 				<li>
-					<em>100</em>
-					<span>观看次数</span>
+					<em id="videotime"></em>
+					<span>观看时长</span>
 				</li>
 				
 
@@ -168,13 +169,41 @@ layui.use('layer', function(){});
 		</div>
 	</div>
 </div>
+<script>
+// alert(getCookie('username'));
+$('#username').html(getCookie('username'));
+var token=getCookie('token');
+var url=url=getRootPath()+"/index.php/Index/person/perpub";
+// alert(url);
+if(token){
+	$.ajax({
+		url:url,
+		type:'post',
+		dataType:'json',
+		data:{'token':token},
+		success:function(e){
+			if(e.status=='1'){
+				$('#viewtime').html(timehour(e.data.viewtime)+'H');
+				$('#videotime').html(timehour(e.data.videotime)+'H');
+				$('#collect').html(e.data.collect);
+			}else{
+				alert('你的网络炸了还是你的操作秀了？');
+			}
+		}
+	})
+}
+function timehour(second){
+	second=second/3600;
+	return parseInt(second*100)/100;
+}
+</script>
 <div class="width100 float_l">
 	<div class="wrap">
 		<div class="slider float_l">
 			<ul>
 				<li>
 					<a href="<?php echo url('Index/person/mycollect'); ?>" class="active">
-		            	<i class="layui-icon">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
+		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
 		            </a>
 				</li>
 				<li>

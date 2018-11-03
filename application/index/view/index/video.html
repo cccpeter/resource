@@ -268,28 +268,76 @@
     min-height: 150px;
 }
 </style>
-<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>  
 <script>
-	//上报观看视频的时间
- 
-token=getCookie('token');
-if(token){
-	url=getRootPath()+"/index.php/Index/person/videolist";
-	line=window.location.href;
-	var regex=new RegExp("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
-	var localip = line.match(regex); 
-	$.ajax({
-		url:url,
-		data:{'token':token,'video_id':{$video.videotab_id},'video_type':{$video.videotab_id}},
-		type:'post',
-		datatype:'json',
-		success:function(event){
-		}
-	});
 	
+
+setInterval('time1()',5000);//上报视频的观看时间
+setInterval('time()',5000);//兼容cookie.js中方法，不能再使用windows.onload
+setTimeout('videolist()',10000);//上报视频的浏览记录
+setTimeout('videoclick()',5000);//上报视频的点击率
+//上报视频点击率
+function videoclick(){
+	url=getRootPath()+"/index.php/Index/index/clickvideo";
+	if(window.localStorage){
+		var video_id="{$video.videotab_id}";
+		var video_type="{$video.video_type}";
+		var key=video_id+'-'+video_type;
+		cleanStorage();
+		var click=localStorage.getItem(key);
+		if(!click){
+			$.ajax({
+				url:url,
+				data:{'video_id':video_id,video_type:video_type},
+				type:'post',
+				datatype:'json',
+				success:function(event){
+					if(event.status=='1'){
+						// 成功
+						set(key,'true');
+						// alert('上报成功');
+					}
+				}
+			});
+		}
+		
+	}
 }
-setInterval('time1()',5000);
-	setInterval('time()',5000);
+
+//设置localstrong
+function set(key,value){
+	var curTime = new Date().getTime();
+	localStorage.setItem(key,JSON.stringify({data:value,time:curTime}));
+}
+//让localstrong过期掉
+function cleanStorage(){
+	var storage = window.localStorage;
+	var timenow=new Date().getTime();
+	var timeout=1500000;//localstroing的过期时间1500s
+	for(var i=0;i<storage.length;i++){
+		//key(i)获得相应的键，再用getItem()方法获得对应的值
+		var keyjson=JSON.parse(storage.getItem(storage.key(i)));
+		if(keyjson.time<(timenow-timeout)){
+			localStorage.removeItem(storage.key(i));//清除过期的key
+		}
+	}
+}
+
+//上报观看视频的时间
+function videolist(){
+	token=getCookie('token');
+	if(token){
+		url=getRootPath()+"/index.php/Index/person/videolist";
+		$.ajax({
+			url:url,
+			data:{'token':token,'video_id':{$video.videotab_id},'video_type':{$video.video_type}},
+			type:'post',
+			datatype:'json',
+			success:function(event){
+				// alert(event.data);
+			}
+		});
+	}
+}
 
 function time1(){
   token=getCookie('token');

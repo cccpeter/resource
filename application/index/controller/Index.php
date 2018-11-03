@@ -611,6 +611,63 @@ class Index extends Base
         }
         return $video;
     }
+    public function clickvideo(){
+        if(request()->isPost()){
+            $video_id=input('post.video_id');
+            $video_type=input('post.video_type');
+            if($video_id!=''&&$video_type!=''){
+                switch($video_type){
+                    case 1:
+                        $video=Db::table('re_videotab')
+                                ->where(['videotab_id'=>$video_id])
+                                ->field('videotab_id,videotab_views')
+                                ->find();
+                    break;
+                    case 2:
+                        $video=Db::table('re_livetab')
+                                ->where(['livetab_id'=>$video_id])
+                                ->field('livetab_id,livetab_views')
+                                ->find();
+                        break;
+                    case 3:
+                        $video=Db::table('re_opentab')
+                                ->where(['opentab_id'=>$video_id])
+                                ->field('opentab_id,opentab_views')
+                                ->find();
+                        break;
+                    default:
+                    $video=false;
+                    break;
+                }
+                if($video){
+                    switch($video_type){
+                        case 1:
+                            $re=Db::table('re_videotab')
+                                    ->update(['videotab_id'=>$video_id,'videotab_views'=>($video['videotab_views']+1)]);
+                                    
+                        break;
+                        case 2:
+                            $re=Db::table('re_livetab')
+                                    ->update(['livetab_id'=>$video_id,'livetab_views'=>($video['livetab_views']++)]);
+                            break;
+                        case 3:
+                            $re=Db::table('re_opentab')
+                                    ->update(['opentab_id'=>$video_id,'opentab_views'=>($video['opentab_views']++)]);
+                            break;
+                        default:
+                        $re=false;
+                        break;
+                    }
+                    if($re){
+                        return send('上报ok','1');
+                    }else{
+                        return send('上报error','0');
+                    }
+                }
+            }
+
+        }
+    }
     public function error404(){
         return view('error404');
     }

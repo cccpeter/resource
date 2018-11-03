@@ -1,44 +1,13 @@
 {include file="common/headcss"}
 {include file="common/head"}
-<div class="list-color width100" style="background-image: url(__STATIC__/img/test.png);top:150px;position: absolute;top: 50px;height: 180px;z-index: -1;background-size:cover; ">
-</div>
-<div style="height: 80px;"></div>
-<!-- 个人资料 -->
-<div class="width100 float_l" style="height: 180px;">
-	<div class="user-bg">
-		<div class="user-pic">
-			<img class="headerimg" src="http://img2.mukewang.com/545865da00012e6402200220-140-140.jpg">
-		</div>
-		<div class="user-info-right">
-			大白菜管理员
-		</div>
-		<div class="item-follows">
-			<ul>
-				<li>
-					<em>24H</em>
-					<span>在线时长</span>
-				</li>
-				<li>
-					<em>410</em>
-					<span>收藏</span>
-				</li>
-				<li>
-					<em>100</em>
-					<span>观看次数</span>
-				</li>
-				
-
-			</ul>
-		</div>
-	</div>
-</div>
+{include file="common/perpub"}
 <div class="width100 float_l">
 	<div class="wrap">
 		<div class="slider float_l">
 			<ul>
 				<li>
 					<a href="{:url('Index/person/mycollect')}" class="active">
-		            	<i class="layui-icon">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
+		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
 		            </a>
 				</li>
 				<li>
