@@ -280,11 +280,10 @@ if(token){
 	var localip = line.match(regex); 
 	$.ajax({
 		url:url,
-		data:{'token':token,'video_id':{$video.videotab_id}},
+		data:{'token':token,'video_id':{$video.videotab_id},'video_type':{$video.videotab_id}},
 		type:'post',
 		datatype:'json',
 		success:function(event){
-
 		}
 	});
 	

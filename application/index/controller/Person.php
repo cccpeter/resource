@@ -331,23 +331,54 @@ class Person extends Base
     public function videolist(){
         if(request()->isPost()){
             $token=input('post.token');
+            $video_type=input('post.video_type');
+            $video_id=input('post.video_id');
             $user=cache($token);
-
-            $re_user=Db::table('re_user')
-                    ->where(['id'=>$user['id']])
-                    ->field('videotime')
-                    ->find();
-            $re=Db::table('re_user')
-                ->update(['id'=>$user['id'],'videotime'=>($re_user['videotime']+120)]);
-            if($re){
-                return send('上报ok','1');
-            }else{
-                return send('上报error','1');
+            if(!($video_type!=''&&$video_id!='')){
+                return send('数据不完整','0');
+            }
+            switch($video_type){
+                case 1:
+                    $video=Db::table('re_videotab')
+                            ->where(['videotab_id'=>$video_id])
+                            ->field('videotab_id')
+                            ->find();
+                break;
+                case 2:
+                    $video=Db::table('re_livetab')
+                            ->where(['livetab_id'=>$video_id])
+                            ->field('livetab_id')
+                            ->find();
+                break;
+                case 3:
+                    $video=Db::table('re_opentab')
+                            ->where(['opentab_id'=>$video_id])
+                            ->field('opentab_id')
+                            ->find();
+                break;
+                default:
+                $video=false;
+                break;
+            }
+            if($video){
+                $re=Db::table('re_uservideo')
+                        ->insert([
+                            'user_id'=>$user['id'],
+                            'uservideo_time'=>time(),
+                            'video_id'=>$video_id,
+                            'video_type'=>$video_type
+                        ]);
+                if($re){
+                    return send('上报ok','1');
+                }else{
+                    return send('上报error','1');
+                }
             }
     }
-    private function ipcache($ip){
-        return ;
-    }
+}
+    // private function ipcache($ip){
+    //     return ;
+    // }
     private function isarray($keyarr,$arr){
         foreach ($keyarr as $value) {
             if(!array_key_exists($value, $arr)){
