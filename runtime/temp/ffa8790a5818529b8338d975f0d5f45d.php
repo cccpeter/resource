@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1541215086;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541229698;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1541236074;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541236043;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -169,34 +169,6 @@ layui.use('layer', function(){});
 		</div>
 	</div>
 </div>
-<script>
-// alert(getCookie('username'));
-$('#username').html(getCookie('username'));
-var token=getCookie('token');
-var url=url=getRootPath()+"/index.php/Index/person/perpub";
-// alert(url);
-if(token){
-	$.ajax({
-		url:url,
-		type:'post',
-		dataType:'json',
-		data:{'token':token},
-		success:function(e){
-			if(e.status=='1'){
-				$('#viewtime').html(timehour(e.data.viewtime)+'H');
-				$('#videotime').html(timehour(e.data.videotime)+'H');
-				$('#collect').html(e.data.collect);
-			}else{
-				alert('你的网络炸了还是你的操作秀了？');
-			}
-		}
-	})
-}
-function timehour(second){
-	second=second/3600;
-	return parseInt(second*100)/100;
-}
-</script>
 <div class="width100 float_l">
 	<div class="wrap">
 		<div class="slider float_l">
@@ -225,14 +197,14 @@ function timehour(second){
 		            </a>
 				</li>
 				<li>
-					<a href="<?php echo url('Index/person/note'); ?>" class="actived">
-						<i class="layui-icon" style="font-size: 20px;color: #fff;line-height: 48px;">&#xe642;</i>
+					<a href="<?php echo url('Index/person/note'); ?>" class="active">
+						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe642;</i>
 						<span style="margin-left: 15px;">我的笔记</span><b class="icon-drop_right"></b>
 		            </a>
 				</li>
 				<li>
-					<a href="<?php echo url('Index/person/myassess'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe66e;</i>
+					<a href="<?php echo url('Index/person/myassess'); ?>" class="actived">
+						<i class="layui-icon" style="font-size: 20px;color: #fff;line-height: 48px;">&#xe66e;</i>
 						<span style="margin-left: 15px;">我的评价</span><b class="icon-drop_right"></b>
 		            </a>
 				</li>
@@ -244,6 +216,36 @@ function timehour(second){
 				</li>
 			</ul>
 		</div>
+<script>
+// alert(getCookie('username'));
+$('#username').html(getCookie('username'));
+var token=getCookie('token');
+var url=url=getRootPath()+"/index.php/Index/person/perpub";
+// alert(url);
+if(token){
+	$.ajax({
+		url:url,
+		type:'post',
+		dataType:'json',
+		data:{'token':token},
+		success:function(e){
+			if(e.status=='1'){
+				$('#viewtime').html(timehour(e.data.viewtime)+'H');
+				$('#videotime').html(timehour(e.data.videotime)+'H');
+				$('#collect').html(e.data.collect);
+			}else{
+				alert('你的网络炸了还是你的操作秀了？');
+			}
+		}
+	})
+}
+function timehour(second){
+	second=second/3600;
+	return parseInt(second*100)/100;
+}
+</script>
+
+
 		<form class="layui-form">
 		<div class="my-space-course float_l">
 			<div class="course-tab float_l" >

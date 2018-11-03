@@ -16,7 +16,8 @@ class Base extends Controller
     
     public function __construct(){
         parent::__construct();//继承父类的构造器
-    	$ctl = request()->controller();// 获得模块的控制器和方法
+		$ctl = request()->controller();// 获得模块的控制器和方法
+		// cache($ctl,NULL);
         $navctl=$this->getnav($ctl);
         if($navctl!=''){//控制器存在权限
         	if($navctl['nav_isshow']!='1'){
@@ -25,6 +26,7 @@ class Base extends Controller
         	// 获取token
         	$user=$this->getusertoken();
         	if($user){
+				// echo $navctl['nav_auth'];die;
         		if($navctl['nav_auth']<$user['auth_level']){//权限不够
         			$this->redirect('Index/index/index');
         		}

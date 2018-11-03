@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\admin\index.html";i:1540273869;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541147951;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\admin\index.html";i:1540273869;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -17,45 +17,7 @@
 <!-- <style type="text/css">
   @media (max-width: 1500px) {    .layui-fluid { width: 1500px; }.width100{width: 1500px;}}
 </style> -->
-<script type="text/javascript">
-	
-	window.onload=function(e){
-		setInterval('time()',30000);
-	}
-	function time(){
-		token=getCookie('token');
-		if(token){
-				var viewtime=getCookie('viewtime');
-				if(viewtime){
-					if(parseInt(viewtime)>90){
-					//如果viewtime等于120则发请求给服务器
-						setCookie('viewtime','0','100');
-						url="<?php echo url('Index/person/viewtime'); ?>";
-						$.ajax({
-							url:url,
-							data:{'token':token},
-							type:'post',
-			    			datatype:'json',
-			    			success:function(event){
-			    				// if(event.status=='1'){
-			    				// 	alert('上报成功');
-			    				// }else{
-			    				// 	alert('上报失败');
-			    				// }
-			    			}
-						})
-					}else{
-						setCookie('viewtime',parseInt(viewtime)+30,'100');
-					}
-				}else{
-					setCookie('viewtime','0','100');
-					alert('初始化cookie');
-				}
-			}
-	}
 
-
-</script>
 </head>
 <body class="backg_huibai">
 <!-- 顶部 -->
