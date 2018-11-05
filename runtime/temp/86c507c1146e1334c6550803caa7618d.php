@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myrequest.html";i:1541236062;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541236043;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myrequest.html";i:1541236062;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541386442;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -172,8 +172,8 @@ layui.use('layer', function(){});
 <div class="width100 float_l">
 	<div class="wrap">
 		<div class="slider float_l">
-			<ul>
-				<li>
+			<ul id="menu">
+				<!-- <li>
 					<a href="<?php echo url('Index/person/mycollect'); ?>" class="active">
 		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
 		            </a>
@@ -213,36 +213,82 @@ layui.use('layer', function(){});
 						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe609;</i>
 						<span style="margin-left: 15px;">我的讨论</span><b class="icon-drop_right"></b>
 		            </a>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 <script>
-// alert(getCookie('username'));
-$('#username').html(getCookie('username'));
 var token=getCookie('token');
-var url=url=getRootPath()+"/index.php/Index/person/perpub";
-// alert(url);
-if(token){
-	$.ajax({
-		url:url,
-		type:'post',
-		dataType:'json',
-		data:{'token':token},
-		success:function(e){
-			if(e.status=='1'){
-				$('#viewtime').html(timehour(e.data.viewtime)+'H');
-				$('#videotime').html(timehour(e.data.videotime)+'H');
-				$('#collect').html(e.data.collect);
-			}else{
-				alert('你的网络炸了还是你的操作秀了？');
+getdata();
+getmenu();
+//获取菜单数据
+function getmenu(){
+	var url=getRootPath()+'/index.php/Index/person/menu';
+	var menuurl=getRootPath()+'/index.php/';
+	var action="<?php echo $action; ?>";
+	// alert(action);
+	var html='';
+	if(token){
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{'token':token},
+			success:function(e){
+				if(e.status=='1'){
+					for(var item in e.data){
+						// alert(item);
+						// alert(e.data[item]);
+						// var arr=e.data[item].replace('\/','/');
+						// alert(e.data[item]);
+						var arr=e.data[item].split(':');
+						//有就返回无就返回null
+						if(arr[0].indexOf(action)>-1){
+							exc="actived";
+							color='#fff;';
+						}else{
+							exc="active";
+							color='#787d82;'
+						}
+						var menu=menuurl+arr[0];
+						// alert(menu);
+						html+='<li><a href="'+menu+'"class="'+exc+'"><i class=layui-icon style="font-size: 20px;color:'+color+'line-height: 48px;">'+arr[1]+'</i><span style="margin-left: 15px;">'+item+'</span><b class=icon-drop_right></b></a></li>';
+					}
+					// alert(html);
+					$('#menu').html(html);
+				}else{
+					console.log("操作失败");
+				}
 			}
-		}
-	})
+		});
+	}
+}
+//获取页面三个基本数据
+function getdata(){
+	$('#username').html(getCookie('username'));
+	var url=getRootPath()+"/index.php/Index/person/perpub";
+	// alert(url);
+	if(token){
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{'token':token},
+			success:function(e){
+				if(e.status=='1'){
+					$('#viewtime').html(timehour(e.data.viewtime)+'H');
+					$('#videotime').html(timehour(e.data.videotime)+'H');
+					$('#collect').html(e.data.collect);
+				}else{
+					alert('你的网络炸了还是你的操作秀了？');
+				}
+			}
+		})
+	}
 }
 function timehour(second){
-	second=second/3600;
-	return parseInt(second*100)/100;
-}
+		second=second/3600;
+		return parseInt(second*100)/100;
+	}
 </script>
 
 

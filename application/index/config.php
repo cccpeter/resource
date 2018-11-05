@@ -36,14 +36,20 @@ return [
         '1'=>'videotab',
         '2'=>'livetab',
         '3'=>'opentab',
-    ]
+    ],
     'person_menu'           =>[
-        'userinfo'=>'index/person/userinfo',
-        'note'=>'index/person/note',
-        'mycollect'=>'index/person/mycollect',
-        'myassess'=>'index/person/myassess',
-        'myvideo'=>'index/person/myvideo',
-        
+        '收藏夹'=>'index/person/mycollect:&#xe600;',
+        '历史观看'=>'index/person/userinfo:&#xe60e;',
+        '我的笔记'=>'index/person/note:&#xe642;',
+        '我的评价'=>'index/person/myassess:&#xe66e;',
+        '我的讨论'=>'index/person/myrequest:&#xe609;',
+    ],
+    'teacher_menu'           =>[
+        '公共视频'=>'index/teacher/publicvideo:&#xe681;',
+        '我的视频'=>'index/teacher/myvideo:&#xe6ed;',
+    ],
+    'senior_menu'                =>[
+        '审核'=>'index/senior/audit:&#xe674;',
     ]
     
 ];

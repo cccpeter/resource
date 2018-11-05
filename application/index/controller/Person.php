@@ -21,9 +21,48 @@ class Person extends Base
         return view('note');
     }
     public function mycollect(){
+        if($_COOKIE){
+            $token=$_COOKIE['token'];
+            $user=cache($token);
+            $pagenow=input('get.pagenow')?input('get.pagenow'):1;//默认第一页。计算时候需要减一
+            $pagesize=input('get.pagesize')?input('get.pagesize'):10;
+            $video_type=input('get.video_type')?input('get.video_type'):'0';//默认为点播视频
+            $table='re_collect';
+            switch($video_type){
+                case 0:
+                $list=$this->getpage($table,$pagenow-1,$pagesize,$user['id']);
+                $where=['user_id'=>$user['id']];
+                $count=$this->getcount($table,$where);
+                break;
+                case 1:
+                break;
+                case 2:
+                break;
+                default:
+                break;
+            }
+            // $uservideo=Db::table('re_uservideo')
+            //         ->where(['user_id'=>$user['id']])
+            //         ->paginate(10)
+            //         ->
+            dump($list);
+            dump($count);
+        }
+        // $this->getpage('re_uservideo','0','5');
         $action=request()->action();
         $this->assign('action',$action);
         return view('mycollect');
+    }
+    private function getpage($table,$pagenow,$pagesize,$user_id){
+        // SELECT * FROM product WHERE ID > =(select id from product limit 866613, 1) limit 20 limit的优化方法
+        $list=Db::query("select * from ".$table." where user_id =? limit ?,?",[$user_id,$pagenow*$pagesize,$pagesize]);
+        // dump($user_id.'id'.$pagenow*$pagesize.'page'.$pagesize);
+        // dump($list);
+        return $list;
+    }
+    private function getcount($table,$where){
+        $count=Db::table($table)->where($where)->count();
+        return $count;
     }
     public function myassess(){
         $action=request()->action();
@@ -48,8 +87,45 @@ class Person extends Base
     public function menu(){
         if(request()->isPost()){
             $token=input('post.token');
-            $action['action']=input('post.action');
-            return send($action,'1');
+            $user=cache($token);
+            // dump($user);
+            $auth=$user['auth_level'];
+            $usermenu=array();
+            if($auth<4){
+                //1-3
+                $menu[0]=config('person_menu');
+                $menu[1]=config('teacher_menu');
+                $menu[2]=config('senior_menu');
+                foreach($menu as $keys=>$values){
+                    foreach($values as $key=>$value){
+                        $usermenu["".$key.""]=$value;
+                    }
+                }
+            }else if($auth<7&&$auth>3){
+                //4-6
+                $menu[0]=config('person_menu');
+                $menu[1]=config('teacher_menu');
+                foreach($menu as $keys=>$values){
+                    foreach($values as $key=>$value){
+                        $usermenu["".$key.""]=$value;
+                    }
+                }
+            }else if($auth==7){
+                //等于7
+                $menu[0]=config('person_menu');
+                foreach($menu as $keys=>$values){
+                    foreach($values as $key=>$value){
+                        $usermenu["".$key.""]=$value;
+                    }
+                }
+            }
+            if($usermenu){
+                // dump($usermenu);
+                return send($usermenu,'1');
+            }else{
+                return send('你这操作又秀了','0');
+            }
+            
         }
     }
     /**

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541236054;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541238445;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541402386;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541399189;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -172,48 +172,7 @@ layui.use('layer', function(){});
 <div class="width100 float_l">
 	<div class="wrap">
 		<div class="slider float_l">
-			<ul>
-				<li>
-					<a href="<?php echo url('Index/person/mycollect'); ?>" class="active">
-		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/userinfo'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe60e;</i>
-						<span style="margin-left: 15px;">历史观看</span><b class="icon-drop_right"></b>
-		            </a>
-		        </li>
-		        <li>
-					<a href="<?php echo url('Index/person/myvideo'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe6ed;</i>
-						<span style="margin-left: 15px;">我的视频</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/publicvideo'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe681;</i>
-						<span style="margin-left: 15px;">公共视频</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/note'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe642;</i>
-						<span style="margin-left: 15px;">我的笔记</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/myassess'); ?>" class="actived">
-						<i class="layui-icon" style="font-size: 20px;color: #fff;line-height: 48px;">&#xe66e;</i>
-						<span style="margin-left: 15px;">我的评价</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/myrequest'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe609;</i>
-						<span style="margin-left: 15px;">我的讨论</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
+			<ul id="menu">
 			</ul>
 		</div>
 <script>
@@ -223,16 +182,40 @@ getmenu();
 //获取菜单数据
 function getmenu(){
 	var url=getRootPath()+'/index.php/Index/person/menu';
+	var menuurl=getRootPath()+'/index.php/';
 	var action="<?php echo $action; ?>";
+	// alert(action);
+	var html='';
 	if(token){
 		$.ajax({
 			url:url,
 			type:'post',
 			dataType:'json',
-			data:{'token':token,'action':action},
+			data:{'token':token},
 			success:function(e){
 				if(e.status=='1'){
-					alert(e.data.action);
+					for(var item in e.data){
+						// alert(item);
+						// alert(e.data[item]);
+						// var arr=e.data[item].replace('\/','/');
+						// alert(e.data[item]);
+						var arr=e.data[item].split(':');
+						//有就返回无就返回null
+						if(arr[0].indexOf(action)>-1){
+							exc="actived";
+							color='#fff;';
+						}else{
+							exc="active";
+							color='#787d82;'
+						}
+						var menu=menuurl+arr[0];
+						// alert(menu);
+						html+='<li><a href="'+menu+'"class="'+exc+'"><i class=layui-icon style="font-size: 20px;color:'+color+'line-height: 48px;">'+arr[1]+'</i><span style="margin-left: 15px;">'+item+'</span><b class=icon-drop_right></b></a></li>';
+					}
+					// alert(html);
+					$('#menu').html(html);
+				}else{
+					console.log("操作失败");
 				}
 			}
 		});
@@ -273,8 +256,7 @@ function timehour(second){
 			<div class="course-tab float_l" >
 				<!-- <a>历史观看</a> -->
 				<div class="layui-input-block float_r" style="margin-top: 10px;">
-			      <select name="coursetype" lay-verify="required" lay-filter="search_type">
-			        <option value="3">全部视频</option>
+			      <select name="coursetype" lay-verify="required" lay-filter="search_type" >
 			        <option value="0">点播视频</option>
 			        <option value="1">直播视频</option>
 			        <option value="2">公开课视频</option>
@@ -282,7 +264,7 @@ function timehour(second){
 			    </div>
 			</div>
 			
-			<div class="course-list">
+			<div class="course-list" id="list">
 				<?php for($i=0;$i<15;$i++){ ?>
 				<div class="clearfix float_l">
 					<img class="float_l" src="https://img3.sycdn.imooc.com/5b9a01a40001fe1805400300-240-135.jpg">
@@ -302,6 +284,7 @@ function timehour(second){
 				</div>
 				<hr>
 				<?php } ?>
+				<div id="test1"></div>
 			</div>
 		</div>	
 	</form>	
@@ -314,6 +297,27 @@ function timehour(second){
 </body>
 
 <script>
+layui.use('laypage', function(){
+  var laypage = layui.laypage;
+  //执行一个laypage实例
+  laypage.render({
+    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+    ,count: 500 //数据总数，从服务端得到
+		,jump: function(obj, first){
+			//obj包含了当前分页的所有参数，比如：
+			console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+			console.log(obj.limit); //得到每页显示的条数
+			
+			//首次不执行
+			if(!first){
+				//do something
+
+			}else{
+				// alert("首页")
+			}
+		}
+  });
+});
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
   var element = layui.element;
@@ -326,22 +330,19 @@ layui.use('form', function(){
    form.on('select(search_type)', function(data){
    	var n=parseInt(data.value);
     switch(n)
-	{
-	case 0:
-	   alert('点播视频');
-	   break;
-	case 1:
-		alert('直播视频');
-	   break;
-    case 2:
-        alert('公开课视频');
-        break;
-    case 3:
-    	alert('全部视频');
-    	break;
-	default:
-	 	break;
-	}
+			{
+			case 0:
+				alert('点播视频');
+				break;
+			case 1:
+				alert('直播视频');
+				break;
+				case 2:
+						alert('公开课视频');
+						break;
+			default:
+				break;
+			}
   });
 });
 $('#userinfomess').hover(function(){

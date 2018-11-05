@@ -19,10 +19,7 @@ use think\Route;
     'error404'  =>  'Index/index/error404',
     'course_detail'  =>  'Index/index/course_detail',
     'video'  =>  'Index/index/video',
-    'userinfo'  =>  'Index/person/userinfo',
-    'note'  =>  'Index/person/note',
     'live'  =>  'Index/live/live',
-    'notice'  =>  'Index/notice/notice',
     'openclass'  =>  'Index/openclass/openclass',
     'test'  =>  'Index/index/test',
     
