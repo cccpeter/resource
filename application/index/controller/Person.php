@@ -21,47 +21,89 @@ class Person extends Base
         return view('note');
     }
     public function mycollect(){
-        if($_COOKIE){
-            $token=$_COOKIE['token'];
-            $user=cache($token);
-            $pagenow=input('get.pagenow')?input('get.pagenow'):1;//默认第一页。计算时候需要减一
-            $pagesize=input('get.pagesize')?input('get.pagesize'):10;
-            $video_type=input('get.video_type')?input('get.video_type'):'0';//默认为点播视频
-            $table='re_collect';
-            switch($video_type){
-                case 0:
-                $list=$this->getpage($table,$pagenow-1,$pagesize,$user['id']);
-                $where=['user_id'=>$user['id']];
-                $count=$this->getcount($table,$where);
-                break;
-                case 1:
-                break;
-                case 2:
-                break;
-                default:
-                break;
-            }
-            // $uservideo=Db::table('re_uservideo')
-            //         ->where(['user_id'=>$user['id']])
-            //         ->paginate(10)
-            //         ->
-            dump($list);
-            dump($count);
-        }
         // $this->getpage('re_uservideo','0','5');
         $action=request()->action();
         $this->assign('action',$action);
         return view('mycollect');
     }
-    private function getpage($table,$pagenow,$pagesize,$user_id){
+    public function mycollectdata(){
+        if(request()->isPost()){
+            if($_COOKIE){
+                $token=$_COOKIE['token'];
+                $user=cache($token);
+                $pagenow=input('get.pagenow')?input('get.pagenow'):1;//默认第一页。计算时候需要减一
+                $pagesize=input('get.pagesize')?input('get.pagesize'):10;
+                $video_type=input('get.video_type')?input('get.video_type'):'1';//默认为点播视频
+                $table='re_collect';
+                switch($video_type){
+                    case 1:
+                    $list=$this->getpage($table,$pagenow-1,$pagesize,$user['id'],$video_type);
+                    $where=['user_id'=>$user['id']];
+                    $count=$this->getcount($table,$where);
+                    foreach($list as &$values){
+                        $values['collect_time']=date('Y-m-d H:i',$values['collect_time']);
+                        $where=['videotab_id'=>$values['video_id']];
+                        $field=['videotype_id,videotype_parentid,videotab_level,videotab_title,videotab_image,username'];
+                        $video=$this->getvideo('re_videotab',$where,$field);
+                        if($video){
+                            $values['user_name']=$video['username'];
+                            $values['video_title']=$video['videotab_title'];
+                            $values['video_image']=$video['videotab_image'];
+                            $type_parent=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_parentid']],'videotype_name');
+                            $type_son=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_id']],'videotype_name');
+                            $values['video_parent']=$type_parent['videotype_name'];
+                            $values['video_son']=$type_son['videotype_name'];
+                            $wherecount=['video_type'=>'1','video_id'=>$values['video_id']];
+                            $wherenote=['video_type'=>'1','video_id'=>$values['video_id'],'user_id'=>$user['id']];
+                            $values['note_count']=$this->getnotecount($wherenote);
+                            $values['assess_count']=$this->getassesscount($wherecount);
+                            $values['disscuss_count']=$this->getdiscusscount($wherecount);
+                        }
+                    }
+                    break;
+                    case 2:
+                    break;
+                    case 3:
+                    break;
+                    default:
+                    break;
+                }
+                // $uservideo=Db::table('re_uservideo')
+                //         ->where(['user_id'=>$user['id']])
+                //         ->paginate(10)
+                //         ->
+                return send($list,'1');
+            }
+        }
+        return send('操作失败了！','0');
+    }
+    private function getpage($table,$pagenow,$pagesize,$user_id,$video_type){
         // SELECT * FROM product WHERE ID > =(select id from product limit 866613, 1) limit 20 limit的优化方法
-        $list=Db::query("select * from ".$table." where user_id =? limit ?,?",[$user_id,$pagenow*$pagesize,$pagesize]);
-        // dump($user_id.'id'.$pagenow*$pagesize.'page'.$pagesize);
-        // dump($list);
+        $list=Db::query("select collect_time,collect_isover,video_id from ".$table." where user_id =? AND video_type=? limit ?,? ",[$user_id,$video_type,$pagenow*$pagesize,$pagesize]);
         return $list;
+    }
+    private function getvideo($table,$where,$field){
+        $video=Db::table($table)->where($where)->alias('a')->join('re_user u','a.user_id=u.id')->field($field)->find();
+        return $video;
     }
     private function getcount($table,$where){
         $count=Db::table($table)->where($where)->count();
+        return $count;
+    }
+    private function getvideotype($table,$where,$field){
+        $video_type=Db::table($table)->where($where)->field($field)->find();
+        return $video_type;
+    }
+    private function getnotecount($where){
+        $count=Db::table('re_note')->where($where)->count();
+        return $count;
+    }
+    private function getassesscount($where){
+        $count=Db::table('re_assess')->where($where)->count();
+        return $count;
+    }
+    private function getdiscusscount($where){
+        $count=Db::table('re_discuss')->where($where)->count();
         return $count;
     }
     public function myassess(){

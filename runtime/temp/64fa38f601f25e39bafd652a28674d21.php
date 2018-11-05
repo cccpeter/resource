@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541402386;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541399189;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541409468;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541399189;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -257,9 +257,9 @@ function timehour(second){
 				<!-- <a>历史观看</a> -->
 				<div class="layui-input-block float_r" style="margin-top: 10px;">
 			      <select name="coursetype" lay-verify="required" lay-filter="search_type" >
-			        <option value="0">点播视频</option>
-			        <option value="1">直播视频</option>
-			        <option value="2">公开课视频</option>
+			        <option value="1">点播视频</option>
+			        <option value="2">直播视频</option>
+			        <option value="3">公开课视频</option>
 			      </select>
 			    </div>
 			</div>
@@ -269,8 +269,9 @@ function timehour(second){
 				<div class="clearfix float_l">
 					<img class="float_l" src="https://img3.sycdn.imooc.com/5b9a01a40001fe1805400300-240-135.jpg">
 					<div class="clearfix-title float_l">
-						<h3 class="float_l">Spring Boot 2.0深度实践之系列总览</h3>
-						<span class="course-content">视频分类：点播视频</span><br>
+						<div class="h4">Spring Boot 2.0深度实践之系列总览</div>
+						<p class="course-content float_l" style="margin-right:15px;">视频分类：点播视频</p>
+						<p class="course-content">收藏日期：2018-12-30 19:15</p>
 						<span class="course-content">一级类目 / 二级类目 / 三级类目</span>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">大白菜</span>
 						<br>
@@ -297,62 +298,81 @@ function timehour(second){
 </body>
 
 <script>
-layui.use('laypage', function(){
-  var laypage = layui.laypage;
-  //执行一个laypage实例
-  laypage.render({
-    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-    ,count: 500 //数据总数，从服务端得到
-		,jump: function(obj, first){
-			//obj包含了当前分页的所有参数，比如：
-			console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-			console.log(obj.limit); //得到每页显示的条数
-			
-			//首次不执行
-			if(!first){
-				//do something
+	// 初始化页面
+	window.onload=function(){
+		getpage();
+		getvideotype();
+	}
+	// layui的分页组件应该，先ajax请求过去后再初始化组件
+	function getpage(){
+		layui.use("laypage", function(){
+			var laypage = layui.laypage;
+			//执行一个laypage实例
+			var url="<?php echo url('Index/person/mycollectdata'); ?>";
+			var token=getCookie("token");
+			$.ajax({
+				url:url,
+				type:"post",
+				dataType:"json",
+				data:{"token":token},
+				success:function(e){
+					// alert(e);
+				}
+			})
+			laypage.render({
+				elem: "test1" //注意，这里的 test1 是 ID，不用加 # 号
+				,count: 500 //数据总数，从服务端得到
+				,jump: function(obj, first){
+					//obj包含了当前分页的所有参数，比如：
+					console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+					console.log(obj.limit); //得到每页显示的条数
+					
+					//首次不执行
+					if(!first){
+						//do something
 
-			}else{
-				// alert("首页")
-			}
-		}
-  });
-});
-//注意：导航 依赖 element 模块，否则无法进行功能性操作
-layui.use('element', function(){
-  var element = layui.element;
-  
-  //…
-});
-//渲染form表单（下拉框）
-layui.use('form', function(){
-  var form = layui.form;
-   form.on('select(search_type)', function(data){
-   	var n=parseInt(data.value);
-    switch(n)
-			{
-			case 0:
-				alert('点播视频');
-				break;
-			case 1:
-				alert('直播视频');
-				break;
+					}else{
+						// alert("首页")
+					}
+				}
+			});
+		});
+	}
+function getvideotype(){
+	//注意：导航 依赖 element 模块，否则无法进行功能性操作
+	layui.use("element", function(){
+		var element = layui.element;
+	});
+	//渲染form表单（下拉框）
+	layui.use("form", function(){
+		var form = layui.form;
+		form.on("select(search_type)", function(data){
+			var n=parseInt(data.value);
+			switch(n)
+				{
+				case 1:
+					alert("点播视频");
+					break;
 				case 2:
-						alert('公开课视频');
+					alert("直播视频");
+					break;
+					case 3:
+						alert("公开课视频");
 						break;
-			default:
-				break;
-			}
-  });
-});
-$('#userinfomess').hover(function(){
-    $('#userinfoset').attr('class','userinfo');
+				default:
+					break;
+				}
+		});
+	});
+}
+$("#userinfomess").hover(function(){
+    $("#userinfoset").attr("class","userinfo");
   },
   function(){})
-$('#userinfoset').hover(function(){
+$("#userinfoset").hover(function(){
 
 },function(){
-    $('#userinfoset').attr('class','userinfo userinfo-hoverls');
+    $("#userinfoset").attr("class","userinfo userinfo-hoverls");
   }
 )
 </script>
