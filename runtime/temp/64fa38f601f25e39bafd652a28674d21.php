@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541465679;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541399189;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541473723;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541399189;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -264,29 +264,10 @@ function timehour(second){
 			    </div>
 			</div>
 			
-			<div class="course-list" id="list">
-				<?php for($i=0;$i<15;$i++){ ?>
-				<div class="clearfix float_l">
-					<img class="float_l" src="https://img3.sycdn.imooc.com/5b9a01a40001fe1805400300-240-135.jpg">
-					<div class="clearfix-title float_l">
-						<div class="h4">Spring Boot 2.0深度实践之系列总览</div>
-						<p class="course-content float_l" style="margin-right:15px;">视频分类：点播视频</p>
-						<p class="course-content">收藏日期：2018-12-30 19:15</p>
-						<span class="course-content">一级类目 / 二级类目 / 三级类目</span>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">大白菜</span>
-						<br>
-						<br>
-						<a class="titletab">我的笔记 (2)</a>
-						<a class="titletab">讨论 (3)</a>
-						<a class="titletab3">评价 (3)</a>
-						<a class="study float_r" href="">学习啊</a>
-					</div>
-					
-				</div>
-				<hr>
-				<?php } ?>
-				<div id="test1"></div>
+			<div class="course-list" id="list" style="min-height:250px;">
 			</div>
+			<center>
+			<div id="test1"></div></center>
 		</div>	
 	</form>	
 	</div>
@@ -310,40 +291,63 @@ function timehour(second){
 			//执行一个laypage实例
 			var url="<?php echo url('Index/person/mycollectdata'); ?>";
 			var token=getCookie("token");
+			var pagesize=2;
+			var pagenow=1;
+			var video_type=1;
 			$.ajax({
 				url:url,
 				type:"post",
 				dataType:"json",
-				data:{"token":token},
+				data:{"token":token,"video_type":video_type,"pagenow":pagenow,"pagesize":pagesize},
 				success:function(e){
 					if(e.status=='1'){
-						alert(e.data);
-						laypage.render({
-						elem: "test1" //注意，这里的 test1 是 ID，不用加 # 号
-						,count: e.count //数据总数，从服务端得到
-						,limit:e.pagesize
-						,jump: function(obj, first){
-							//obj包含了当前分页的所有参数，比如：
-							console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-							console.log(obj.limit); //得到每页显示的条数
-							
-							//首次不执行
-							if(!first){
-								//do something
-
-							}else{
-								// alert("首页")
+						if(e.data!=''){
+							var html='';
+							for(var item in e.data){
+								console.log(e.data[item])
+								var imageurl=getRootPath()+'/';
+								html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'+imageurl+e.data[item].video_image+'"><div class="clearfix-title float_l"><div class="h4">'+e.data[item].video_title+'</div><p class="course-content float_l" style="margin-right:15px;">视频分类：'+e.data[item].video_type+'</p><p class="course-content">收藏日期：'+e.data[item].collect_time+'</p><span class="course-content">'+e.data[item].video_parent+'/'+ e.data[item].video_son+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'+e.data[item].user_name+'</span><br><br><a class="titletab">我的笔记 ('+e.data[item].note_count+')</a><a class="titletab">讨论 ('+e.data[item].disscuss_count+')</a><a class="titletab3">评价 ('+e.data[item].assess_count+')</a><a class="study float_r" href="">查看</a></div></div><hr>';
 							}
+							$('#list').html(html);
+							laypage.render({
+							elem: "test1"
+							,count: e.count
+							,limit:e.pagesize
+							,jump: function(obj, first){
+								if(!first){
+									$.ajax({
+										url:url,
+										type:"post",
+										dataType:"json",
+										data:{"token":token,"pagenow":obj.curr,"pagesize":obj.limit,'video_type':video_type},
+										success:function(e){
+											var html='';
+											for(var item in e.data){
+												console.log(e.data[item])
+												var imageurl=getRootPath()+'/';
+												html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'+imageurl+e.data[item].video_image+'"><div class="clearfix-title float_l"><div class="h4">'+e.data[item].video_title+'</div><p class="course-content float_l" style="margin-right:15px;">视频分类：'+e.data[item].video_type+'</p><p class="course-content">收藏日期：'+e.data[item].collect_time+'</p><span class="course-content">'+e.data[item].video_parent+'/'+ e.data[item].video_son+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'+e.data[item].user_name+'</span><br><br><a class="titletab">我的笔记 ('+e.data[item].note_count+')</a><a class="titletab">讨论 ('+e.data[item].disscuss_count+')</a><a class="titletab3">评价 ('+e.data[item].assess_count+')</a><a class="study float_r" href="">查看</a></div></div><hr>';
+											}
+											$('#list').html(html);
+										}
+									});
+								}else{
+									// alert("首页")
+								}
+							}
+						});
+						}else{
+							//暂无数据
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无收藏！</span></p>");
 						}
-					});
-					}else{
-						//暂无数据
 					}
 				}
 			})
 			
 		});
 	}
+function getvideodata(){
+
+}
 function getvideotype(){
 	//注意：导航 依赖 element 模块，否则无法进行功能性操作
 	layui.use("element", function(){

@@ -8,6 +8,12 @@
     border: 0;
     width: 434px;
 }
+.no-course-helper{
+    font-size: 24px;
+    font-weight: 300;
+    color: #93999f;
+    line-height: 24px;
+}
 .course-top-search{
 	width: 466px!important;
     height: 36px;

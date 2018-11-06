@@ -28,12 +28,12 @@ class Person extends Base
     }
     public function mycollectdata(){
         if(request()->isPost()){
-            if($_COOKIE){
-                $token=$_COOKIE['token'];
+            // if($_COOKIE){
+                $token=input('post.token');
                 $user=cache($token);
-                $pagenow=input('get.pagenow')?input('get.pagenow'):1;//默认第一页。计算时候需要减一
-                $pagesize=input('get.pagesize')?input('get.pagesize'):2;
-                $video_type=input('get.video_type')?input('get.video_type'):'1';//默认为点播视频
+                $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
+                $pagesize=input('post.pagesize')?input('post.pagesize'):2;
+                $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
                 $table='re_collect';
                 switch($video_type){
                     case 1:
@@ -58,6 +58,7 @@ class Person extends Base
                             $values['note_count']=$this->getnotecount($wherenote);
                             $values['assess_count']=$this->getassesscount($wherecount);
                             $values['disscuss_count']=$this->getdiscusscount($wherecount);
+                            $values['video_type']="点播视频";
                         }
                     }
                     break;
@@ -72,8 +73,13 @@ class Person extends Base
                 //         ->where(['user_id'=>$user['id']])
                 //         ->paginate(10)
                 //         ->
-                return ['data'=>$list,'status'=>'1','count'=>$count,'pagenow'=>$pagenow,'pagesize'=>$pagesize];
-            }
+                if($list){
+                    return ['data'=>$list,'status'=>'1','count'=>$count,'pagenow'=>$pagenow,'pagesize'=>$pagesize];
+                }else{
+                    return send('操作失败','0');
+                }
+                
+            // }
         }
         return send('操作失败了！','0');
     }
