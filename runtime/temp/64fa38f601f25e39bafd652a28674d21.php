@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541409468;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541399189;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:81:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\mycollect.html";i:1541465679;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541399189;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -316,26 +316,32 @@ function timehour(second){
 				dataType:"json",
 				data:{"token":token},
 				success:function(e){
-					// alert(e);
-				}
-			})
-			laypage.render({
-				elem: "test1" //注意，这里的 test1 是 ID，不用加 # 号
-				,count: 500 //数据总数，从服务端得到
-				,jump: function(obj, first){
-					//obj包含了当前分页的所有参数，比如：
-					console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-					console.log(obj.limit); //得到每页显示的条数
-					
-					//首次不执行
-					if(!first){
-						//do something
+					if(e.status=='1'){
+						alert(e.data);
+						laypage.render({
+						elem: "test1" //注意，这里的 test1 是 ID，不用加 # 号
+						,count: e.count //数据总数，从服务端得到
+						,limit:e.pagesize
+						,jump: function(obj, first){
+							//obj包含了当前分页的所有参数，比如：
+							console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+							console.log(obj.limit); //得到每页显示的条数
+							
+							//首次不执行
+							if(!first){
+								//do something
 
+							}else{
+								// alert("首页")
+							}
+						}
+					});
 					}else{
-						// alert("首页")
+						//暂无数据
 					}
 				}
-			});
+			})
+			
 		});
 	}
 function getvideotype(){

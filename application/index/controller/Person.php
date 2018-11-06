@@ -32,7 +32,7 @@ class Person extends Base
                 $token=$_COOKIE['token'];
                 $user=cache($token);
                 $pagenow=input('get.pagenow')?input('get.pagenow'):1;//默认第一页。计算时候需要减一
-                $pagesize=input('get.pagesize')?input('get.pagesize'):10;
+                $pagesize=input('get.pagesize')?input('get.pagesize'):2;
                 $video_type=input('get.video_type')?input('get.video_type'):'1';//默认为点播视频
                 $table='re_collect';
                 switch($video_type){
@@ -72,7 +72,7 @@ class Person extends Base
                 //         ->where(['user_id'=>$user['id']])
                 //         ->paginate(10)
                 //         ->
-                return send($list,'1');
+                return ['data'=>$list,'status'=>'1','count'=>$count,'pagenow'=>$pagenow,'pagesize'=>$pagesize];
             }
         }
         return send('操作失败了！','0');
