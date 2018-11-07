@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\userinfo.html";i:1541567103;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\userinfo.html";i:1541569015;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -336,8 +336,8 @@ function timehour(second){
 								+e.data[item].video_title+
 								'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
 								+e.data[item].video_type+
-								'</p><p class="course-content">收藏日期：'
-								+e.data[item].collect_time+
+								'</p><p class="course-content">观看日期：'
+								+e.data[item].uservideo_time+
 								'</p><span class="course-content">'
 								+e.data[item].video_parent+'/'+ e.data[item].video_son+
 								'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
@@ -371,8 +371,8 @@ function timehour(second){
 												+e.data[item].video_title+
 												'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
 												+e.data[item].video_type+
-												'</p><p class="course-content">收藏日期：'
-												+e.data[item].collect_time+
+												'</p><p class="course-content">观看日期：'
+												+e.data[item].uservideo_time+
 												'</p><span class="course-content">'
 												+e.data[item].video_parent+'/'+ e.data[item].video_son+
 												'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
@@ -388,11 +388,11 @@ function timehour(second){
 						});
 						}else{
 							//暂无数据
-							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无收藏！</span></p>");
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
 						}
 					}else{
 							//暂无数据
-							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无收藏！</span></p>");
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
 						}
 				}
 			})

@@ -7,7 +7,6 @@ use think\Request;
 use app\index\controller\Base;
 
 class Senior extends Base{
-
     public function audit(){
         $action=request()->action();
         $this->assign('action',$action);

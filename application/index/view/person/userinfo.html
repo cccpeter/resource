@@ -87,8 +87,8 @@
 								+e.data[item].video_title+
 								'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
 								+e.data[item].video_type+
-								'</p><p class="course-content">收藏日期：'
-								+e.data[item].collect_time+
+								'</p><p class="course-content">观看日期：'
+								+e.data[item].uservideo_time+
 								'</p><span class="course-content">'
 								+e.data[item].video_parent+'/'+ e.data[item].video_son+
 								'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
@@ -122,8 +122,8 @@
 												+e.data[item].video_title+
 												'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
 												+e.data[item].video_type+
-												'</p><p class="course-content">收藏日期：'
-												+e.data[item].collect_time+
+												'</p><p class="course-content">观看日期：'
+												+e.data[item].uservideo_time+
 												'</p><span class="course-content">'
 												+e.data[item].video_parent+'/'+ e.data[item].video_son+
 												'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
@@ -139,11 +139,11 @@
 						});
 						}else{
 							//暂无数据
-							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无收藏！</span></p>");
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
 						}
 					}else{
 							//暂无数据
-							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无收藏！</span></p>");
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
 						}
 				}
 			})

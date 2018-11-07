@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1541236074;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1541582584;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -256,33 +256,14 @@ function timehour(second){
 			<div class="course-tab float_l" >
 				<!-- <a>历史观看</a> -->
 				<div class="layui-input-block float_r" style="margin-top: 10px;">
-			      <select name="coursetype" lay-verify="required" lay-filter="search_type">
-			        <option value="3">全部视频</option>
-			        <option value="0">点播视频</option>
-			        <option value="1">直播视频</option>
-			        <option value="2">公开课视频</option>
+			      <select name="coursetype" lay-verify="required" lay-filter="search_type" id="type">
+			        
 			      </select>
 			    </div>
 			</div>
 			
-			<div class="course-list">
-				<?php for($i=0;$i<15;$i++){ ?>
-				<div class="clearfix float_l">
-					<div class="clearfix-note float_l">
-						<i class="layui-icon float_l" style="font-size: 24px;color: rgba(240,20,20,.6);margin-right: 20px;">&#xe6ed;</i>
-						<h3 class="float_l">Spring Boot 2.0深度实践之系列总览</h3>
-						<span class="course-content">视频分类：点播视频</span><br>
-						<span class="course-content" style="margin-left: 45px;">一级类目 / 二级类目 / 三级类目</span>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">大白菜</span>
-						<br>
-						<br>
-						<span >还有最后一章就学完了，先来评价一下，本门课程对于新手来说涉及到的知识点确实挺多的，帮我巩固了SSM的知识，也快速知道了springboot的用法，同时还学会了阿里云的部署，老师的手记很方便。不过个人觉得有一点瑕疵，微信这几小节讲得不够深入，其实还是希望能带着敲的。因为之前没有接触过微信相关的开发，不过整体来说，作为刚学习完SSM框架的在校大学生 作为第一个实战课程 ，还是收获满满，给翔仔老师点赞。还有最后一章就学完了，先来评价一下，本门课程对于新手来说涉及到的知识点确实挺多的，帮我巩固了SSM的知识，也快速知道了springboot的用法，同时还学会了阿里云的部署，老师的手记很方便。不过个人觉得有一点瑕疵，微信这几小节讲得不够深入，其实还是希望能带着敲的。因为之前没有接触过微信相关的开发，不过整体来说，作为刚学习完SSM框架的在校大学生 作为第一个实战课程 ，还是收获满满，给翔仔老师点赞。还有最后一章就学完了，先来评价一下，本门课程对于新手来说涉及到的知识点确实挺多的，帮我巩固了SSM的知识，也快速知道了springboot的用法，同时还学会了阿里云的部署，老师的手记很方便。不过个人觉得有一点瑕疵，微信这几小节讲得不够深入，其实还是希望能带着敲的。因为之前没有接触过微信相关的开发，不过整体来说，作为刚学习完SSM框架的在校大学生 作为第一个实战课程 ，还是收获满满，给翔仔老师点赞。</span>
-					</div>
-					
-				</div>
-				<hr>
-				<?php } ?>
-			</div>
+			<div class="course-list" id="list" style="min-height:250px;"></div>
+			<center><div id="test1"></div></center>
 		</div>	
 	</form>	
 	</div>
@@ -294,36 +275,170 @@ function timehour(second){
 </body>
 
 <script>
+// 初始化页面
+var pagesize=10;//每页的数量
+	var pagenow=1;//当前页
+	var video_type=1;
+	if(getPar('video_type')){
+		video_type=getPar('video_type');
+	}
+	video_type=parseInt(video_type);
+	switch(video_type){
+		case 1:
+			var html='';
+			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
+			$('#type').html(html);
+		break;
+		case 2:
+			var html='';
+			html+='<option value="2" selected>直播视频</option><option value="1">点播视频</option><option value="3">公开课视频</option>';
+			$('#type').html(html);
+		break;
+		case 3:
+			var html='';
+			html+='<option value="3" selected>公开课视频</option><option value="1"  >点播视频</option><option value="2">直播视频</option>';
+			$('#type').html(html);
+		break;
+		default:
+		var html='';
+			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
+			$('#type').html(html);
+		break;
+	}
+	//视频分类
+	window.onload=function(){
+		getpage();
+		getvideotype();
+	}
+	// layui的分页组件应该，先ajax请求过去后再初始化组件
+	function getpage(){
+		layui.use("laypage", function(){
+			var laypage = layui.laypage;
+			//执行一个laypage实例
+			var url="<?php echo url('Index/person/notedata'); ?>";
+			var videourl=getRootPath()+'/video';
+			var token=getCookie("token");
+			$.ajax({
+				url:url,
+				type:"post",
+				dataType:"json",
+				data:{"token":token,"video_type":video_type,"pagenow":pagenow,"pagesize":pagesize},
+				success:function(e){
+					if(e.status=='1'){
+						if(e.data!=''){
+							var html='';
+							for(var item in e.data){
+								var imageurl=getRootPath()+'/';
+								html+='<div id="noteid'+e.data[item].note_id+'"><div class="clearfix float_l"><div class="clearfix-note float_l"><i class="layui-icon float_l" style="font-size: 24px;color: rgba(240,20,20,.6);margin-right: 20px;">&#xe6ed;</i><h3 class="float_l">'
+								+e.data[item].video_title+
+								'</h3><span class="course-content"style="font-size:16px;"></span><br><span class="course-content" style="margin-left: 45px;">'
+								+e.data[item].video_parent+'/'+ e.data[item].video_son+
+								'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
+								+e.data[item].user_name+
+								'</span><div class="course-description" style="min-height: 100px;color: #1c1f21; box-shadow: 0px 4px 8px 3px rgba(28,31,33,.2);"><p class="">'
+								+e.data[item].note_content+
+								'</p><a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-warm float_r" style="margin-left:10px;" onclick="delnote('
+								+e.data[item].video_id+','+video_type+
+								','+e.data[item].note_id+')">删除笔记</a><a class="layui-btn layui-btn-sm layui-btn-radius float_r" href="'
+								+videourl+'?video_id='+e.data[item].video_id+
+								'&video_type='+video_type+'">观看视频</a></div></div></div><hr></div>';
+							}
+							$('#list').html(html);
+							laypage.render({
+							elem: "test1"
+							,count: e.count
+							,limit:e.pagesize
+							,jump: function(obj, first){
+								if(!first){
+									pagesize=obj.limit;//前端设置页数量
+									pagenow=obj.curr;//前端设置当前页
+									$.ajax({
+										url:url,
+										type:"post",
+										dataType:"json",
+										data:{"token":token,"pagenow":obj.curr,"pagesize":obj.limit,'video_type':video_type},
+										success:function(e){
+											if(e.status!='0'){
+											var html='';
+											for(var item in e.data){
+												console.log(e.data[item])
+												var imageurl=getRootPath()+'/';
+												html+='<div id="noteid'+e.data[item].note_id+'"><div class="clearfix float_l"><div class="clearfix-note float_l"><i class="layui-icon float_l" style="font-size: 24px;color: rgba(240,20,20,.6);margin-right: 20px;">&#xe6ed;</i><h3 class="float_l">'
+												+e.data[item].video_title+
+												'</h3><span class="course-content"style="font-size:16px;"></span><br><span class="course-content" style="margin-left: 45px;">'
+												+e.data[item].video_parent+'/'+ e.data[item].video_son+
+												'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
+												+e.data[item].user_name+
+												'</span><div class="course-description" style="min-height: 100px;color: #1c1f21; box-shadow: 0px 4px 8px 3px rgba(28,31,33,.2);"><p class="">'
+												+e.data[item].note_content+
+												'</p><a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-warm float_r" style="margin-left:10px;" onclick="delnote('
+												+e.data[item].video_id+','+video_type+
+												','+e.data[item].note_id+')">删除笔记</a><a class="layui-btn layui-btn-sm layui-btn-radius float_r" href="'
+												+videourl+'?video_id='+e.data[item].video_id+
+												'&video_type='+video_type+'">观看视频</a></div></div></div><hr></div>';
+											}
+											$('#list').html(html);
+										}else{
+											$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
+										}
+										}
+									});
+								}else{
+									// alert("首页")不做处理
+								}
+							}
+						});
+						}else{
+							//暂无数据
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
+						}
+					}else{
+							//暂无数据
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
+						}
+				}
+			})
+			
+		});
+	}
+	/**
+	 *删除笔记 
+	 */
+function delnote(video_id,video_type,note_id){
+	var token=getCookie('token');
+	var url=getRootPath()+'/index/person/delnote';
+	if(video_id!=''&&video_type!=''&&token!=''&&note_id!=''){
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{'token':token,'video_id':video_id,'video_type':video_type,'note_id':note_id},
+			success:function(e){
+				var tab='noteid';
+				tab+=note_id;
+				if(e.status=='1'){
+					layer.msg('删除成功');
+					$("#"+tab+"").fadeTo("slow", 0.01, function(){
+					$(this).slideUp("slow", function() {
+						$(this).remove();
+					});
+				});
+				}else{
+					layer.msg('该笔记并不存在');
+				}
+			}
+		});
+	}else{
+		layer.msg('您还未登录');
+	}
+}
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
   var element = layui.element;
   
   //…
 });
-//渲染form表单（下拉框）
-layui.use('form', function(){
-  var form = layui.form;
-   form.on('select(search_type)', function(data){
-   	var n=parseInt(data.value);
-    switch(n)
-	{
-	case 0:
-	   alert('点播视频');
-	   break;
-	case 1:
-		alert('直播视频');
-	   break;
-    case 2:
-        alert('公开课视频');
-        break;
-    case 3:
-    	alert('全部视频');
-    	break;
-	default:
-	 	break;
-	}
-  });
-});
+
 $('#userinfomess').hover(function(){
     $('#userinfoset').attr('class','userinfo');
   },
@@ -334,5 +449,53 @@ $('#userinfoset').hover(function(){
     $('#userinfoset').attr('class','userinfo userinfo-hoverls');
   }
 )
+//获取网站参数
+function getPar(par){
+	    //获取当前URL
+	    var local_url = document.location.href; 
+	    //获取要取得的get参数位置
+	    var get = local_url.indexOf(par +"=");
+	    if(get == -1){
+	        return false;   
+	    }   
+	    //截取字符串
+	    var get_par = local_url.slice(par.length + get + 1);    
+	    //判断截取后的字符串是否还有其他get参数
+	    var nextPar = get_par.indexOf("&");
+	    if(nextPar != -1){
+	        get_par = get_par.slice(0, nextPar);
+	    }
+	    return get_par;
+	}
+	function getvideotype(){
+	//注意：导航 依赖 element 模块，否则无法进行功能性操作
+	layui.use("element", function(){
+		var element = layui.element;
+	});
+	//渲染form表单（下拉框）
+	layui.use("form", function(){
+		var form = layui.form;
+		form.on("select(search_type)", function(data){
+			var n=parseInt(data.value);
+			switch(n)
+				{
+				case 1:
+				var url=getRootPath()+'/index/person/note?video_type=1';
+					location.href=url;
+					break;
+				case 2:
+					var url=getRootPath()+'/index/person/note?video_type=2';
+					location.href=url;
+					break;
+					case 3:
+					var url=getRootPath()+'/index/person/note?video_type=3';
+					location.href=url;
+						break;
+				default:
+					break;
+				}
+		});
+	});
+}
 </script>
 </html>
