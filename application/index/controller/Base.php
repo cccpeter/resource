@@ -33,7 +33,11 @@ class Base extends Controller
                 if($user['en']=='02'){
                     $this->redirect('Index/index/index');
                 }
-        	}else{//token在缓存中失效，需要重新登录
+			}else{//token在缓存中失效，需要重新登录
+				cookie(null,'auth_level');
+				cookie(null,'token');
+				cookie(null,'token_time');
+				cookie(null,'username');
         		$this->redirect('Index/index/index');
         	}
         	// dump($user);die;

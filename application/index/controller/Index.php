@@ -482,10 +482,13 @@ class Index extends Base
      * @param  [type] $video_type  [description]
      * @return [type]              [description]
      */
-    private function getnote($videotab_id,$video_type){
+    public function getnote($videotab_id,$video_type){
         $user='';
         if($_COOKIE){
             $token=$_COOKIE['token'];
+            $user=cache($token);
+        }else{
+            $token=input('post.token');
             $user=cache($token);
         }
         if($user){

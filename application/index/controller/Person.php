@@ -26,18 +26,22 @@ class Person extends Base
         $this->assign('action',$action);
         return view('mycollect');
     }
+/**
+ * 收藏视频的数据接口
+ */
     public function mycollectdata(){
         if(request()->isPost()){
             // if($_COOKIE){
                 $token=input('post.token');
                 $user=cache($token);
                 $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
-                $pagesize=input('post.pagesize')?input('post.pagesize'):2;
+                $pagesize=input('post.pagesize')?input('post.pagesize'):10;//默认的数量，前端也需要改
                 $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
                 $table='re_collect';
                 switch($video_type){
                     case 1:
-                    $list=$this->getpage($table,$pagenow-1,$pagesize,$user['id'],$video_type);
+                    $field="collect_time,collect_isover,video_id";
+                    $list=$this->getpage($field,$table,$pagenow-1,$pagesize,$user['id'],$video_type);
                     $where=['user_id'=>$user['id']];
                     $count=$this->getcount($table,$where);
                     foreach($list as &$values){
@@ -57,14 +61,17 @@ class Person extends Base
                             $wherenote=['video_type'=>'1','video_id'=>$values['video_id'],'user_id'=>$user['id']];
                             $values['note_count']=$this->getnotecount($wherenote);
                             $values['assess_count']=$this->getassesscount($wherecount);
-                            $values['disscuss_count']=$this->getdiscusscount($wherecount);
+                            $values['discuss_count']=$this->getdiscusscount($wherecount);
+                            $values['discuss_id']=$this->getdiscussid($wherecount);
                             $values['video_type']="点播视频";
                         }
                     }
                     break;
                     case 2:
+                    echo 2;die;
                     break;
                     case 3:
+                    echo 3;die;
                     break;
                     default:
                     break;
@@ -83,31 +90,163 @@ class Person extends Base
         }
         return send('操作失败了！','0');
     }
-    private function getpage($table,$pagenow,$pagesize,$user_id,$video_type){
+    /**
+     * 历史视频的数据接口
+     * 
+     */
+    public function userinfodata(){
+        if(request()->isPost()){
+            // if($_COOKIE){
+                $token=input('post.token');
+                $user=cache($token);
+                $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
+                $pagesize=input('post.pagesize')?input('post.pagesize'):10;//默认的数量，前端也需要改
+                $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
+                $table='re_uservideo';
+                switch($video_type){
+                    case 1:
+                    $field="uservideo_time,video_id";
+                    $list=$this->getpage($field,$table,$pagenow-1,$pagesize,$user['id'],$video_type);
+                    $where=['user_id'=>$user['id']];
+                    $count=$this->getcount($table,$where);
+                    foreach($list as &$values){
+                        $values['collect_time']=date('Y-m-d H:i',$values['collect_time']);
+                        $where=['videotab_id'=>$values['video_id']];
+                        $field=['videotype_id,videotype_parentid,videotab_level,videotab_title,videotab_image,username'];
+                        $video=$this->getvideo('re_videotab',$where,$field);
+                        if($video){
+                            $values['user_name']=$video['username'];
+                            $values['video_title']=$video['videotab_title'];
+                            $values['video_image']=$video['videotab_image'];
+                            $type_parent=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_parentid']],'videotype_name');
+                            $type_son=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_id']],'videotype_name');
+                            $values['video_parent']=$type_parent['videotype_name'];
+                            $values['video_son']=$type_son['videotype_name'];
+                            $wherecount=['video_type'=>'1','video_id'=>$values['video_id']];
+                            $wherenote=['video_type'=>'1','video_id'=>$values['video_id'],'user_id'=>$user['id']];
+                            $values['note_count']=$this->getnotecount($wherenote);
+                            $values['assess_count']=$this->getassesscount($wherecount);
+                            $values['discuss_count']=$this->getdiscusscount($wherecount);
+                            $values['discuss_id']=$this->getdiscussid($wherecount);
+                            $values['video_type']="点播视频";
+                        }
+                    }
+                    break;
+                    case 2:
+                    echo 2;die;
+                    break;
+                    case 3:
+                    echo 3;die;
+                    break;
+                    default:
+                    break;
+                }
+                // $uservideo=Db::table('re_uservideo')
+                //         ->where(['user_id'=>$user['id']])
+                //         ->paginate(10)
+                //         ->
+                if($list){
+                    return ['data'=>$list,'status'=>'1','count'=>$count,'pagenow'=>$pagenow,'pagesize'=>$pagesize];
+                }else{
+                    return send('操作失败','0');
+                }
+                
+            // }
+        }
+        return send('操作失败了！','0');
+    }
+    /**
+     * 讨论列表
+     */
+    public function discusslist(){
+        $video_id=input('get.video_id');
+        $video_type=input('get.video_type');
+        if($video_id!=''&&$video_type!=''){
+            $discuss=Db::table('re_discuss')
+                    ->where(['video_id'=>$video_id,'video_type'=>$video_type])
+                    ->field('discuss_id,discuss_title,discuss_time,user_id,discuss_content')
+                    ->select();
+            $size=sizeof($discuss);
+            // dump($discuss);
+            for($i=0;$i<$size;$i++){
+                $user=Db::table('re_user')->where(['id'=>$discuss[$i]['user_id']])->field('username')->find();
+                $discuss[$i]['username']=$user['username'];
+            }
+            if($discuss){
+                 foreach ($discuss as &$value) {
+                    # code...可以优化代码
+                    $discusscall=Db::table('re_discusscall')
+                        ->where(['discuss_id'=>$value['discuss_id']])
+                        ->alias('a')
+                        ->join('re_user u','a.user_id=u.id')
+                        ->field('username,discusscall_time,discusscall_content')
+                        ->select();
+                    if($discusscall){
+                        $value['discusscall']=$discusscall;
+                        $value['discusscall_num']=sizeof($discusscall);
+                    }else{
+                        $value['discusscall_num']=0;
+                    }
+                }
+                $this->assign('discuss',$discuss);
+            }
+        }
+        
+        return view('discusslist');
+    }
+    /**
+     * 获取视频分页的数据
+     */
+    private function getpage($field,$table,$pagenow,$pagesize,$user_id,$video_type){
         // SELECT * FROM product WHERE ID > =(select id from product limit 866613, 1) limit 20 limit的优化方法
-        $list=Db::query("select collect_time,collect_isover,video_id from ".$table." where user_id =? AND video_type=? limit ?,? ",[$user_id,$video_type,$pagenow*$pagesize,$pagesize]);
+        $list=Db::query("select ".$field." from ".$table." where user_id =? AND video_type=? limit ?,? ",[$user_id,$video_type,$pagenow*$pagesize,$pagesize]);
         return $list;
     }
+    /**
+     * 获取讨论的id
+     */
+    private function getdiscussid($where){
+        $discuss_id=Db::table('re_discuss')->where($where)->field('discuss_id')->find();
+        return $discuss_id['discuss_id'];
+    }
+    /**
+     * 获取视频的内容
+     */
     private function getvideo($table,$where,$field){
         $video=Db::table($table)->where($where)->alias('a')->join('re_user u','a.user_id=u.id')->field($field)->find();
         return $video;
     }
+    /**
+     * 获取表的记录
+     */
     private function getcount($table,$where){
         $count=Db::table($table)->where($where)->count();
         return $count;
     }
+    /**
+     * 获取视频的类别
+     */
     private function getvideotype($table,$where,$field){
         $video_type=Db::table($table)->where($where)->field($field)->find();
         return $video_type;
     }
+    /**
+     * 获取对应的笔记的条数
+     */
     private function getnotecount($where){
         $count=Db::table('re_note')->where($where)->count();
         return $count;
     }
+    /**
+     * 获取评价的条数
+     */
     private function getassesscount($where){
         $count=Db::table('re_assess')->where($where)->count();
         return $count;
     }
+    /**
+     * 获取讨论的条数
+     */
     private function getdiscusscount($where){
         $count=Db::table('re_discuss')->where($where)->count();
         return $count;
@@ -311,6 +450,9 @@ class Person extends Base
         }
         return view('course_answerlist');
     }
+    /**
+     * 提交讨论的回答
+     */
     public function subquest(){
          if(request()->isPost()){
             $re='';
@@ -350,6 +492,9 @@ class Person extends Base
         }
         
     }
+    /**
+     * 提交笔记
+     */
     public function subnote(){
          if(request()->isPost()){
             $re='';
@@ -385,6 +530,26 @@ class Person extends Base
             }
             return send('操作失败','0');
         }
+    }
+    public function notelist(){
+        $video_id=input('get.video_id');
+        $video_type=input('get.video_type');
+        $token=input('get.token');
+        if($token!=''&&$video_type!=''&$video_id!=''){
+           $user=cache($token);
+           if($user){
+               $field='note_content,note_time,username,note_id';
+               $notelist=Db::table('re_note')
+                        ->where(['video_id'=>$video_id,'video_type'=>$video_type,'user_id'=>$user['id']])
+                        ->alias('a')
+                        ->join('re_user u','a.user_id=u.id')
+                        ->field($field)
+                        ->order('note_id desc')
+                        ->select();
+                $this->assign('notelist',$notelist);
+           }
+        }
+        return view('notelist');
     }
     /**
      * [subassess description]
@@ -438,6 +603,25 @@ class Person extends Base
             }
             return send('操作失败','0');
         }
+    }
+    /**
+     * 个人空间中的评价frame
+     * 
+     */
+    public function assesslist(){
+        $video_id=input('get.video_id');
+        $video_type=input('get.video_type');
+        if($video_type!=''&$video_id!=''){
+            $assess=Db::table('re_assess')
+            ->where(['video_id'=>$video_id,'video_type'=>$video_type])
+            ->alias('a')
+            ->join('re_user u','a.user_id = u.id')
+            ->field('assess_time,assess_content,username,assess_score,video_id,video_title')
+            ->select();
+            // ->paginate(3);
+            $this->assign('assess',$assess);
+        }
+        return view('assesslist');
     }
     /**
      * 上报在线时长每2分钟一次

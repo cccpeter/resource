@@ -592,13 +592,26 @@
 .titletab3:hover{
     color: red;
 }
+.study:hover{
+    display: inline-block;
+    right: 0;
+    bottom: 0;
+    font-size: 14px;
+    border: 1px solid #493c3b;
+    color: #f01400;
+    width: 90px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    background-color: #fff;
+}
 .study{
     display: inline-block;
     right: 0;
     bottom: 0;
     font-size: 14px;
-    border: 1px solid #f01400;
-    color: #f01400;
+    border: 1px solid #787d82;
+    color: #787d82;
     width: 90px;
     height: 38px;
     line-height: 38px;

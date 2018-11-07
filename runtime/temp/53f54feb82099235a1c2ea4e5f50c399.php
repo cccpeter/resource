@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\publicvideo.html";i:1541236080;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541386442;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\publicvideo.html";i:1541236080;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -144,7 +144,7 @@ layui.use('layer', function(){});
 <div class="width100 float_l" style="height: 180px;">
 	<div class="user-bg">
 		<div class="user-pic">
-			<img class="headerimg" src="http://img2.mukewang.com/545865da00012e6402200220-140-140.jpg">
+			<img class="headerimg" src="/resource/public/static/img/tx.jpg">
 		</div>
 		<div class="user-info-right" id="username">
 			
@@ -173,47 +173,6 @@ layui.use('layer', function(){});
 	<div class="wrap">
 		<div class="slider float_l">
 			<ul id="menu">
-				<!-- <li>
-					<a href="<?php echo url('Index/person/mycollect'); ?>" class="active">
-		            	<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe600;</i><span style="margin-left: 15px;">收藏夹</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/userinfo'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe60e;</i>
-						<span style="margin-left: 15px;">历史观看</span><b class="icon-drop_right"></b>
-		            </a>
-		        </li>
-		        <li>
-					<a href="<?php echo url('Index/person/myvideo'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe6ed;</i>
-						<span style="margin-left: 15px;">我的视频</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/publicvideo'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe681;</i>
-						<span style="margin-left: 15px;">公共视频</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/note'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe642;</i>
-						<span style="margin-left: 15px;">我的笔记</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/myassess'); ?>" class="actived">
-						<i class="layui-icon" style="font-size: 20px;color: #fff;line-height: 48px;">&#xe66e;</i>
-						<span style="margin-left: 15px;">我的评价</span><b class="icon-drop_right"></b>
-		            </a>
-				</li>
-				<li>
-					<a href="<?php echo url('Index/person/myrequest'); ?>" class="active">
-						<i class="layui-icon" style="font-size: 20px;color: #787d82;line-height: 48px;">&#xe609;</i>
-						<span style="margin-left: 15px;">我的讨论</span><b class="icon-drop_right"></b>
-		            </a>
-				</li> -->
 			</ul>
 		</div>
 <script>

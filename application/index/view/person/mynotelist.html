@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>我来回答</title>
+<script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/muke.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/user.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
+<script src="__STATIC__/layui/layui.js"></script>
+<script type="text/javascript" src="__STATIC__/js/cookie.js"></script>
+</head>
+<body class="backg_qiangray">
+<div class="width100">
+	<div class="answer-bg">
+		<div class="qa-header width100">
+			<img class="user-header" src="//img.mukewang.com/user/5458501000018e5802200220-40-40.jpg" width="40" height="40">
+			<span class="user-name">{$discuss['username']}</span>
+		</div>
+		<div class="width100 qa-content">
+			<h1>
+				{$discuss['discuss_title']}
+			</h1>
+		</div>
+		<div class="js-qa-content width100">
+			{$discuss['discuss_title']}
+		</div>
+		<div class="user-time">
+			回答：{$discuss['discuss_num']} 发布时间：{php} echo date("Y-m-d H:i", $discuss['discuss_time']);{/php}
+		</div>
+		<hr>
+		{php}if(!$discuss['discusscall']){echo "<p class='no-course-helper' style='text-align:center'><span>暂时无评论！</span></p>";}{/php}
+		{foreach name="$discuss['discusscall']" item="vo"}
+		<div class="content-answer width100" style="margin-top: 15px;">
+			<div class="qa-header width100">
+			<img class="user-header" src="//img.mukewang.com/user/5458501000018e5802200220-40-40.jpg" width="40" height="40">
+			<span class="user-name">{$vo.username}</span>
+
+		</div>
+		<!-- <div class="width100 qa-content">
+			<h1>
+				晚上大白菜晚上大白
+			</h1>
+		</div> -->
+		<div class="js-qa-content width100">
+			{$vo.discusscall_content}
+		</div>
+			<div class="user-time">
+				时间：{php} echo date("Y-m-d H:i", $vo['discusscall_time']);{/php}
+			</div>
+		</div>
+		{/foreach}
+	</div>
+	
+</div>
+</body>
+</html>
