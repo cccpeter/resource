@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1541582584;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1541639390;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -379,7 +379,7 @@ var pagesize=10;//每页的数量
 											}
 											$('#list').html(html);
 										}else{
-											$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
+											$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>下页暂时无记录！</span></p>");
 										}
 										}
 									});
