@@ -339,8 +339,9 @@ class Index extends Base
     private function course(){
         $videotab_id=input('get.videotab_id');
         $user='';
+        $token='';
         if($_COOKIE){
-            $token=$_COOKIE['token'];
+            @$token=$_COOKIE['token'];
             $user=cache($token);
         }
         $field="videotab_id,videotype_id,videotype_parentid,videotab_level,videotab_title,videotab_views,videotab_assessnums,videotab_assessscore,videotab_content,user_id,videotab_resource,videotab_mustknown,username";
@@ -484,8 +485,9 @@ class Index extends Base
      */
     public function getnote($videotab_id,$video_type){
         $user='';
+        $token="";
         if($_COOKIE){
-            $token=$_COOKIE['token'];
+            @$token=$_COOKIE['token'];
             $user=cache($token);
         }else{
             $token=input('post.token');
@@ -546,8 +548,9 @@ class Index extends Base
      */
     private function getvideotab($video_type,$video_id){
         $user='';
+        $token='';
         if($_COOKIE){
-            $token=$_COOKIE['token'];
+            @$token=$_COOKIE['token'];
             $user=cache($token);
         }
         switch ($video_type) {
