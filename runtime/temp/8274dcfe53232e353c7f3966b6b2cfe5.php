@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1540785465;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\tab.html";i:1542186382;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -410,7 +410,7 @@ layui.use('layer', function(){});
                     </div>
                 </div>  
                 <?php if(is_array($topvideo) || $topvideo instanceof \think\Collection || $topvideo instanceof \think\Paginator): if( count($topvideo)==0 ) : echo "" ;else: foreach($topvideo as $key=>$vo): ?>
-             <div class="course_block" >
+             <div class="course_block width_224" >
                 <div>
                   <img class="course_img" src="/resource/<?php echo $vo['videotab_image']; ?>">
                 </div>

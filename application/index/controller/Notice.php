@@ -10,7 +10,7 @@ use app\index\controller\Base;
 class Notice extends Controller
 {
 
-    public function notice(){
-        return view('notice');
-    }
+	public function notice(){
+		return view('notice');
+	}
 }
