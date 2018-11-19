@@ -8,35 +8,17 @@
 				<!-- <a>历史观看</a> -->
 				<div class="layui-input-block float_r" style="margin-top: 10px;">
 			      <select name="coursetype" lay-verify="required" lay-filter="search_type">
-			        <option value="3">全部视频</option>
-			        <option value="0">点播视频</option>
-			        <option value="1">直播视频</option>
-			        <option value="2">公开课视频</option>
+			        <option value="1">点播视频</option>
+			        <option value="2">直播视频</option>
+			        <option value="3">公开课视频</option>
 			      </select>
 			    </div>
 			</div>
-			
-			<div class="course-list">
-				{php}for($i=0;$i<15;$i++){{/php}
-				<div class="clearfix float_l">
-					<img class="float_l" src="https://img3.sycdn.imooc.com/5b9a01a40001fe1805400300-240-135.jpg">
-					<div class="clearfix-title float_l">
-						<h3 class="float_l">Spring Boot 2.0深度实践之系列总览</h3>
-						<span class="course-content">视频分类：点播视频</span><br>
-						<span class="course-content">一级类目 / 二级类目 / 三级类目</span>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">大白菜</span>
-						<br>
-						<br>
-						<a class="titletab">我的笔记 (2)</a>
-						<a class="titletab">讨论 (3)</a>
-						<a class="titletab3">评价 (3)</a>
-						<a class="study float_r" href="">学习啊</a>
-					</div>
-					
-				</div>
-				<hr>
-				{php}}{/php}
+			<div class="course-list" id="list" style="min-height:250px;">
 			</div>
+			<center>
+				<div id="test1"></div>
+			</center>
 		</div>	
 	</form>	
 	</div>
@@ -48,36 +30,136 @@
 </body>
 
 <script>
+	// 初始化页面
+	var pagesize=10;//每页的数量
+	var pagenow=1;//当前页
+	var video_type=1;
+	if(getPar('video_type')){
+		video_type=getPar('video_type');
+	}
+	video_type=parseInt(video_type);
+	switch(video_type){
+		case 1:
+			var html='';
+			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
+			$('#type').html(html);
+		break;
+		case 2:
+			var html='';
+			html+='<option value="2" selected>直播视频</option><option value="1">点播视频</option><option value="3">公开课视频</option>';
+			$('#type').html(html);
+		break;
+		case 3:
+			var html='';
+			html+='<option value="3" selected>公开课视频</option><option value="1"  >点播视频</option><option value="2">直播视频</option>';
+			$('#type').html(html);
+		break;
+		default:
+		var html='';
+			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
+			$('#type').html(html);
+		break;
+	}
+	//视频分类
+	window.onload=function(){
+		getpage();
+		getvideotype();
+	}
+	// layui的分页组件应该，先ajax请求过去后再初始化组件
+	function getpage(){
+		layui.use("laypage", function(){
+			var laypage = layui.laypage;
+			//执行一个laypage实例
+			var url="{:url('Index/person/userinfodata')}";
+			var videourl=getRootPath()+'/video';
+			var token=getCookie("token");
+			$.ajax({
+				url:url,
+				type:"post",
+				dataType:"json",
+				data:{"token":token,"video_type":video_type,"pagenow":pagenow,"pagesize":pagesize},
+				success:function(e){
+					if(e.status=='1'){
+						if(e.data!=''){
+							var html='';
+							for(var item in e.data){
+								var imageurl=getRootPath()+'/';
+								html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'
+								+imageurl+e.data[item].video_image+
+								'"><div class="clearfix-title float_l"><h3 style="margin-top:0px;margin-bottom:0px;">'
+								+e.data[item].video_title+
+								'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
+								+e.data[item].video_type+
+								'</p><p class="course-content">观看日期：'
+								+e.data[item].uservideo_time+
+								'</p><span class="course-content">'
+								+e.data[item].video_parent+'/'+ e.data[item].video_son+
+								'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
+								+e.data[item].user_name+
+								'</span><a class="layui-btn layui-btn-radius float_r" href="'
+								+videourl+'?video_id='+e.data[item].video_id+
+								'&video_type='+video_type+'">观看视频</a></div></div><hr>';
+							}
+							$('#list').html(html);
+							laypage.render({
+							elem: "test1"
+							,count: e.count
+							,limit:e.pagesize
+							,jump: function(obj, first){
+								if(!first){
+									pagesize=obj.limit;//前端设置页数量
+									pagenow=obj.curr;//前端设置当前页
+									$.ajax({
+										url:url,
+										type:"post",
+										dataType:"json",
+										data:{"token":token,"pagenow":obj.curr,"pagesize":obj.limit,'video_type':video_type},
+										success:function(e){
+											var html='';
+											for(var item in e.data){
+												console.log(e.data[item])
+												var imageurl=getRootPath()+'/';
+												html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'
+												+imageurl+e.data[item].video_image+
+												'"><div class="clearfix-title float_l"><h3 style="margin-top:0px;margin-bottom:0px;">'
+												+e.data[item].video_title+
+												'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
+												+e.data[item].video_type+
+												'</p><p class="course-content">观看日期：'
+												+e.data[item].uservideo_time+
+												'</p><span class="course-content">'
+												+e.data[item].video_parent+'/'+ e.data[item].video_son+
+												'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
+												+e.data[item].user_name+'</span><a class="layui-btn layui-btn-radius float_r" href="">观看视频</a></div></div><hr>';
+											}
+											$('#list').html(html);
+										}
+									});
+								}else{
+									// alert("首页")不做处理
+								}
+							}
+						});
+						}else{
+							//暂无数据
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
+						}
+					}else{
+							//暂无数据
+							$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>暂时无记录！</span></p>");
+						}
+				}
+			})
+			
+		});
+	}
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
   var element = layui.element;
   
   //…
 });
-//渲染form表单（下拉框）
-layui.use('form', function(){
-  var form = layui.form;
-   form.on('select(search_type)', function(data){
-   	var n=parseInt(data.value);
-    switch(n)
-	{
-	case 0:
-	   alert('点播视频');
-	   break;
-	case 1:
-		alert('直播视频');
-	   break;
-    case 2:
-        alert('公开课视频');
-        break;
-    case 3:
-    	alert('全部视频');
-    	break;
-	default:
-	 	break;
-	}
-  });
-});
+
 $('#userinfomess').hover(function(){
     $('#userinfoset').attr('class','userinfo');
   },
@@ -88,5 +170,53 @@ $('#userinfoset').hover(function(){
     $('#userinfoset').attr('class','userinfo userinfo-hoverls');
   }
 )
+//获取网站参数
+function getPar(par){
+	    //获取当前URL
+	    var local_url = document.location.href; 
+	    //获取要取得的get参数位置
+	    var get = local_url.indexOf(par +"=");
+	    if(get == -1){
+	        return false;   
+	    }   
+	    //截取字符串
+	    var get_par = local_url.slice(par.length + get + 1);    
+	    //判断截取后的字符串是否还有其他get参数
+	    var nextPar = get_par.indexOf("&");
+	    if(nextPar != -1){
+	        get_par = get_par.slice(0, nextPar);
+	    }
+	    return get_par;
+	}
+	function getvideotype(){
+	//注意：导航 依赖 element 模块，否则无法进行功能性操作
+	layui.use("element", function(){
+		var element = layui.element;
+	});
+	//渲染form表单（下拉框）
+	layui.use("form", function(){
+		var form = layui.form;
+		form.on("select(search_type)", function(data){
+			var n=parseInt(data.value);
+			switch(n)
+				{
+				case 1:
+				var url=getRootPath()+'/index/person/userinfo?video_type=1';
+					location.href=url;
+					break;
+				case 2:
+					var url=getRootPath()+'/index/person/userinfo?video_type=2';
+					location.href=url;
+					break;
+					case 3:
+					var url=getRootPath()+'/index/person/userinfo?video_type=3';
+					location.href=url;
+						break;
+				default:
+					break;
+				}
+		});
+	});
+}
 </script>
 </html>

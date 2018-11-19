@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1542608776;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1542611908;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -401,37 +401,7 @@ var pagesize=10;//每页的数量
 			
 		});
 	}
-	/**
-	 *删除笔记 
-	 */
-function delnote(video_id,video_type,note_id){
-	var token=getCookie('token');
-	var url=getRootPath()+'/index/person/delnote';
-	if(video_id!=''&&video_type!=''&&token!=''&&note_id!=''){
-		$.ajax({
-			url:url,
-			type:'post',
-			dataType:'json',
-			data:{'token':token,'video_id':video_id,'video_type':video_type,'note_id':note_id},
-			success:function(e){
-				var tab='noteid';
-				tab+=note_id;
-				if(e.status=='1'){
-					layer.msg('删除成功');
-					$("#"+tab+"").fadeTo("slow", 0.01, function(){
-					$(this).slideUp("slow", function() {
-						$(this).remove();
-					});
-				});
-				}else{
-					layer.msg('该笔记并不存在');
-				}
-			}
-		});
-	}else{
-		layer.msg('您还未登录');
-	}
-}
+
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
   var element = layui.element;

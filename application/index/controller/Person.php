@@ -327,6 +327,91 @@ class Person extends Base
         
         return view('discusslist');
     }
+      // 讨论的数据接口
+      public function discussdata(){
+        if(request()->isPost()){
+            // if($_COOKIE){
+                $token=input('post.token');
+                $user=cache($token);
+                $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
+                $pagesize=input('post.pagesize')?input('post.pagesize'):config('pagesize');//默认的数量，前端也需要改
+                $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
+                $table='re_discuss';
+                switch($video_type){
+                    case 1:
+                    $field="discuss_id,video_id,video_title,discuss_content,discuss_time";
+                    $list=$this->getpage('discuss_id',$field,$table,$pagenow-1,$pagesize,$user['id'],$video_type);
+                    $where=['user_id'=>$user['id']];
+                    $count=$this->getcount($table,$where);
+                    foreach($list as &$values){
+                        $values['discuss_time']=date('Y-m-d H:i',$values['discuss_time']);
+                        $where=['videotab_id'=>$values['video_id']];
+                        $field=['videotype_id,videotype_parentid,videotab_image,videotab_level,videotab_title,username'];
+                        $video=$this->getvideo('re_videotab',$where,$field);
+                        if($video){
+                            $values['user_name']=$video['username'];
+                            $values['video_image']=$video['videotab_image'];
+                            $type_parent=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_parentid']],'videotype_name');
+                            $type_son=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_id']],'videotype_name');
+                            $values['video_parent']=$type_parent['videotype_name'];
+                            $values['video_son']=$type_son['videotype_name'];
+                            $values['video_type']="点播视频";
+                        }
+                    }
+                    break;
+                    case 2:
+                    echo 2;die;
+                    break;
+                    case 3:
+                    echo 3;die;
+                    break;
+                    default:
+                    break;
+                }
+                // $uservideo=Db::table('re_uservideo')
+                //         ->where(['user_id'=>$user['id']])
+                //         ->paginate(10)
+                //         ->
+                if($list){
+                    return ['data'=>$list,'status'=>'1','count'=>$count,'pagenow'=>$pagenow,'pagesize'=>$pagesize];
+                }else{
+                    return send('操作失败','0');
+                }
+                
+            // }
+        }
+        return send('操作失败了！','0');
+    }
+    /**
+     * 删除讨论的数据以及回答
+     * 
+     */
+    public function deldiscuss(){
+        if(request()->isPost()){
+            $video_id=input('post.video_id');
+            $discuss_id=input('post.discuss_id');
+            $video_type=input('post.video_type');
+            $token=input('post.token');
+            if($video_id!=''&&$video_type!=''&&$video_type!=''&&$discuss_id!=''){
+                $user=cache($token);
+                if($user){
+                    $re=Db::table('re_discuss')
+                            ->where(['discuss_id'=>$discuss_id,'video_type'=>$video_type,'video_id'=>$video_id,'user_id'=>$user['id']])
+                            ->delete();
+                    $discuss_son=Db::table('re_discusscall')
+                                    ->where(['discuss_id'=>$discuss_id])
+                                    ->delete();
+                    if($re){
+                        return send('操作成功','1');
+                    }else{
+                        return send('操作失败','0');
+                    }
+                    
+                }
+            }
+            return send('操作失败','0');
+        }
+    }
     /**
      * 获取视频分页的数据
      */

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myassess.html";i:1542610139;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\myassess.html";i:1542618018;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -340,7 +340,7 @@ function timehour(second){
 									'</h3><span class="course-content"style="font-size:16px;"></span><br><span class="course-content" style="margin-left: 45px;">'
 									+e.data[item].video_parent+'/'+ e.data[item].video_son+
 									'</span><span class="course-content" style="margin-left:12px;">作者：'
-									+e.data[item].user_name+'<span class="course-content" style="margin-left: 12px;">笔记时间：'+e.data[item].assess_time+'</span>'+
+									+e.data[item].user_name+'<span class="course-content" style="margin-left: 12px;">评价时间：'+e.data[item].assess_time+'</span>'+
 									'</span><div class="course-description" style="min-height: 100px;color: #1c1f21; box-shadow: 0px 4px 8px 3px rgba(28,31,33,.2);">'
 									+'<p style="color:#f90;">我的评分：'+e.data[item].assess_score+'</p><p class="">'
 									+e.data[item].assess_content+
@@ -376,7 +376,7 @@ function timehour(second){
 													+e.data[item].user_name+
 													'</span><div class="course-description" style="min-height: 100px;color: #1c1f21; box-shadow: 0px 4px 8px 3px rgba(28,31,33,.2);">'
 													+'<p style="color:#f90;">我的评分：'+e.data[item].assess_score+'</p><p class="">'
-													+e.data[item].note_content+
+													+e.data[item].note_content+'<span class="course-content" style="margin-left: 12px;">评价时间：'+e.data[item].assess_time+'</span>'+
 													'</p><a class="layui-btn layui-btn-sm layui-btn-radius float_r" href="'
 													+videourl+'?video_id='+e.data[item].video_id+
 													'&video_type='+video_type+'">观看视频</a></div></div></div><hr></div>';
@@ -405,37 +405,6 @@ function timehour(second){
 				
 			});
 		}
-		/**
-		 *删除笔记 
-		 */
-	function delnote(video_id,video_type,assessid){
-		var token=getCookie('token');
-		var url=getRootPath()+'/index/person/delassess';
-		if(video_id!=''&&video_type!=''&&token!=''&&assessid!=''){
-			$.ajax({
-				url:url,
-				type:'post',
-				dataType:'json',
-				data:{'token':token,'video_id':video_id,'video_type':video_type,'assessid':assessid},
-				success:function(e){
-					var tab='assessid';
-					tab+=note_id;
-					if(e.status=='1'){
-						layer.msg('删除成功');
-						$("#"+tab+"").fadeTo("slow", 0.01, function(){
-						$(this).slideUp("slow", function() {
-							$(this).remove();
-						});
-					});
-					}else{
-						layer.msg('该笔记并不存在');
-					}
-				}
-			});
-		}else{
-			layer.msg('您还未登录');
-		}
-	}
 	//注意：导航 依赖 element 模块，否则无法进行功能性操作
 	layui.use('element', function(){
 		var element = layui.element;
