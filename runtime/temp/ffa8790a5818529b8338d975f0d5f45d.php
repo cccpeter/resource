@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1541661490;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:76:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\person\note.html";i:1542608776;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -332,9 +332,9 @@ var pagesize=10;//每页的数量
 								html+='<div id="noteid'+e.data[item].note_id+'"><div class="clearfix float_l"><div class="clearfix-note float_l"><i class="layui-icon float_l" style="font-size: 24px;color: rgba(240,20,20,.6);margin-right: 20px;">&#xe6ed;</i><h3 class="float_l">'
 								+e.data[item].video_title+
 								'</h3><span class="course-content"style="font-size:16px;"></span><br><span class="course-content" style="margin-left: 45px;">'
-								+e.data[item].video_parent+'/'+ e.data[item].video_son+
-								'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
-								+e.data[item].user_name+
+								+'分类：'+e.data[item].video_parent+'/'+ e.data[item].video_son+
+								'</span><span class="course-content" style="margin-left: 12px;">作者：'
+								+e.data[item].user_name+'<span class="course-content" style="margin-left: 12px;">笔记时间：'+e.data[item].note_time+'</span>'+
 								'</span><div class="course-description" style="min-height: 100px;color: #1c1f21; box-shadow: 0px 4px 8px 3px rgba(28,31,33,.2);"><p class="">'
 								+e.data[item].note_content+
 								'</p><a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-warm float_r" style="margin-left:10px;" onclick="delnote('
@@ -366,9 +366,9 @@ var pagesize=10;//每页的数量
 												html+='<div id="noteid'+e.data[item].note_id+'"><div class="clearfix float_l"><div class="clearfix-note float_l"><i class="layui-icon float_l" style="font-size: 24px;color: rgba(240,20,20,.6);margin-right: 20px;">&#xe6ed;</i><h3 class="float_l">'
 												+e.data[item].video_title+
 												'</h3><span class="course-content"style="font-size:16px;"></span><br><span class="course-content" style="margin-left: 45px;">'
-												+e.data[item].video_parent+'/'+ e.data[item].video_son+
-												'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
-												+e.data[item].user_name+
+												+'分类：'+e.data[item].video_parent+'/'+ e.data[item].video_son+
+												'</span><span class="course-content" style="margin-left: 12px;">作者：'
+												+e.data[item].user_name+'<span class="course-content" style="margin-left: 12px;">笔记时间：'+e.data[item].note_time+'</span>'+
 												'</span><div class="course-description" style="min-height: 100px;color: #1c1f21; box-shadow: 0px 4px 8px 3px rgba(28,31,33,.2);"><p class="">'
 												+e.data[item].note_content+
 												'</p><a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-warm float_r" style="margin-left:10px;" onclick="delnote('
@@ -379,7 +379,7 @@ var pagesize=10;//每页的数量
 											}
 											$('#list').html(html);
 										}else{
-											$('#test1').html("<p class='no-course-helper' style='text-align:center'><span>下页暂时无记录！</span></p>");
+											// $('#test1').html("<p class='no-course-helper' style='text-align:center'><span>下页暂时无记录！</span></p>");
 										}
 										}
 									});

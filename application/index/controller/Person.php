@@ -35,7 +35,7 @@ class Person extends Base
                 $token=input('post.token');
                 $user=cache($token);
                 $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
-                $pagesize=input('post.pagesize')?input('post.pagesize'):10;//默认的数量，前端也需要改
+                $pagesize=input('post.pagesize')?input('post.pagesize'):config('pagesize');//默认的数量，前端也需要改
                 $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
                 $table='re_collect';
                 switch($video_type){
@@ -100,7 +100,7 @@ class Person extends Base
                 $token=input('post.token');
                 $user=cache($token);
                 $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
-                $pagesize=input('post.pagesize')?input('post.pagesize'):10;//默认的数量，前端也需要改
+                $pagesize=input('post.pagesize')?input('post.pagesize'):config('pagesize');//默认的数量，前端也需要改
                 $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
                 $table='re_uservideo';
                 switch($video_type){
@@ -159,7 +159,7 @@ class Person extends Base
                 $token=input('post.token');
                 $user=cache($token);
                 $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
-                $pagesize=input('post.pagesize')?input('post.pagesize'):10;//默认的数量，前端也需要改
+                $pagesize=input('post.pagesize')?input('post.pagesize'):config('pagesize');//默认的数量，前端也需要改
                 $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
                 $table='re_note';
                 switch($video_type){
@@ -232,6 +232,61 @@ class Person extends Base
             }
             return send('操作失败','0');
         }
+    }
+    // 评价的数据接口
+    public function assessdata(){
+        if(request()->isPost()){
+            // if($_COOKIE){
+                $token=input('post.token');
+                $user=cache($token);
+                $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
+                $pagesize=input('post.pagesize')?input('post.pagesize'):config('pagesize');//默认的数量，前端也需要改
+                $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
+                $table='re_assess';
+                switch($video_type){
+                    case 1:
+                    $field="assess_id,video_id,video_title,assess_content,assess_time,assess_score";
+                    $list=$this->getpage('assess_id',$field,$table,$pagenow-1,$pagesize,$user['id'],$video_type);
+                    $where=['user_id'=>$user['id']];
+                    $count=$this->getcount($table,$where);
+                    foreach($list as &$values){
+                        $values['assess_time']=date('Y-m-d H:i',$values['assess_time']);
+                        $where=['videotab_id'=>$values['video_id']];
+                        $field=['videotype_id,videotype_parentid,videotab_image,videotab_level,videotab_title,username'];
+                        $video=$this->getvideo('re_videotab',$where,$field);
+                        if($video){
+                            $values['user_name']=$video['username'];
+                            $values['video_image']=$video['videotab_image'];
+                            $type_parent=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_parentid']],'videotype_name');
+                            $type_son=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_id']],'videotype_name');
+                            $values['video_parent']=$type_parent['videotype_name'];
+                            $values['video_son']=$type_son['videotype_name'];
+                            $values['video_type']="点播视频";
+                        }
+                    }
+                    break;
+                    case 2:
+                    echo 2;die;
+                    break;
+                    case 3:
+                    echo 3;die;
+                    break;
+                    default:
+                    break;
+                }
+                // $uservideo=Db::table('re_uservideo')
+                //         ->where(['user_id'=>$user['id']])
+                //         ->paginate(10)
+                //         ->
+                if($list){
+                    return ['data'=>$list,'status'=>'1','count'=>$count,'pagenow'=>$pagenow,'pagesize'=>$pagesize];
+                }else{
+                    return send('操作失败','0');
+                }
+                
+            // }
+        }
+        return send('操作失败了！','0');
     }
     /**
      * 讨论列表

@@ -50,6 +50,7 @@ return [
     ],
     'senior_menu'                =>[
         '审核'=>'index/senior/audit:&#xe674;',
-    ]
+    ],
+    'pagesize'=>10
     
 ];
