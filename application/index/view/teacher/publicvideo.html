@@ -4,8 +4,7 @@
 
 		<form class="layui-form">
 		<div class="my-space-course float_l">
-			<div class="course-tab float_l" >
-				<!-- <a>历史观看</a> -->
+			<!-- <div class="course-tab float_l" >
 				<div class="layui-input-block float_r" style="margin-top: 10px;">
 			      <select name="coursetype" lay-verify="required" lay-filter="search_type">
 			        <option value="1">点播视频</option>
@@ -13,7 +12,8 @@
 			        <option value="3">公开课视频</option>
 			      </select>
 			    </div>
-			</div>
+			</div> -->
+			<hr>
 			<div class="course-list" id="list" style="min-height:250px;">
 			</div>
 			<center>
@@ -33,51 +33,24 @@
 	// 初始化页面
 	var pagesize=10;//每页的数量
 	var pagenow=1;//当前页
-	var video_type=1;
-	if(getPar('video_type')){
-		video_type=getPar('video_type');
-	}
-	video_type=parseInt(video_type);
-	switch(video_type){
-		case 1:
-			var html='';
-			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
-			$('#type').html(html);
-		break;
-		case 2:
-			var html='';
-			html+='<option value="2" selected>直播视频</option><option value="1">点播视频</option><option value="3">公开课视频</option>';
-			$('#type').html(html);
-		break;
-		case 3:
-			var html='';
-			html+='<option value="3" selected>公开课视频</option><option value="1"  >点播视频</option><option value="2">直播视频</option>';
-			$('#type').html(html);
-		break;
-		default:
-		var html='';
-			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
-			$('#type').html(html);
-		break;
-	}
-	//视频分类
+
 	window.onload=function(){
 		getpage();
-		getvideotype();
+		// getvideotype();
 	}
 	// layui的分页组件应该，先ajax请求过去后再初始化组件
 	function getpage(){
 		layui.use("laypage", function(){
 			var laypage = layui.laypage;
 			//执行一个laypage实例
-			var url="{:url('Index/person/userinfodata')}";
+			var url="{:url('Index/teacher/publicvideodata')}";
 			var videourl=getRootPath()+'/video';
 			var token=getCookie("token");
 			$.ajax({
 				url:url,
 				type:"post",
 				dataType:"json",
-				data:{"token":token,"video_type":video_type,"pagenow":pagenow,"pagesize":pagesize},
+				data:{"token":token,"pagenow":pagenow,"pagesize":pagesize},
 				success:function(e){
 					if(e.status=='1'){
 						if(e.data!=''){
@@ -85,20 +58,15 @@
 							for(var item in e.data){
 								var imageurl=getRootPath()+'/';
 								html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'
-								+imageurl+e.data[item].video_image+
+								+imageurl+e.data[item].videotab_image+
 								'"><div class="clearfix-title float_l"><h3 style="margin-top:0px;margin-bottom:0px;">'
-								+e.data[item].video_title+
-								'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
-								+e.data[item].video_type+
-								'</p><p class="course-content">观看日期：'
-								+e.data[item].uservideo_time+
-								'</p><span class="course-content">'
-								+e.data[item].video_parent+'/'+ e.data[item].video_son+
-								'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
-								+e.data[item].user_name+
-								'</span><a class="layui-btn layui-btn-radius float_r" href="'
+								+e.data[item].live_addr+'---'+e.data[item].live_name+
+								'</p><p class="course-content">发布的日期：'
+								+gettimestame(parseInt(e.data[item].videotab_time+'000'))+
+								'</p><a class="layui-btn layui-btn-radius layui-btn-warm float_r" style="margin-left:10px;" onclick="delnote('
+								+e.data[item].videotab_id+')">申请视频</a><a class="layui-btn layui-btn-radius float_r" href="'
 								+videourl+'?video_id='+e.data[item].video_id+
-								'&video_type='+video_type+'">观看视频</a></div></div><hr>';
+								'&video_type=">预览视频</a></div></div><hr>';
 							}
 							$('#list').html(html);
 							laypage.render({
@@ -117,20 +85,17 @@
 										success:function(e){
 											var html='';
 											for(var item in e.data){
-												console.log(e.data[item])
 												var imageurl=getRootPath()+'/';
 												html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'
-												+imageurl+e.data[item].video_image+
+												+imageurl+e.data[item].videotab_image+
 												'"><div class="clearfix-title float_l"><h3 style="margin-top:0px;margin-bottom:0px;">'
-												+e.data[item].video_title+
-												'</h3><p class="course-content float_l" style="margin-right:15px;">视频分类：'
-												+e.data[item].video_type+
-												'</p><p class="course-content">观看日期：'
-												+e.data[item].uservideo_time+
-												'</p><span class="course-content">'
-												+e.data[item].video_parent+'/'+ e.data[item].video_son+
-												'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者:<span class="course-content">'
-												+e.data[item].user_name+'</span><a class="layui-btn layui-btn-radius float_r" href="">观看视频</a></div></div><hr>';
+												+e.data[item].live_addr+'---'+e.data[item].live_name+
+												'</p><p class="course-content">发布的日期：'
+												+gettimestame(parseInt(e.data[item].videotab_time+'000'))+
+												'</p><a class="layui-btn layui-btn-radius layui-btn-warm float_r" style="margin-left:10px;" onclick="delnote('
+												+e.data[item].videotab_id+')">申请视频</a><a class="layui-btn layui-btn-radius float_r" href="'
+												+videourl+'?video_id='+e.data[item].video_id+
+												'&video_type=">预览视频</a></div></div><hr>';
 											}
 											$('#list').html(html);
 										}
@@ -188,35 +153,6 @@ function getPar(par){
 	    }
 	    return get_par;
 	}
-	function getvideotype(){
-	//注意：导航 依赖 element 模块，否则无法进行功能性操作
-	layui.use("element", function(){
-		var element = layui.element;
-	});
-	//渲染form表单（下拉框）
-	layui.use("form", function(){
-		var form = layui.form;
-		form.on("select(search_type)", function(data){
-			var n=parseInt(data.value);
-			switch(n)
-				{
-				case 1:
-				var url=getRootPath()+'/index/person/userinfo?video_type=1';
-					location.href=url;
-					break;
-				case 2:
-					var url=getRootPath()+'/index/person/userinfo?video_type=2';
-					location.href=url;
-					break;
-					case 3:
-					var url=getRootPath()+'/index/person/userinfo?video_type=3';
-					location.href=url;
-						break;
-				default:
-					break;
-				}
-		});
-	});
-}
+
 </script>
 </html>

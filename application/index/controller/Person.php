@@ -388,29 +388,57 @@ class Person extends Base
      */
     public function deldiscuss(){
         if(request()->isPost()){
-            $video_id=input('post.video_id');
-            $discuss_id=input('post.discuss_id');
-            $video_type=input('post.video_type');
-            $token=input('post.token');
-            if($video_id!=''&&$video_type!=''&&$video_type!=''&&$discuss_id!=''){
+            // if($_COOKIE){
+                $token=input('post.token');
                 $user=cache($token);
-                if($user){
-                    $re=Db::table('re_discuss')
-                            ->where(['discuss_id'=>$discuss_id,'video_type'=>$video_type,'video_id'=>$video_id,'user_id'=>$user['id']])
-                            ->delete();
-                    $discuss_son=Db::table('re_discusscall')
-                                    ->where(['discuss_id'=>$discuss_id])
-                                    ->delete();
-                    if($re){
-                        return send('操作成功','1');
-                    }else{
-                        return send('操作失败','0');
+                $pagenow=input('post.pagenow')?input('post.pagenow'):1;//默认第一页。计算时候需要减一
+                $pagesize=input('post.pagesize')?input('post.pagesize'):config('pagesize');//默认的数量，前端也需要改
+                $video_type=input('post.video_type')?input('post.video_type'):'1';//默认为点播视频
+                $table='re_discuss';
+                switch($video_type){
+                    case 1:
+                    $field="discuss_id,video_id,video_title,discuss_content,discuss_time";
+                    $list=$this->getpage('discuss_id',$field,$table,$pagenow-1,$pagesize,$user['id'],$video_type);
+                    $where=['user_id'=>$user['id']];
+                    $count=$this->getcount($table,$where);
+                    foreach($list as &$values){
+                        $values['discuss_time']=date('Y-m-d H:i',$values['discuss_time']);
+                        $where=['videotab_id'=>$values['video_id']];
+                        $field=['videotype_id,videotype_parentid,videotab_image,videotab_level,videotab_title,username'];
+                        $video=$this->getvideo('re_videotab',$where,$field);
+                        if($video){
+                            $values['user_name']=$video['username'];
+                            $values['video_image']=$video['videotab_image'];
+                            $type_parent=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_parentid']],'videotype_name');
+                            $type_son=$this->getvideotype('re_videotype',['videotype_id'=>$video['videotype_id']],'videotype_name');
+                            $values['video_parent']=$type_parent['videotype_name'];
+                            $values['video_son']=$type_son['videotype_name'];
+                            $values['video_type']="点播视频";
+                        }
                     }
-                    
+                    break;
+                    case 2:
+                    echo 2;die;
+                    break;
+                    case 3:
+                    echo 3;die;
+                    break;
+                    default:
+                    break;
                 }
-            }
-            return send('操作失败','0');
+                // $uservideo=Db::table('re_uservideo')
+                //         ->where(['user_id'=>$user['id']])
+                //         ->paginate(10)
+                //         ->
+                if($list){
+                    return ['data'=>$list,'status'=>'1','count'=>$count,'pagenow'=>$pagenow,'pagesize'=>$pagesize];
+                }else{
+                    return send('操作失败','0');
+                }
+                
+            // }
         }
+        return send('操作失败了！','0');
     }
     /**
      * 获取视频分页的数据
@@ -437,7 +465,7 @@ class Person extends Base
     /**
      * 获取表的记录
      */
-    private function getcount($table,$where){
+    public function getcount($table,$where){
         $count=Db::table($table)->where($where)->count();
         return $count;
     }
@@ -478,11 +506,6 @@ class Person extends Base
         $action=request()->action();
         $this->assign('action',$action);
         return view('myvideo');
-    }
-    public function publicvideo(){
-        $action=request()->action();
-        $this->assign('action',$action);
-        return view('publicvideo');
     }
     public function myrequest(){
         $action=request()->action();
