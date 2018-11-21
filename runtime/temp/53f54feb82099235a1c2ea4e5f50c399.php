@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\publicvideo.html";i:1542703205;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:84:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\publicvideo.html";i:1542790595;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1542786354;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -177,8 +177,11 @@ layui.use('layer', function(){});
 		</div>
 <script>
 var token=getCookie('token');
+setTimeout(function(){
+	getmenu();
+})
 getdata();
-getmenu();
+
 //获取菜单数据
 function getmenu(){
 	var url=getRootPath()+'/index.php/Index/person/menu';
@@ -195,10 +198,6 @@ function getmenu(){
 			success:function(e){
 				if(e.status=='1'){
 					for(var item in e.data){
-						// alert(item);
-						// alert(e.data[item]);
-						// var arr=e.data[item].replace('\/','/');
-						// alert(e.data[item]);
 						var arr=e.data[item].split(':');
 						//有就返回无就返回null
 						if(arr[0].indexOf(action)>-1){
@@ -209,10 +208,8 @@ function getmenu(){
 							color='#787d82;'
 						}
 						var menu=menuurl+arr[0];
-						// alert(menu);
 						html+='<li><a href="'+menu+'"class="'+exc+'"><i class=layui-icon style="font-size: 20px;color:'+color+'line-height: 48px;">'+arr[1]+'</i><span style="margin-left: 15px;">'+item+'</span><b class=icon-drop_right></b></a></li>';
 					}
-					// alert(html);
 					$('#menu').html(html);
 				}else{
 					console.log("操作失败");

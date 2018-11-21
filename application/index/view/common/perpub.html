@@ -38,8 +38,11 @@
 		</div>
 <script>
 var token=getCookie('token');
+setTimeout(function(){
+	getmenu();
+})
 getdata();
-getmenu();
+
 //获取菜单数据
 function getmenu(){
 	var url=getRootPath()+'/index.php/Index/person/menu';
@@ -56,10 +59,6 @@ function getmenu(){
 			success:function(e){
 				if(e.status=='1'){
 					for(var item in e.data){
-						// alert(item);
-						// alert(e.data[item]);
-						// var arr=e.data[item].replace('\/','/');
-						// alert(e.data[item]);
 						var arr=e.data[item].split(':');
 						//有就返回无就返回null
 						if(arr[0].indexOf(action)>-1){
@@ -70,10 +69,8 @@ function getmenu(){
 							color='#787d82;'
 						}
 						var menu=menuurl+arr[0];
-						// alert(menu);
 						html+='<li><a href="'+menu+'"class="'+exc+'"><i class=layui-icon style="font-size: 20px;color:'+color+'line-height: 48px;">'+arr[1]+'</i><span style="margin-left: 15px;">'+item+'</span><b class=icon-drop_right></b></a></li>';
 					}
-					// alert(html);
 					$('#menu').html(html);
 				}else{
 					console.log("操作失败");

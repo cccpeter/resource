@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\myvideo.html";i:1542703374;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1541489699;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\myvideo.html";i:1542793079;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1542786354;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -177,8 +177,11 @@ layui.use('layer', function(){});
 		</div>
 <script>
 var token=getCookie('token');
+setTimeout(function(){
+	getmenu();
+})
 getdata();
-getmenu();
+
 //获取菜单数据
 function getmenu(){
 	var url=getRootPath()+'/index.php/Index/person/menu';
@@ -195,10 +198,6 @@ function getmenu(){
 			success:function(e){
 				if(e.status=='1'){
 					for(var item in e.data){
-						// alert(item);
-						// alert(e.data[item]);
-						// var arr=e.data[item].replace('\/','/');
-						// alert(e.data[item]);
 						var arr=e.data[item].split(':');
 						//有就返回无就返回null
 						if(arr[0].indexOf(action)>-1){
@@ -209,10 +208,8 @@ function getmenu(){
 							color='#787d82;'
 						}
 						var menu=menuurl+arr[0];
-						// alert(menu);
 						html+='<li><a href="'+menu+'"class="'+exc+'"><i class=layui-icon style="font-size: 20px;color:'+color+'line-height: 48px;">'+arr[1]+'</i><span style="margin-left: 15px;">'+item+'</span><b class=icon-drop_right></b></a></li>';
 					}
-					// alert(html);
 					$('#menu').html(html);
 				}else{
 					console.log("操作失败");
@@ -253,7 +250,16 @@ function timehour(second){
 
 		<form class="layui-form">
 		<div class="my-space-course float_l">
-			<hr>
+			<div class="course-tab float_l" >
+				<!-- <a>历史观看</a> -->
+				<div class="layui-input-block float_r" style="margin-top: 10px;">
+			      <select name="coursetype" lay-verify="required" lay-filter="search_type">
+			        <option value="1">点播视频</option>
+			        <option value="2">直播视频</option>
+			        <option value="3">公开课视频</option>
+			      </select>
+			    </div>
+			</div>
 			
 			<div class="course-list" id="list" style="min-height:250px;">
 			</div>
@@ -269,42 +275,14 @@ function timehour(second){
 <!-- 页脚 -->
 
 </body>
-
 <script>
 	// 初始化页面
 	var pagesize=10;//每页的数量
 	var pagenow=1;//当前页
-	var video_type=1;
-	if(getPar('video_type')){
-		video_type=getPar('video_type');
-	}
-	video_type=parseInt(video_type);
-	switch(video_type){
-		case 1:
-			var html='';
-			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
-			$('#type').html(html);
-		break;
-		case 2:
-			var html='';
-			html+='<option value="2" selected>直播视频</option><option value="1">点播视频</option><option value="3">公开课视频</option>';
-			$('#type').html(html);
-		break;
-		case 3:
-			var html='';
-			html+='<option value="3" selected>公开课视频</option><option value="1"  >点播视频</option><option value="2">直播视频</option>';
-			$('#type').html(html);
-		break;
-		default:
-		var html='';
-			html+='<option value="1" selected>点播视频</option><option value="2">直播视频</option><option value="3">公开课视频</option>';
-			$('#type').html(html);
-		break;
-	}
-	//视频分类
+
 	window.onload=function(){
 		getpage();
-		getvideotype();
+		// getvideotype();
 	}
 	// layui的分页组件应该，先ajax请求过去后再初始化组件
 	function getpage(){
@@ -318,7 +296,7 @@ function timehour(second){
 				url:url,
 				type:"post",
 				dataType:"json",
-				data:{"token":token,"video_type":video_type,"pagenow":pagenow,"pagesize":pagesize},
+				data:{"token":token,"pagenow":pagenow,"pagesize":pagesize},
 				success:function(e){
 					if(e.status=='1'){
 						if(e.data!=''){
@@ -328,12 +306,21 @@ function timehour(second){
 								html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'
 								+imageurl+e.data[item].videotab_image+
 								'"><div class="clearfix-title float_l"><h3 style="margin-top:0px;margin-bottom:0px;">'
-								+e.data[item].live_addr+'---'+e.data[item].live_name+
-								'</p><p class="course-content">发布的日期：'
-								+gettimestame(parseInt(e.data[item].videotab_time+'000'))+
-								'</p><a class="layui-btn layui-btn-radius float_r" href="'
-								+videourl+'?video_id='+e.data[item].video_id+
-								'&video_type='+video_type+'">预览</a></div></div><hr>';
+								+e.data[item].videotab_title+
+								'</p><p class="course-content">收藏日期：'
+								+e.data[item].videotab_time+
+								'</p><span class="course-content">视频类别：'
+								+e.data[item].video_parent+'/'+ e.data[item].video_son+
+								'</span><br><br><a class="titletab3" style="margin-right:10%;" onclick="note('
+								+e.data[item].videotab_id+','+e.data[item].note_count+',1)">我的笔记 ('+e.data[item].note_count+
+								')</a><a class="titletab3" style="margin-right:10%;" onclick="discuss('
+								+e.data[item].videotab_id+','+e.data[item].discuss_count+',1);">讨论 ('+e.data[item].discuss_count+
+								')</a><a class="titletab3" onclick="assess('
+								+e.data[item].videotab_id+','+e.data[item].assess_count+',1);">评价 ('+e.data[item].assess_count+
+								')</a><a class="layui-btn layui-btn-sm layui-btn-radius float_r" style="margin-right:10px;" href="'
+								+videourl+'?video_id='+e.data[item].videotab_id+'&video_type=1">预览视频</a>'
+								+'<a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-warm float_r" style="margin-right:10px;" style="margin-right:10px;" onclick="delnote('
+								+e.data[item].videotab_id+')">视频详情</a></div></div><hr>';
 							}
 							$('#list').html(html);
 							laypage.render({
@@ -356,12 +343,21 @@ function timehour(second){
 												html+='<div class="clearfix float_l"><img class="float_l" style="width:220px;height:120px;" src="'
 												+imageurl+e.data[item].videotab_image+
 												'"><div class="clearfix-title float_l"><h3 style="margin-top:0px;margin-bottom:0px;">'
-												+e.data[item].live_addr+'---'+e.data[item].live_name+
-												'</p><p class="course-content">发布的日期：'
-												+gettimestame(parseInt(e.data[item].videotab_time+'000'))+
-												'</p><a class="layui-btn layui-btn-radius float_r" href="'
-												+videourl+'?video_id='+e.data[item].video_id+
-												'&video_type='+video_type+'">预览</a></div></div><hr>';
+												+e.data[item].videotab_title+
+												'</p><p class="course-content">收藏日期：'
+												+e.data[item].videotab_time+
+												'</p><span class="course-content">视频类别：'
+												+e.data[item].video_parent+'/'+ e.data[item].video_son+
+												'</span><br><br><a class="titletab3" style="margin-right:10%;" onclick="note('
+												+e.data[item].video_id+','+e.data[item].note_count+',1)">我的笔记 ('+e.data[item].note_count+
+												')</a><a class="titletab3" style="margin-right:10%;" onclick="discuss('
+												+e.data[item].video_id+','+e.data[item].discuss_count+',1);">讨论 ('+e.data[item].discuss_count+
+												')</a><a class="titletab3" onclick="assess('
+												+e.data[item].video_id+','+e.data[item].assess_count+',1);">评价 ('+e.data[item].assess_count+
+												')</a><a class="layui-btn layui-btn-sm layui-btn-radius float_r" style="margin-right:10px;" href="'
+												+videourl+'?video_id='+e.data[item].videotab_id+'&video_type=1">预览视频</a>'
+												+'<a class="layui-btn layui-btn-sm layui-btn-radius layui-btn-warm float_r" style="margin-right:10px;" style="margin-right:10px;" onclick="delnote('
+												+e.data[item].videotab_id+')">视频详情</a></div></div><hr>';
 											}
 											$('#list').html(html);
 										}
@@ -401,6 +397,68 @@ $('#userinfoset').hover(function(){
     $('#userinfoset').attr('class','userinfo userinfo-hoverls');
   }
 )
+//讨论详情
+function discuss(video_id,nums,video_type){
+	var token=getCookie('token');
+	if(nums>0&&video_id!=''){
+		var url=getRootPath()+'/index/person/discusslist';
+		url+='?video_id='+video_id+'&video_type='+video_type;
+		if(token!=''){
+			layer.open({
+				type: 2, 
+				title:"讨论",
+				content: url,
+				area: ['1080px', '768px'],
+			}); 
+		}else{
+			layer.msg('您还未登录');
+		}
+	}else{
+		layer.msg('暂时没有讨论');
+	}
+}
+
+//笔记详情
+function note(video_id,nums,video_type){
+	var token=getCookie('token');
+	if(nums>0&&token!=''&&video_id!=''){
+		var url=getRootPath()+'/index/person/notelist';
+		url+='?video_id='+video_id+'&video_type='+video_type+'&token='+token;
+		if(token!=''){
+			layer.open({
+				type: 2, 
+				title:"我的笔记",
+				content: url,
+				area: ['900px', '600px'],
+			}); 
+		}else{
+			layer.msg('您还未登录');
+		}
+	}else{
+		layer.msg('暂时没有笔记');
+	}
+}
+//评价详情
+function assess(video_id,nums,video_type){
+	var token=getCookie('token');
+	if(nums>0&&token!=''&&video_id!=''){
+		var url=getRootPath()+'/index/person/assesslist';
+		url+='?video_id='+video_id+'&video_type='+video_type;
+		if(token!=''){
+			layer.open({
+				type: 2, 
+				title:"评价列表",
+				content: url,
+				area: ['900px', '600px'],
+			}); 
+		}else{
+			layer.msg('您还未登录');
+		}
+	}else{
+		layer.msg('暂时没有评价');
+	}
+
+}
 //获取网站参数
 function getPar(par){
 	    //获取当前URL
@@ -419,35 +477,6 @@ function getPar(par){
 	    }
 	    return get_par;
 	}
-	function getvideotype(){
-	//注意：导航 依赖 element 模块，否则无法进行功能性操作
-	layui.use("element", function(){
-		var element = layui.element;
-	});
-	//渲染form表单（下拉框）
-	layui.use("form", function(){
-		var form = layui.form;
-		form.on("select(search_type)", function(data){
-			var n=parseInt(data.value);
-			switch(n)
-				{
-				case 1:
-				var url=getRootPath()+'/index/person/userinfo?video_type=1';
-					location.href=url;
-					break;
-				case 2:
-					var url=getRootPath()+'/index/person/userinfo?video_type=2';
-					location.href=url;
-					break;
-					case 3:
-					var url=getRootPath()+'/index/person/userinfo?video_type=3';
-					location.href=url;
-						break;
-				default:
-					break;
-				}
-		});
-	});
-}
+
 </script>
 </html>
