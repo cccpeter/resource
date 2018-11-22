@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\myvideo.html";i:1542793079;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1542786354;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:80:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\teacher\myvideo.html";i:1542853877;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1542853237;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;s:78:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\perpub.html";i:1542786354;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -43,8 +43,7 @@
             <div class="float_l top_input">
                 <input class="posi_relative" type="text" name="" id="" placeholder="请输入想搜索的内容...">
                 <i class="layui-icon" id="searchicon" style="cursor: pointer;">&#xe615;</i>
-            </div>
-          
+            </div>    
  <div class="float_l margin_l35" id='adminset' style="display: none;">
                 <span>
                     <a href="<?php echo url('Index/admin/index'); ?>">
@@ -253,11 +252,7 @@ function timehour(second){
 			<div class="course-tab float_l" >
 				<!-- <a>历史观看</a> -->
 				<div class="layui-input-block float_r" style="margin-top: 10px;">
-			      <select name="coursetype" lay-verify="required" lay-filter="search_type">
-			        <option value="1">点播视频</option>
-			        <option value="2">直播视频</option>
-			        <option value="3">公开课视频</option>
-			      </select>
+					<button type="button" class="btn btn-success" style="border-radius: 5px;" onclick="updatafile();">上传视频</button>  
 			    </div>
 			</div>
 			
@@ -380,13 +375,33 @@ function timehour(second){
 			
 		});
 	}
-//注意：导航 依赖 element 模块，否则无法进行功能性操作
-layui.use('element', function(){
-  var element = layui.element;
-  
-  //…
-});
-
+//开启上传文件的frame
+function updatafile(){
+	// alert(2131);
+	var updatafile=getRootPath()+'/index.php/index/updata/updatafile';
+	var w = window.width, h, url = updatafile;
+	if (w > 768 && w < 1350) {
+			w = '60%';
+			h = '75%';
+		} 
+		else if(w < 768){
+			w = '60%';
+			h = '75%';
+		}else {
+			w = '60%';
+			h = '75%';
+		}
+	layer.open({
+		type: 2,
+		title: '上传视频',
+		resize:false,
+		skin: 'layui-layer-rim',
+		area: [w, h],
+		content: url,
+		resize:false,
+		maxmin: false,
+	});
+}
 $('#userinfomess').hover(function(){
     $('#userinfoset').attr('class','userinfo');
   },
