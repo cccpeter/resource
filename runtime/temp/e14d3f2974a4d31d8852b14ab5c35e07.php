@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:82:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\updata\updatafile.html";i:1542853951;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:82:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\updata\updatafile.html";i:1542853985;}*/ ?>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -31,6 +31,8 @@
 		</style>
 	</head>
 	<body>
-		
+		<div class="width100" >
+
+		</div>
 	</body>
 </html>
