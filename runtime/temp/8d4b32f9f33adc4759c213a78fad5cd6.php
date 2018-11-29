@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_discuss.html";i:1541043780;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1540524789;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpStudy\PHPTutorial\WWW\resource/application/index\view\index\course_discuss.html";i:1541043780;s:79:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\headcss.html";i:1541148116;s:76:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\head.html";i:1542853237;s:81:"D:\phpStudy\PHPTutorial\WWW\resource\application\index\view\common\userlogin.html";i:1540259706;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -43,8 +43,7 @@
             <div class="float_l top_input">
                 <input class="posi_relative" type="text" name="" id="" placeholder="请输入想搜索的内容...">
                 <i class="layui-icon" id="searchicon" style="cursor: pointer;">&#xe615;</i>
-            </div>
-          
+            </div>    
  <div class="float_l margin_l35" id='adminset' style="display: none;">
                 <span>
                     <a href="<?php echo url('Index/admin/index'); ?>">
